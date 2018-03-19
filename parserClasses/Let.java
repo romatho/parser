@@ -1,14 +1,14 @@
 package parserClasses;
 
-public class Let extends Expression{
+public class Let extends Expressions{
 
     private String objectIdentifier;
     private Types type;
-    private Expression scope;
-    private Expression init;
+    private Expressions scope;
+    private Expressions init;
 
 
-    public Let(int pColumn, int pLine, String pObjectIdentifier, Types pType, Expression pScope)
+    public Let(int pColumn, int pLine, String pObjectIdentifier, Types pType, Expressions pScope)
     {
         super(pColumn, pLine);
         objectIdentifier = pObjectIdentifier;
@@ -17,7 +17,7 @@ public class Let extends Expression{
         init = null;
     }
 
-    public Let(int pColumn, int pLine, String pObjectIdentifier, Types pType, Expression pScope, Expression pInit)
+    public Let(int pColumn, int pLine, String pObjectIdentifier, Types pType, Expressions pScope, Expressions pInit)
     {
         super(pColumn, pLine);
         objectIdentifier = pObjectIdentifier;

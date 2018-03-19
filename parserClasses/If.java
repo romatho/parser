@@ -1,13 +1,13 @@
 package parserClasses;
 
-public class If extends Expression {
-    private Expression condition;
-    private Expression thenStatement;
-    private Expression elseStatement;
+public class If extends Expressions {
+    private Expressions condition;
+    private Expressions thenStatement;
+    private Expressions elseStatement;
 
 
 
-    public If(int pColumn, int pLine, Expression pCondition, Expression pThen)
+    public If(int pColumn, int pLine, Expressions pCondition, Expressions pThen)
     {
         super(pColumn, pLine);
         condition = pCondition;
@@ -15,7 +15,7 @@ public class If extends Expression {
         elseStatement = null;
     }
 
-    public If(int pColumn, int pLine, Expression pCondition, Expression pThen, Expression pElse)
+    public If(int pColumn, int pLine, Expressions pCondition, Expressions pThen, Expressions pElse)
     {
         super(pColumn, pLine);
         condition = pCondition;

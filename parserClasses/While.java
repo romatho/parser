@@ -1,13 +1,13 @@
 package parserClasses;
 
-public class While extends Expression {
+public class While extends Expressions {
 
-    private Expression condition;
-    private Expression body;
+    private Expressions condition;
+    private Expressions body;
 
 
 
-    public While(int pColumn, int pLine, Expression pCondition, Expression pBody)
+    public While(int pColumn, int pLine, Expressions pCondition, Expressions pBody)
     {
         super(pColumn, pLine);
         condition = pCondition;
