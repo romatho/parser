@@ -21,6 +21,9 @@ public class Main {
     			lexer = new Lexer( new java.io.FileReader(path), path);
     			while (!lexer.getZzAtEOF())
     			{
+
+
+
     				retrievedSym = lexer.next_token();
     			//	currentSym = new MySymb(retrievedSym, sym.stringTab[retrievedSym.sym]);
     			//	currentSym.display();
