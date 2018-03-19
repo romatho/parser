@@ -1,4 +1,4 @@
-package lex;
+
 
 public interface sym
 {
