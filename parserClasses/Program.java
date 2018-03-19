@@ -1,11 +1,14 @@
 package parserClasses;
 
-public class Program extends Node {
+public class Program {
 
-    public Class[] myClasses;
+    public ParserArray<Class> myClasses;
 
-    public void display()
+    @Override
+    public String toString()
     {
-
+        String toDisplay = "[";
+        toDisplay += myClasses.toString();
+        toDisplay += "]";
     }
 }

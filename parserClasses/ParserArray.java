@@ -3,25 +3,19 @@ package parserClasses;
 import java.util.ArrayList;
 
 public class ParserArray<E> extends ArrayList<E>{
-    public ArrayList<E> myArray;
 
-    public ParserArray()
-    {
-        myArray = new ArrayList<E>();
-    }
-
-    public String toDisplayString()
+    @Override
+    public String toString()
     {
         String toDisplay ="[";
-        for(int i =0; i < myArray.size() - 1; i++)
+        for(int i =0; i < this.size() - 1; i++)
         {
-            toDisplay += myArray[i].toString();
+            toDisplay += this.get(i).toString();
             toDisplay += ", ";
         }
-        if(myArray.size() != 0)
-            toDisplay += myArray[myArray.size()-1].toString();
+        if(this.size() != 0)
+            toDisplay += this.get(this.size()-1).toString();
         toDisplay += "]";
         return toDisplay;
     }
-
 }
