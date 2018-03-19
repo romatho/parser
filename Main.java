@@ -1,14 +1,18 @@
 import java_cup.runtime.*;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Objects;
+
 public class Main {
 	static public void main(String arg[])
 	{
 		if(arg.length != 2) {
-			System.err.println("Usage: vsopc -lex <SOURCE-FILE> or  vsopc -parse <SOURCE-FILE> ");
+			System.err.println("Usage 1: vsopc -lex <SOURCE-FILE> or  vsopc -parse <SOURCE-FILE> ");
 			System.exit(1);
 		}
 		final String path = arg[1];
-	    if(arg[0]=="-lex")
+	    if(Objects.equals(arg[0],"-lex"))
 		{
 		    
     		Lexer lexer;
@@ -19,8 +23,8 @@ public class Main {
     			while (!lexer.getZzAtEOF())
     			{
     				retrievedSym = lexer.next_token();
-    				currentSym = new MySymb(retrievedSym, sym.stringTab[retrievedSym.sym]);
-    				currentSym.display();
+    			//	currentSym = new MySymb(retrievedSym, sym.stringTab[retrievedSym.sym]);
+    			//	currentSym.display();
     			}
     		}
     		catch (java.io.FileNotFoundException e) {
@@ -35,16 +39,25 @@ public class Main {
     			e.printStackTrace();
     		}
         }
-        else if(arg[0]=="-parse")
+        else if(Objects.equals(arg[0],"-parse"))
 		{
-    		Parser p = new Parser(new lexer(new FileReader(path), path), filename);
-            java_cup.runtime.Symbol parsed = p.parse();
-            Program prog = (Program) parsed.value;
-            System.out.println(prog.toString());
+			parser p = null;
+			try {
+				p = new parser(new Lexer(new FileReader(path), path));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			Symbol parsed = null;
+			try {
+				parsed = p.parse();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
         }
         else
         {
-            System.err.println("Usage: vsopc -lex <SOURCE-FILE> or  vsopc -parse <SOURCE-FILE> ");
+            System.err.println("Usage2: vsopc -lex <SOURCE-FILE> or  vsopc -parse <SOURCE-FILE> ");
 			System.exit(1);
         }
 	}
