@@ -2,10 +2,10 @@ package parserClasses;
 
 public class Class extends  Node{
 
-    public String name;
-    public String parentClass;
-    public ParserArray<Field> myFields;
-    public ParserArray<Method> myMethods;
+    private String name;
+    private String parentClass;
+    private ParserArray<Field> myFields;
+    private ParserArray<Method> myMethods;
 
     public Class(int pColumn, int pLine, String pName, String pParentClass, ParserArray<Field> pMyFields, ParserArray<Method> pMyMethods)
     {

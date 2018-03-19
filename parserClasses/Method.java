@@ -2,7 +2,7 @@ package parserClasses;
 
 public class Method extends Node {
 
-    private ParserArray<Expressions> formals;
+    private ParserArray<Expression> formals;
     private String Identifier;
     private Types ReturnType;
     private Blocks block;

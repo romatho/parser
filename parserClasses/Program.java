@@ -2,7 +2,7 @@ package parserClasses;
 
 public class Program extends Node {
 
-    public ParserArray<Class> myClasses;
+    private ParserArray<Class> myClasses;
 
     public Program(int pColumn, int pLine, ParserArray<Class> pMyClasses)
     {

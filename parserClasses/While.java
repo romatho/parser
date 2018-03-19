@@ -7,7 +7,7 @@ public class While extends Expression {
 
 
 
-    public If(int pColumn, int pLine, Expression pCondition, Expression pBody)
+    public While(int pColumn, int pLine, Expression pCondition, Expression pBody)
     {
         super(pColumn, pLine);
         condition = pCondition;
