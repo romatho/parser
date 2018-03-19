@@ -1,10 +1,11 @@
-
+package parserClasses;
 import java_cup.runtime.*;
+
 
 
 parser code
 {:
-  public parserClasses.Expr mathExpr;
+  public Program program;
 :};
 
 
@@ -17,7 +18,29 @@ terminal LBRACE, RBRACE, LPAR, RPAR, COLON, SEMICOLON, COMMA;
 
 terminal AND, EQUAL, LOWER, LOWEREQUAL, DIV, NOT, MINUS, PLUS, POW, TIMES;
 
-non terminal parserClasses.Expr mathExp;
+
+
+non terminal Blocks block;
+non terminal Class class;
+non terminal Expression expression;
+non terminal Fields field;
+non terminal Formals formals;
+non terminal Method method;
+non terminal Program program;
+non terminal Types types;
+
+
+/*Expression*/
+non terminal Assign assign;
+non terminal BinOp binop;
+non terminal Call call;
+non terminal If if;
+non terminal Let let;
+non terminal New new;
+non terminal Terminal terminal;
+non terminal Unop unop;
+non terminal While while;
+
 
 
 precedence left PLUS, MINUS;
@@ -30,9 +53,9 @@ precedence nonassoc EQUAL, LOWER, LOWEREQUAL;
 
 
 
-start with mathExp;
+start with programm;
 
-mathExp ::=     LPAR mathExp:ex RPAR{: System.out.println("pute"); :}
+program ::=     LPAR mathExp:ex RPAR{: RESULT = new :}
 				| EQUAL {: System.out.println("grosse"); :};
 
 
