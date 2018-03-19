@@ -58,7 +58,7 @@ precedence nonassoc EQUAL, LOWER, LOWEREQUAL;
 
 
 
-start with programm;
+start with program;
 
 program ::=     LPAR mathExp:ex RPAR{: RESULT = new :}
 				| EQUAL {: System.out.println("grosse"); :};
