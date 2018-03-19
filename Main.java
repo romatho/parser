@@ -2,7 +2,6 @@ import java_cup.runtime.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Objects;
 
 public class Main {
 	static public void main(String arg[])
@@ -12,7 +11,7 @@ public class Main {
 			System.exit(1);
 		}
 		final String path = arg[1];
-	    if(Objects.equals(arg[0],"-lex"))
+	    if(arg[0].equals("-lex"))
 		{
 		    
     		Lexer lexer;
@@ -39,7 +38,7 @@ public class Main {
     			e.printStackTrace();
     		}
         }
-        else if(Objects.equals(arg[0],"-parse"))
+        else if(arg[0].equals("-parse"))
 		{
 			parser p = null;
 			try {
