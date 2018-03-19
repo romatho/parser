@@ -4,7 +4,7 @@ import java_cup.runtime.*;
 
 parser code
 {:
-  public Expr mathExpr;
+  public parserClasses.Expr mathExpr;
 :};
 
 
@@ -17,7 +17,7 @@ terminal LBRACE, RBRACE, LPAR, RPAR, COLON, SEMICOLON, COMMA;
 
 terminal AND, EQUAL, LOWER, LOWEREQUAL, DIV, NOT, MINUS, PLUS, POW, TIMES;
 
-non terminal Expr mathExp;
+non terminal parserClasses.Expr mathExp;
 
 
 precedence left PLUS, MINUS;
