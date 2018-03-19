@@ -1,0 +1,61 @@
+import java_cup.runtime.*
+
+init with {: scanner.init(); :};
+scan with {: return scanner.next_token() :};
+
+
+/*terminl symbol*/
+
+
+terminal EOF, BOOL, CLASS, DO, ELSE, EXTENDS, FALSE, IF, IN, INT32, ISNULL, LET, NEW, THEN, TRUE, UNIT, WHILE, ASSIGN, OBJECTIDENTIFIER, DOT, INTEGERLITERAL, TYPEIDENTIFIER;
+/*string*/
+terminal STRING, STRINGLITERAL;
+/*ponctuation*/
+terminal LBRACE, RBRACE, LPAR, RPAR, COLON, SEMICOLON, COMMA;
+
+/*boolean and arithmetic operator*/
+terminal AND, EQUAL, LOWER, LOWEREQUAL, DIV, NOT, MINUS, PLUS, POW, TIMES ;
+
+
+/*non terminal (c'est la qu'on va mettre les nom des symbole non terminaux de notre grammaire*/
+non terminal Boolean boolExp;
+non terminal Expr mathExp;
+
+
+
+
+/*precedence  */
+precedence left PLUS, MINUS;
+precedence left, AND, TIMES, DIV, DOT;
+
+precedence right ELSE, ASSIGN, ISNULL, POW;
+
+precedence noassoc EQUAL, LOWER, LOWEREQUAL;
+
+
+
+/*la on défini les règle sur les symbole non termiaux qu'on a défini avant*/
+
+/*exemple ::=    blabla
+                |blablabla;*/
+
+mathExp ::=     LPAR mathExp RPAR
+                |mathExp PLUS mathExp
+                |mathExp MINUS mathExp
+                |mathExp TIMES mathExp
+                |mathExp DIV mathExp
+                |mathExp POW mathExp
+
+boolExp ::=     LPAR boolExp RPAR
+                |boolExp AND boolExp
+                |boolExp OR boolExp
+                |boolExp NOT boolExp
+
+
+
+
+
+
+
+
+
