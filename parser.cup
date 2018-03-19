@@ -32,8 +32,9 @@ precedence nonassoc EQUAL, LOWER, LOWEREQUAL;
 
 start with mathExp;
 
-mathExp ::=     LPAR {: System.out.println("pute"); :}
-				|TYPEIDENTIFIER {: System.out.println("grosse"); :};
+mathExp ::=     LPAR mathExp:ex RPAR{: System.out.println("pute"); :}
+				| EQUAL {: System.out.println("grosse"); :};
+
 
 
 
