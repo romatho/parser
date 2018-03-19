@@ -3,18 +3,25 @@ package parserClasses;
 public class Method extends Node {
 
     private ParserArray<Expressions> formals;
-    private String objectId;
+    private String Identifier;
     private Types ReturnType;
-    private ParserArray<Expressions> block;
+    private Blocks block;
 
 
-    public Method(int pColumn, int pLine, String objectId, ParserArray<Expressions> formals,
-                  Types ReturnType, ParserArray<Expressions> expr) {
+    public Method(int pColumn, int pLine, String Identifier, ParserArray<Expressions> formals,
+                  Types ReturnType, Blocks expr)
+    {
         super(pColumn, pLine);
-        this.objectId = objectId;
+        this.Identifier = Identifier;
         this.formals = formals;
         this.ReturnType = ReturnType;
         this.block = expr;
     }
 
+
+    @Override
+    public String toString() {
+        return "Method(" + Identifier + ", " + formals.toString()
+                + ", " + ReturnType.toString() + ", " + block.toString() + ")";
+    }
 }

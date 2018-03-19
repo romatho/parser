@@ -7,7 +7,8 @@ public class Types extends Node {
         super(pColumn,pLine);
         this.type= type;
     }
-    public String getDisplayString()
+    @Override
+    public String toString()
     {
         return type;
     }
