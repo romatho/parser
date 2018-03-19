@@ -23,11 +23,11 @@ terminal AND, EQUAL, LOWER, LOWEREQUAL, DIV, NOT, MINUS, PLUS, POW, TIMES;
 non terminal Blocks block;
 non terminal Class class; /*done*/
 non terminal Expression expression;/*done*/
-non terminal Fields field;/*done*/
+non terminal Fields field; /*done*/
 non terminal Formals formals;/*done*/
 non terminal Method method; /*done*/
-non terminal Program program;/*done*/
-non terminal Types types;/*done*/
+non terminal Program program; /*done*/
+non terminal Types types; /*done*/
 
 
 /*Expression*/
@@ -185,7 +185,7 @@ types::=        types:t {:RESULT =new Types(0,0,t):}
 
 
 method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR COLON types:t block:b
-                {RESULT = new Method(0, 0, oi.value, fa, t, b)};
+                {:RESULT = new Method(0, 0, oi.value, fa, t, b):};
 
 
 block::=    LBRACE   expArray:ea  RBRACE {:RESULT = new Blocks(0,0,ea):};
