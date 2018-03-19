@@ -134,22 +134,17 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 |expression:exp1 DIV expression:exp2
                 {:RESULT = new BinOp(0, 0, "//", exp1.value, exp2.value):}
 
-                /*Call*/
+                /*Call*//*
                 |expression:exp1 DOT OBJECTIDENTIFIER LPAR formalArray:fa RPAR
                 {:RESULT = new Call(0, 0, exp1.value, oi.value, fa.value):}
                 |OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR
-                {:RESULT = new Call(0, 0, "self", oi.value, fa.value):}
+                {:RESULT = new Call(0, 0, "self", oi.value, fa.value):}*/
 
                 /*New*/
                 |NEW LPAR TYPEIDENTIFIER:ti RPAR
                 {:RESULT = new New(0, 0, ti.value):}
                 |OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR
                 {:RESULT = new Call(0, 0, "self", oi.value, fa.value):}
-                /*Call*/
-                |expression:exp1 DOT OBJECTIDENTIFIER LPAR formalArray:fa RPAR
-                {:RESULT = new Call(0, 0, exp1.value, oi.value, fa.value):}
-                |OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR
-                {:RESULT = new Call(0, 0, "self", oi, fa):}
 
                 /*Terminaison*/
                 |INTEGERLITERAL:it
