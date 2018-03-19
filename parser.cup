@@ -42,6 +42,11 @@ non terminal Unop unop;
 non terminal While while;
 
 
+non terminal ParserArray<Class> classArray;
+non terminal ParserArray<Formals> formalArray;
+non terminal ParserArray<Fields> argsArray;
+non terminal ParserArray<Methods> methodsArray;
+
 
 precedence left PLUS, MINUS;
 
