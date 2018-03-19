@@ -65,7 +65,7 @@ program ::=     classArray:ca
                 {: RESULT = new Program(0,0, ca); :};
 
 
-classArray::=   classArray:ca Class:c {:ca.add(c); RESULT =ca; :}
+classArray::=   classArray:ca class:c {:ca.add(c); RESULT =ca; :}
                 |                     {: RESULT=new ParserArray<Class>() :};
 
 
@@ -80,7 +80,7 @@ class::=        CLASS OBJECTIDENTIFIER:name LBRACE fieldsArray:fa methodsArray:m
                 {: RESULT = new Class(0, 0, parent, fa, ma):};
 
 
-fieldsArray::=   fieldsArray:fa fields:f {:fa.add(f); RESULT =fa; :}
+fieldsArray::=   fieldsArray:fa field:f {:fa.add(f); RESULT =fa; :}
                 |                     {: RESULT=new ParserArray<Field>() :};
 
 formalArray::=   formalArray:fa formals:f COMMA {:fa.add(f); RESULT =fa; :}
