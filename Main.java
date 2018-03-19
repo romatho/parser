@@ -1,4 +1,6 @@
 import java_cup.runtime.*;
+import lex.Lexer;
+import lex.MySymb;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,8 +24,8 @@ public class Main {
     			while (!lexer.getZzAtEOF())
     			{
     				retrievedSym = lexer.next_token();
-    			//	currentSym = new MySymb(retrievedSym, sym.stringTab[retrievedSym.sym]);
-    			//	currentSym.display();
+    				currentSym = new MySymb(retrievedSym, sym.stringTab[retrievedSym.sym]);
+    				currentSym.display();
     			}
     		}
     		catch (java.io.FileNotFoundException e) {
