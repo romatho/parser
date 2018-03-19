@@ -2,13 +2,13 @@ package parserClasses;
 
 public class Method extends Node {
 
-    private ParserArray<Expressions> formals;
+    private ParserArray<Formals> formals;
     private String Identifier;
     private Types ReturnType;
     private Blocks block;
 
 
-    public Method(int pColumn, int pLine, String Identifier, ParserArray<Expressions> formals,
+    public Method(int pColumn, int pLine, String Identifier, ParserArray<Formals> formals,
                   Types ReturnType, Blocks expr)
     {
         super(pColumn, pLine);
