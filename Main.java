@@ -24,8 +24,8 @@ public class Main {
     			while (!lexer.getZzAtEOF())
     			{
     				retrievedSym = lexer.next_token();
-    				currentSym = new MySymb(retrievedSym, sym.stringTab[retrievedSym.sym]);
-    				currentSym.display();
+    			//	currentSym = new MySymb(retrievedSym, sym.stringTab[retrievedSym.sym]);
+    			//	currentSym.display();
     			}
     		}
     		catch (java.io.FileNotFoundException e) {
