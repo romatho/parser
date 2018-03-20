@@ -63,7 +63,7 @@ precedence nonassoc ELSE;
 
 
 
-start with objectid;
+start with method;
 
 objectid::=     OBJECTIDENTIFIER {:System.out.println("putain"); :};
 
@@ -88,7 +88,7 @@ class::=        CLASS OBJECTIDENTIFIER:name LBRACE fieldsArray:fa methodsArray:m
 fieldsArray::=   fieldsArray:fa field:f {:System.out.println("field1"); fa.add(f); RESULT =fa; :}
                 |                     {: System.out.println("field2"); RESULT=new ParserArray<Field>(); :};
 
-formalArray::=   formalArray:fa formals:f COMMA {: System.out.println("formalArray1"); fa.add(f); RESULT =fa; :}
+formalArray::=  formals:f COMMA formalArray:fa{: System.out.println("formalArray1"); fa.add(f); RESULT =fa; :}
                 |                     {: System.out.println("formalArray2"); RESULT=new ParserArray<Formals>(); :};
 
 methodsArray::=   methodsArray:ma method:m {:System.out.println("methodArray1"); ma.add(m); RESULT =ma; :}
@@ -163,6 +163,8 @@ terminaison::=  INTEGERLITERAL:it
                 {:System.out.println("terminaison1"); RESULT = new Terminal(0, 0, it); :}
                 |STRINGLITERAL:sl
                 {:System.out.println("terminaison2"); RESULT = new Terminal(0, 0, sl); :}
+                |OBJECTIDENTIFIER:oi
+                {:System.out.println("terminaison1522"); RESULT = new Terminal(0, 0, oi); :}
                 |boolean:b
                 {:System.out.println("bool"); RESULT = b; :};
 
@@ -177,12 +179,9 @@ field::=        OBJECTIDENTIFIER:oi COLON types:t SEMICOLON
                 |OBJECTIDENTIFIER:oi COLON types:t ASSIGN expression:e SEMICOLON
                 {:System.out.println("Field2"); RESULT = new Field(0,0,oi,t,e); :};
 
-formals::=      DOT COLON types:t
-                {:System.out.println("formals1"); RESULT = new Formals(0,0,null,t); :};
-/*
 formals::=      OBJECTIDENTIFIER:oi COLON types:t
                 {:System.out.println("formals1"); RESULT = new Formals(0,0,oi,t); :};
-*/
+
 
 
 types::=        TYPEIDENTIFIER:t {:System.out.println("type1"); RESULT = new Types(0,0,t); :}
