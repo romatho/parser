@@ -94,14 +94,18 @@ expArray::=     expArray:ea expression:exp1 SEMICOLON {: ea.add(exp1); RESULT = 
 class_::=        CLASS TYPE_IDENTIFIER:name LBRACE classBody:bd  RBRACE
                 {: RESULT = new Classe(0, 0, name, bd );:}
                 |CLASS TYPE_IDENTIFIER:name EXTENDS TYPE_IDENTIFIER:parent LBRACE classBody:bd  RBRACE
-                {: RESULT = new Classe(0, 0, name, parent, bd);:};
+                {: RESULT = new Classe(0, 0, name, parent, bd);:}
+                |CLASS error:e
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for class expression"); :};
 
 classBody::=    classBody:cb   field:f
                 {: cb.addField(f); RESULT=cb; :}
                 |classBody:cb method:m
                 {: cb.addMethod(m); RESULT=cb;:}
                 |
-                {:RESULT = new ClassBody(0,0); :};
+                {:RESULT = new ClassBody(0,0); :}
+                |classBody:cb error:e
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for bodyClass"); :};
 
 formalArray::=  formalArray:fa formals:f  COMMA{:  fa.add(f); RESULT =fa; :}
                 |                     {: RESULT=new ParserArray<Formals>(); :};
@@ -206,6 +210,8 @@ field::=        OBJECT_IDENTIFIER:oi COLON types:t SEMICOLON
                 |OBJECT_IDENTIFIER:oi COLON types:t ASSIGN expression:e SEMICOLON
                 {: RESULT = new Field(0,0,oi,t,e); :}
                 |error:e SEMICOLON
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for Field"); :}
+                |OBJECT_IDENTIFIER:oi COLON types:t error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for Field"); :};
 
 formals::=      OBJECT_IDENTIFIER:oi COLON types:t
@@ -222,8 +228,6 @@ types::=        TYPE_IDENTIFIER:t
                 {: RESULT = new Types(0,0,"string"); :}
                 | UNIT
                 {:  RESULT = new Types(0,0,"unit"); :};
-
-
 
 method::=       OBJECT_IDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON types:t block:b
                 {:fa.add(f); RESULT = new Method(0, 0, oi, fa, t, b); :}
