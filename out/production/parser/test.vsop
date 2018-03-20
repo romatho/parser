@@ -1,9 +1,6 @@
-factorial(test:int32,test:int32) : int32 {
-   print("rfkregtbregre");
-   0
+class Main{
+nononono : int32;
+nononono : int32;
+nononono : int32;
+nononono : int32;
 }
-
-factorial(test:int32,test:int32) : int32 {
-   0
-}
-

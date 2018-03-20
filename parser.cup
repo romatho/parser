@@ -79,14 +79,14 @@ expArray::=     expArray:ea expression:exp1 SEMICOLON {:System.out.println("expA
                 |                     {: System.out.println("expArray3"); RESULT = new ParserArray<Expressions>(); :};
 
 
-class::=        CLASS OBJECTIDENTIFIER:name LBRACE fieldsArray:fa methodsArray:ma  RBRACE
+class::=        CLASS TYPEIDENTIFIER:name LBRACE fieldsArray:fa methodsArray:ma  RBRACE
                 {: System.out.println("class1"); RESULT = new Class(0, 0, name, fa, ma);:}
-                |CLASS OBJECTIDENTIFIER:name EXTENDS OBJECTIDENTIFIER:parent LBRACE fieldsArray:fa methodsArray:ma  RBRACE
+                |CLASS TYPEIDENTIFIER:name EXTENDS OBJECTIDENTIFIER:parent LBRACE fieldsArray:fa methodsArray:ma  RBRACE
                 {: System.out.println("class2"); RESULT = new Class(0, 0, name, parent, fa, ma);:};
 
 
-fieldsArray::=   fieldsArray:fa field:f {:System.out.println("fieldArray1"); fa.add(f); RESULT =fa; :}
-                |                     {: System.out.println("fieldArray2"); RESULT=new ParserArray<Field>(); :};
+fieldsArray::=   fieldsArray:fa field:f {:System.out.println("fieldArray1"); fa.add(f);System.out.println(fa.toString()); RESULT =fa; :}
+                |                       {: System.out.println("fieldArray2"); RESULT=new ParserArray<Field>(); :};
 
 formalArray::=  formalArray:fa formals:f  COMMA{: System.out.println("formalArray1"); fa.add(f); RESULT =fa; :}
                 |                     {: System.out.println("formalArray2"); RESULT=new ParserArray<Formals>(); :};
