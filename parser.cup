@@ -43,8 +43,8 @@ non terminal Terminal terminaison, boolean;
 
 non terminal ParserArray<Class> classArray; /*done*/
 non terminal ParserArray<Formals> formalArray;/*done*/
-non terminal ParserArray<Field> fieldsArray;/*done*/
-non terminal ParserArray<Method> methodsArray;/*done*/
+non terminal ParserArray<Fields> fieldsArray;/*done*/
+non terminal ParserArray<Methods> methodsArray;/*done*/
 non terminal ParserArray<Expressions> expArray; /*done*/
 
 
@@ -88,7 +88,7 @@ formalArray::=   formalArray:fa formals:f COMMA {:fa.add(f); RESULT =fa; :}
                 |                     {: RESULT=new ParserArray<Formals>(); :};
 
 methodsArray::=   methodsArray:ma method:m {:ma.add(m); RESULT =ma; :}
-                |                     {: RESULT=new ParserArray<Method>(); :};
+                |                     {: RESULT=new ParserArray<Methods>(); :};
 
 
                 /*If*/
@@ -142,7 +142,7 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 /*Call*/
                 /*|OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR
                 {:RESULT = new Call(0, 0, "self", oi, fa); :}*/
-                |expression:exp1 DOT OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR
+                |expression:exp1 DOT OBJECTIDENTIFIER LPAR formalArray:fa RPAR
                 {:RESULT = new Call(0, 0, exp1, oi, fa); :}
 
 
