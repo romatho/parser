@@ -1,4 +1,4 @@
-factorial(aa:int32, aa:int32 aa:int32) : int32 {
-a=a+5;
-0
+factorial(test:int32,test:int32) : int32 {
+   0
 }
+

@@ -63,7 +63,7 @@ precedence nonassoc ELSE;
 
 
 
-start with methodsArray;
+start with method;
 
 objectid::=     OBJECTIDENTIFIER {:System.out.println("putain"); :};
 
@@ -184,6 +184,7 @@ formals::=      OBJECTIDENTIFIER:oi COLON types:t
 
 
 
+
 types::=        TYPEIDENTIFIER:t {:System.out.println("type1"); RESULT = new Types(0,0,t); :}
                 | INT32
                 {: System.out.println("type2"); RESULT = new Types(0,0,"int32"); :}
@@ -197,7 +198,9 @@ types::=        TYPEIDENTIFIER:t {:System.out.println("type1"); RESULT = new Typ
 
 
 method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON types:t block:b
-                {:System.out.println("method");fa.add(f); RESULT = new Method(0, 0, oi, fa, t, b); :};
+                {:System.out.println("method");fa.add(f); RESULT = new Method(0, 0, oi, fa, t, b); :}
+                |OBJECTIDENTIFIER:oi LPAR  RPAR COLON types:t block:b
+                                 {:System.out.println("method2"); RESULT = new Method(0, 0, oi, null, t, b); :};
 
 
 block::=        LBRACE expArray:ea expression:exp1 RBRACE

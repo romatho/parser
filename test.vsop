@@ -1,7 +1,4 @@
-factorial() : int32 {
-    if n < 2 then 1
+factorial(test:int32,test:int32) : int32 {
+   0
 }
 
-factorial() : int32 {
-    if n < 2 then 1
-}
