@@ -2,9 +2,9 @@ package parserClasses;
 
 public class Program extends Node {
 
-    private ParserArray<Class> myClasses;
+    private ParserArray<Classe> myClasses;
 
-    public Program(int pColumn, int pLine, ParserArray<Class> pMyClasses)
+    public Program(int pColumn, int pLine, ParserArray<Classe> pMyClasses)
     {
         super(pColumn,pLine);
         myClasses = pMyClasses;

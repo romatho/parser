@@ -21,7 +21,7 @@ terminal AND, EQUAL, LOWER, LOWEREQUAL, DIV, NOT, MINUS, PLUS, POW, TIMES;
 
 
 non terminal Blocks block;
-non terminal Class class; /*done*/
+non terminal Classe class; /*done*/
 non terminal Expressions expression;/*done*/
 non terminal Field field; /*done*/
 non terminal Formals formals; /*done*/
@@ -43,7 +43,7 @@ non terminal While while;*/
 non terminal Terminal terminaison, boolean;
 non terminal Terminal objectid;
 
-non terminal ParserArray<Class> classArray; /*done*/
+non terminal ParserArray<Classe> classArray; /*done*/
 non terminal ParserArray<Formals> formalArray;/*done*/
 non terminal ParserArray<Field> fieldsArray;/*done*/
 non terminal ParserArray<Method> methodsArray;/*done*/
@@ -68,16 +68,16 @@ program ::=     classArray:ca
                 {: System.out.println("program"); RESULT = new Program(0,0, ca); :};
 
 classArray::=   classArray:ca class:c {: System.out.println(c.toString()); ca.add(c); RESULT = ca; :}
-                |                     {: System.out.println("classArray2"); RESULT = new ParserArray<Class>(); :};
+                |                     {: System.out.println("classArray2"); RESULT = new ParserArray<Classe>(); :};
 
 expArray::=     expArray:ea expression:exp1 SEMICOLON {:System.out.println("expArray1"); ea.add(exp1); System.out.println(ea.toString()); RESULT = ea; :}
                 |                     {: System.out.println("expArray3"); RESULT = new ParserArray<Expressions>(); :};
 
 
 class::=        CLASS TYPEIDENTIFIER:name LBRACE classBody:bd  RBRACE
-                {: System.out.println("class1"); RESULT = new Class(0, 0, name, bd );:}
+                {: System.out.println("class1"); RESULT = new Classe(0, 0, name, bd );:}
                 |CLASS TYPEIDENTIFIER:name EXTENDS TYPEIDENTIFIER:parent LBRACE classBody:bd  RBRACE
-                {: System.out.println("class2"); RESULT = new Class(0, 0, name, parent, bd);:};
+                {: System.out.println("class2"); RESULT = new Classe(0, 0, name, parent, bd);:};
 
 classBody::=    classBody:cb   field:f
                 {:System.out.println("add field to class body"); cb.addField(f);System.out.println("add field to class body"); RESULT=cb; :}
