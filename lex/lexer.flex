@@ -1,4 +1,3 @@
-package lex;
 import java_cup.runtime.*;
 
 import java.util.Stack;

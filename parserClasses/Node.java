@@ -1,4 +1,4 @@
-package parse.ast;
+package parserClasses;
 
 public abstract class Node {
 
