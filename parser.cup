@@ -62,17 +62,21 @@ non terminal ParserArray<Formals> formalArray;/*done*/
 non terminal ParserArray<Expressions> expArray, argArray, argOthers; /*done*/
 
 
-precedence left PLUS, MINUS;
 
-precedence left AND, TIMES, DIV, DOT;
 
-precedence right ASSIGN, ISNULL, POW, OBJECT_IDENTIFIER;
-
-precedence left EQUAL;
-
-precedence nonassoc LOWER, LOWER_EQUAL, IF;
-
+precedence right ASSIGN;
+precedence left AND;
+precedence right NOT;
+precedence nonassoc LOWER, LOWER_EQUAL, EQUAL, IF;
 precedence nonassoc ELSE;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIV;
+precedence right ISNULL;
+precedence left POW;
+precedence left DOT;
+
+
+
 
 start with program;
 

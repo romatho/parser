@@ -818,19 +818,19 @@ class Lexer implements java_cup.runtime.Scanner {
           case 3: 
             { string.setLength(0);
                         string.append(yytext());
-                        return token(sym.OBJECTIDENTIFIER, string.toString());
+                        return token(sym.OBJECT_IDENTIFIER, string.toString());
             }
           case 60: break;
           case 4: 
             { string.setLength(0);
                         string.append(yytext());
-                        return token(sym.TYPEIDENTIFIER, string.toString());
+                        return token(sym.TYPE_IDENTIFIER, string.toString());
             }
           case 61: break;
           case 5: 
             { string.setLength(0);
                         string.append(Integer.parseInt(yytext()));
-                        return token(sym.INTEGERLITERAL, string.toString());
+                        return token(sym.INTEGER_LITERAL, string.toString());
             }
           case 62: break;
           case 6: 
@@ -913,7 +913,7 @@ class Lexer implements java_cup.runtime.Scanner {
             { yybegin(YYINITIAL);
                                 string.append('"');
                                 instring=false;
-                                return token(sym.STRINGLITERAL, string.toString(),stringinfo);
+                                return token(sym.STRING_LITERAL, string.toString(),stringinfo);
             }
           case 81: break;
           case 25: 
@@ -926,7 +926,7 @@ class Lexer implements java_cup.runtime.Scanner {
             }
           case 83: break;
           case 27: 
-            { return token(sym.LOWEREQUAL);
+            { return token(sym.LOWER_EQUAL);
             }
           case 84: break;
           case 28: 
@@ -980,13 +980,13 @@ class Lexer implements java_cup.runtime.Scanner {
           case 40: 
             { string.setLength(0);
                         string.append(Integer.toString(Integer.parseInt(yytext().substring(2), 16)));
-                        return token(sym.INTEGERLITERAL, string.toString());
+                        return token(sym.INTEGER_LITERAL, string.toString());
             }
           case 97: break;
           case 41: 
             { string.setLength(0);
                         string.append(Integer.toString(Integer.parseInt(yytext().substring(2), 2)));
-                        return token(sym.INTEGERLITERAL, string.toString());
+                        return token(sym.INTEGER_LITERAL, string.toString());
             }
           case 98: break;
           case 42: 
