@@ -90,7 +90,7 @@ classBody       classBody:cb field:f
                 |classBody:cb method:m
                 {:System.out.println("add method to class body"); cb.addMethod(m); RESULT=cb;:}
                 |
-                {:System.out.println("RESULT = new ClassBody()");:};
+                {:System.out.println("RESULT = new ClassBody()"); :};
 
 fieldsArray::=   fieldsArray:fa field:f {:System.out.println("fieldArray1"); fa.add(f);System.out.println(fa.toString()); RESULT =fa; :}
                 |                       {: System.out.println("fieldArray2"); RESULT=new ParserArray<Field>(); :};
