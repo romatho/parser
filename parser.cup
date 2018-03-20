@@ -80,15 +80,15 @@ expArray::=     expArray:ea expression:exp1 SEMICOLON {:System.out.println("expA
                 |                     {: System.out.println("expArray3"); RESULT = new ParserArray<Expressions>(); :};
 
 
-class::=        CLASS TYPEIDENTIFIER:name LBRACE classBody  RBRACE
-                {: System.out.println("class1"); RESULT = new Class(0, 0, name, fa, ma);:}
-                |CLASS TYPEIDENTIFIER:name EXTENDS OBJECTIDENTIFIER:parent LBRACE fieldsArray:fa methodsArray:ma  RBRACE
-                {: System.out.println("class2"); RESULT = new Class(0, 0, name, parent, fa, ma);:};
+class::=        CLASS TYPEIDENTIFIER:name LBRACE classBody:bd  RBRACE
+                {: System.out.println("class1"); RESULT = new Class(0, 0, name, bd );:}
+                |CLASS TYPEIDENTIFIER:name EXTENDS OBJECTIDENTIFIER:parent LBRACE classBody:bd  RBRACE
+                {: System.out.println("class2"); RESULT = new Class(0, 0, name, parent, bd);:};
 
 classBody       classBody:cb field:f
-                {:System.out.println("add field to class body"); cb.addField(f); RESULT cb; :}
+                {:System.out.println("add field to class body"); cb.addField(f); RESULT=cb; :}
                 |classBody:cb method:m
-                {:System.out.println("add method to class body"); cb.addMethod(m); RESULT cb;:}
+                {:System.out.println("add method to class body"); cb.addMethod(m); RESULT=cb;:}
                 |
                 {:System.out.println("RESULT = new ClassBody()");:};
 
