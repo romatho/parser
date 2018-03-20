@@ -40,6 +40,7 @@ non terminal New new;
 non terminal Unop unop;
 non terminal While while;*/
 non terminal Terminal terminaison, boolean;
+non terminal objectid;
 
 non terminal ParserArray<Class> classArray; /*done*/
 non terminal ParserArray<Formals> formalArray;/*done*/
@@ -54,42 +55,44 @@ precedence left AND, TIMES, DIV, DOT;
 
 precedence right ASSIGN, ISNULL, POW, OBJECTIDENTIFIER;
 
-precedence nonassoc EQUAL, LOWER, LOWEREQUAL, IF;
+precedence left EQUAL;
+
+precedence nonassoc LOWER, LOWEREQUAL, IF;
 
 precedence nonassoc ELSE;
 
 
 
-start with program;
+start with objectid;
+
+objectid::=     OBJECTIDENTIFIER {:log("putain"):};
 
 program ::=     classArray:ca
                 {: System.out.println("program"); RESULT = new Program(0,0, ca); :};
 
 
-classArray::=   classArray:ca class:c {: System.out.println("classArray1"); ca.add(c); RESULT =ca; :}
-                |                     {: System.out.println("classArray2"); RESULT = new ParserArray<Class>(); :};
+classArray::=   |classArray:ca class:c {: System.out.println("classArray1"); ca.add(c); RESULT =ca; :}
+                                     {: System.out.println("classArray2"); RESULT = new ParserArray<Class>(); :};
 
 
-expArray::=     expArray:ea SEMICOLON expression:exp1 {:ea.add(exp1); RESULT = ea; :}
-                |                     {: RESULT = new ParserArray<Expressions>(); :};
-
-
+expArray::=     expArray:ea expression:exp1 SEMICOLON {:System.out.println("expArray1"); ea.add(exp1); System.out.println(ea.toString()); RESULT = ea; :}
+                |                     {: System.out.println("expArray3"); RESULT = new ParserArray<Expressions>(); :};
 
 
 class::=        CLASS OBJECTIDENTIFIER:name LBRACE fieldsArray:fa methodsArray:ma  RBRACE
-                {: RESULT = new Class(0, 0, name, fa, ma);:}
+                {: System.out.println("class1"); RESULT = new Class(0, 0, name, fa, ma);:}
                 |CLASS OBJECTIDENTIFIER:name EXTENDS OBJECTIDENTIFIER:parent LBRACE fieldsArray:fa methodsArray:ma  RBRACE
-                {: RESULT = new Class(0, 0, name, parent, fa, ma);:};
+                {: System.out.println("class2"); RESULT = new Class(0, 0, name, parent, fa, ma);:};
 
 
-fieldsArray::=   fieldsArray:fa field:f {:fa.add(f); RESULT =fa; :}
-                |                     {: RESULT=new ParserArray<Field>(); :};
+fieldsArray::=   fieldsArray:fa field:f {:System.out.println("field1"); fa.add(f); RESULT =fa; :}
+                |                     {: System.out.println("field2"); RESULT=new ParserArray<Field>(); :};
 
-formalArray::=   formalArray:fa formals:f COMMA {:fa.add(f); RESULT =fa; :}
-                |                     {: RESULT=new ParserArray<Formals>(); :};
+formalArray::=   formalArray:fa formals:f COMMA {: System.out.println("formalArray1"); fa.add(f); RESULT =fa; :}
+                |                     {: System.out.println("formalArray2"); RESULT=new ParserArray<Formals>(); :};
 
-methodsArray::=   methodsArray:ma method:m {:ma.add(m); RESULT =ma; :}
-                |                     {: RESULT=new ParserArray<Method>(); :};
+methodsArray::=   methodsArray:ma method:m {:System.out.println("methodArray1"); ma.add(m); RESULT =ma; :}
+                |                     {: System.out.println("methodArray2"); RESULT=new ParserArray<Method>(); :};
 
 
                 /*If*/
@@ -97,7 +100,8 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new If(0, 0, exp1, exp2, exp3); :}
                 |IF expression:exp1 THEN expression:exp2
                 {:RESULT = new If(0, 0, exp1, exp2); :}
-
+                | LPAR expression:exp1 RPAR
+                {:RESULT = exp1; :}
                 /*While*/
                 | WHILE expression:exp1 DO expression:exp2
                 {:RESULT = new While(0, 0, exp1, exp2); :}
@@ -115,7 +119,7 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 /*UnOp*/
                 |NOT expression:exp1
                 {:RESULT = new UnOp(0, 0, "not", exp1); :}
-                |MINUS ASSIGN expression:exp1
+                |MINUS expression:exp1
                 {:RESULT = new UnOp(0, 0, "-", exp1); :}
                 |ISNULL expression:exp1
                 {:RESULT = new UnOp(0, 0, "isnull", exp1); :}
@@ -156,43 +160,44 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 /*Terminaison*/
 
 terminaison::=  INTEGERLITERAL:it
-                {:RESULT = new Terminal(0, 0, it); :}
+                {:System.out.println("terminaison1"); RESULT = new Terminal(0, 0, it); :}
                 |STRINGLITERAL:sl
-                {:RESULT = new Terminal(0, 0, sl); :}
+                {:System.out.println("terminaison2"); RESULT = new Terminal(0, 0, sl); :}
                 |boolean:b
-                {:RESULT = b; :};
+                {:System.out.println("bool"); RESULT = b; :};
 
 boolean::=      TRUE
-                {:RESULT = new Terminal(0, 0, "true"); :}
+                {:System.out.println("bool1"); RESULT = new Terminal(0, 0, "true"); :}
                 |FALSE
-                {:RESULT = new Terminal(0, 0, "false"); :};
+                {:System.out.println("bool2"); RESULT = new Terminal(0, 0, "false"); :};
 
 
 field::=        OBJECTIDENTIFIER:oi COLON types:t SEMICOLON
-                {:RESULT = new Field(0,0,oi,t,null); :}
+                {: System.out.println("Field1"); RESULT = new Field(0,0,oi,t,null); :}
                 |OBJECTIDENTIFIER:oi COLON types:t ASSIGN expression:e SEMICOLON
-                {:RESULT = new Field(0,0,oi,t,e); :};
+                {:System.out.println("Field2"); RESULT = new Field(0,0,oi,t,e); :};
 
 formals::=      OBJECTIDENTIFIER:oi COLON types:t
-                {:RESULT =new Formals(0,0,oi,t); :};
+                {:System.out.println("formals1"); RESULT = new Formals(0,0,oi,t); :};
 
 
 
-types::=        TYPEIDENTIFIER:t {:RESULT = new Types(0,0,t); :}
+types::=        TYPEIDENTIFIER:t {:System.out.println("type1"); RESULT = new Types(0,0,t); :}
                 | INT32
-                {: RESULT = new Types(0,0,"int32"); :}
+                {: System.out.println("type2"); RESULT = new Types(0,0,"int32"); :}
                 | BOOL
-                {: RESULT = new Types(0,0,"bool"); :}
+                {: System.out.println("type3"); RESULT = new Types(0,0,"bool"); :}
                 | STRING
-                {: RESULT = new Types(0,0,"string"); :}
+                {: System.out.println("type4"); RESULT = new Types(0,0,"string"); :}
                 | UNIT
-                {: RESULT = new Types(0,0,"unit"); :};
+                {: System.out.println("type5"); RESULT = new Types(0,0,"unit"); :};
 
 
 
 method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR COLON types:t block:b
-                {:RESULT = new Method(0, 0, oi, fa, t, b); :};
+                {:System.out.println("method"); RESULT = new Method(0, 0, oi, fa, t, b); :};
 
 
-block::=    LBRACE   expArray:ea  RBRACE {:RESULT = new Blocks(0,0,ea); :};
+block::=        LBRACE expArray:ea expression:exp1 RBRACE
+                {:System.out.println("block"); ea.add(exp1); System.out.println(ea.toString()); RESULT = new Blocks(0,0,ea); :};
 
