@@ -27,11 +27,11 @@ parser code
 
 terminal BOOL, CLASS, DO, ELSE, EXTENDS, FALSE, IF, IN, INT32, ISNULL, LET, NEW, THEN, TRUE, UNIT, WHILE, ASSIGN, DOT;
 
-terminal String STRING, STRINGLITERAL, OBJECTIDENTIFIER, INTEGERLITERAL, TYPEIDENTIFIER;
+terminal String STRING, STRING_LITERAL, OBJECT_IDENTIFIER, INTEGER_LITERAL, TYPE_IDENTIFIER;
 
 terminal LBRACE, RBRACE, LPAR, RPAR, COLON, SEMICOLON, COMMA;
 
-terminal AND, EQUAL, LOWER, LOWEREQUAL, DIV, NOT, MINUS, PLUS, POW, TIMES;
+terminal AND, EQUAL, LOWER, LOWER_EQUAL, DIV, NOT, MINUS, PLUS, POW, TIMES;
 
 
 
@@ -66,11 +66,11 @@ precedence left PLUS, MINUS;
 
 precedence left AND, TIMES, DIV, DOT;
 
-precedence right ASSIGN, ISNULL, POW, OBJECTIDENTIFIER;
+precedence right ASSIGN, ISNULL, POW, OBJECT_IDENTIFIER;
 
 precedence left EQUAL;
 
-precedence nonassoc LOWER, LOWEREQUAL, IF;
+precedence nonassoc LOWER, LOWER_EQUAL, IF;
 
 precedence nonassoc ELSE;
 
@@ -87,9 +87,9 @@ expArray::=     expArray:ea expression:exp1 SEMICOLON {: ea.add(exp1); RESULT = 
                 |                     {: RESULT = new ParserArray<Expressions>(); :};
 
 
-class_::=        CLASS TYPEIDENTIFIER:name LBRACE classBody:bd  RBRACE
+class_::=        CLASS TYPE_IDENTIFIER:name LBRACE classBody:bd  RBRACE
                 {: RESULT = new Classe(0, 0, name, bd );:}
-                |CLASS TYPEIDENTIFIER:name EXTENDS TYPEIDENTIFIER:parent LBRACE classBody:bd  RBRACE
+                |CLASS TYPE_IDENTIFIER:name EXTENDS TYPE_IDENTIFIER:parent LBRACE classBody:bd  RBRACE
                 {: RESULT = new Classe(0, 0, name, parent, bd);:};
 
 classBody::=    classBody:cb   field:f
@@ -122,15 +122,15 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for while expression"); :}
 
                 /*Let*/
-                |LET OBJECTIDENTIFIER:oi COLON types:ti ASSIGN expression:exp1 IN expression:exp2
+                |LET OBJECT_IDENTIFIER:oi COLON types:ti ASSIGN expression:exp1 IN expression:exp2
                 {:RESULT = new Let(0, 0, oi, ti, exp1, exp2); :}
-                |LET OBJECTIDENTIFIER:oi COLON types:ti IN expression:exp1
+                |LET OBJECT_IDENTIFIER:oi COLON types:ti IN expression:exp1
                 {:RESULT = new Let(0, 0, oi, ti, exp1); :}
                 |LET error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for let expression"); :}
 
                 /*Assign*/
-                |OBJECTIDENTIFIER:oi ASSIGN expression:exp1
+                |OBJECT_IDENTIFIER:oi ASSIGN expression:exp1
                 {:RESULT = new Assign(0, 0, oi, exp1); :}
 
                 /*UnOp*/
@@ -146,7 +146,7 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new BinOp(0, 0, "=", exp1, exp2); :}
                 |expression:exp1 LOWER expression:exp2
                 {:RESULT = new BinOp(0, 0, "<", exp1, exp2); :}
-                |expression:exp1 LOWEREQUAL expression:exp2
+                |expression:exp1 LOWER_EQUAL expression:exp2
                 {:RESULT = new BinOp(0, 0, "<=", exp1, exp2); :}
                 |expression:exp1 PLUS expression:exp2
                 {:RESULT = new BinOp(0, 0, "+", exp1, exp2); :}
@@ -162,9 +162,9 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new BinOp(0, 0, "AND", exp1, exp2); :}
 
                 /*Call*/
-                |OBJECTIDENTIFIER:oi LPAR argArray:aa RPAR
+                |OBJECT_IDENTIFIER:oi LPAR argArray:aa RPAR
                 {:RESULT = new Call(0, 0, new Terminal(0, 0, "self"), oi, aa); :}
-                |expression:exp1 DOT OBJECTIDENTIFIER:oi LPAR argArray:aa RPAR
+                |expression:exp1 DOT OBJECT_IDENTIFIER:oi LPAR argArray:aa RPAR
                 {:RESULT = new Call(0, 0, exp1, oi, aa); :}
 
                 /*New*/
@@ -178,11 +178,11 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
 
                 /*Terminaison*/
 
-terminaison::=  INTEGERLITERAL:it
+terminaison::=  INTEGER_LITERAL:it
                 {: RESULT = new Terminal(0, 0, it); :}
-                |STRINGLITERAL:sl
+                |STRING_LITERAL:sl
                 {: RESULT = new Terminal(0, 0, sl); :}
-                |OBJECTIDENTIFIER:oi
+                |OBJECT_IDENTIFIER:oi
                 {: RESULT = new Terminal(0, 0, oi); :}
                 |boolean:b
                 {: RESULT = b; :};
@@ -193,18 +193,18 @@ boolean::=      TRUE
                 {: RESULT = new Terminal(0, 0, "false"); :};
 
 
-field::=        OBJECTIDENTIFIER:oi COLON types:t SEMICOLON
+field::=        OBJECT_IDENTIFIER:oi COLON types:t SEMICOLON
                 {:  RESULT = new Field(0,0,oi,t,null); :}
-                |OBJECTIDENTIFIER:oi COLON types:t ASSIGN expression:e SEMICOLON
+                |OBJECT_IDENTIFIER:oi COLON types:t ASSIGN expression:e SEMICOLON
                 {: RESULT = new Field(0,0,oi,t,e); :}
                 |error:e SEMICOLON
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for Field"); :};
 
-formals::=      OBJECTIDENTIFIER:oi COLON types:t
+formals::=      OBJECT_IDENTIFIER:oi COLON types:t
                 {: RESULT = new Formals(0,0,oi,t); :};
 
 
-types::=        TYPEIDENTIFIER:t
+types::=        TYPE_IDENTIFIER:t
                 {: RESULT = new Types(0,0,t); :}
                 | INT32
                 {:  RESULT = new Types(0,0,"int32"); :}
@@ -217,9 +217,9 @@ types::=        TYPEIDENTIFIER:t
 
 
 
-method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON types:t block:b
+method::=       OBJECT_IDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON types:t block:b
                 {:fa.add(f); RESULT = new Method(0, 0, oi, fa, t, b); :}
-                |OBJECTIDENTIFIER:oi LPAR  RPAR COLON types:t block:b
+                |OBJECT_IDENTIFIER:oi LPAR  RPAR COLON types:t block:b
                 {: RESULT = new Method(0, 0, oi, new ParserArray<Formals>(), t, b); :}
                 |error:e block
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for Method"); :};
