@@ -101,8 +101,11 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new If(0, 0, exp1, exp2, exp3); :}
                 |IF expression:exp1 THEN expression:exp2
                 {:RESULT = new If(0, 0, exp1, exp2); :}
+
+                /*exp = (exp)*/
                 | LPAR expression:exp1 RPAR
                 {:RESULT = exp1; :}
+
                 /*While*/
                 | WHILE expression:exp1 DO expression:exp2
                 {:RESULT = new While(0, 0, exp1, exp2); :}
@@ -152,7 +155,7 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new Call(0, 0, exp1, oi, aa); :}
 
                 /*New*/
-                |NEW LPAR types:ti RPAR
+                |NEW types:ti
                 {:RESULT = new New(0, 0, ti);:}
 
                 |terminaison:ter
