@@ -1,9 +1,9 @@
 factorial(test:int32,test:int32) : int32 {
+   print("rfkregtbregre");
    0
 }
 
 factorial(test:int32,test:int32) : int32 {
    0
 }
-
 

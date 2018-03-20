@@ -1,5 +1,5 @@
-<<<<<<< Updated upstream
 factorial(test:int32,test:int32) : int32 {
+   print("rfkregtbregre");
    0
 }
 
@@ -7,8 +7,3 @@ factorial(test:int32,test:int32) : int32 {
    0
 }
 
-
-=======
-let matho : int32 <- matho < 3 in if matho < 3 then print("Error: number must be greater-than or equal to 0.\n")
-
->>>>>>> Stashed changes
