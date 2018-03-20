@@ -14,6 +14,12 @@ parser code
   }
 
 
+  public void errorMessage(int pLine, int pColumn)
+  {
+    String errorToDisp = this.filename + ":" + pLine + ":" + pColumn + ": syntax error";
+     System.err.println(errorToDisp);
+  }
+
 
 
 :};
