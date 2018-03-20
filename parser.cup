@@ -63,7 +63,7 @@ precedence nonassoc ELSE;
 
 
 
-start with method;
+start with class;
 
 objectid::=     OBJECTIDENTIFIER {:System.out.println("putain"); :};
 
@@ -85,8 +85,8 @@ class::=        CLASS OBJECTIDENTIFIER:name LBRACE fieldsArray:fa methodsArray:m
                 {: System.out.println("class2"); RESULT = new Class(0, 0, name, parent, fa, ma);:};
 
 
-fieldsArray::=   fieldsArray:fa field:f {:System.out.println("field1"); fa.add(f); RESULT =fa; :}
-                |                     {: System.out.println("field2"); RESULT=new ParserArray<Field>(); :};
+fieldsArray::=   fieldsArray:fa field:f {:System.out.println("fieldArray1"); fa.add(f); RESULT =fa; :}
+                |                     {: System.out.println("fieldArray2"); RESULT=new ParserArray<Field>(); :};
 
 formalArray::=  formals:f COMMA formalArray:fa{: System.out.println("formalArray1"); fa.add(f); RESULT =fa; :}
                 |                     {: System.out.println("formalArray2"); RESULT=new ParserArray<Formals>(); :};
