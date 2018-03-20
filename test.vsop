@@ -1,6 +1,7 @@
-class hello{
-    coucou : int32;
-    factorial() : int32 {
+factorial() : int32 {
     if n < 2 then 1
-    }
+}
+
+factorial() : int32 {
+    if n < 2 then 1
 }
