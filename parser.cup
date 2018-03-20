@@ -63,7 +63,7 @@ precedence nonassoc ELSE;
 
 
 
-start with formals;
+start with method;
 
 objectid::=     OBJECTIDENTIFIER {:System.out.println("putain"); :};
 
@@ -163,6 +163,8 @@ terminaison::=  INTEGERLITERAL:it
                 {:System.out.println("terminaison1"); RESULT = new Terminal(0, 0, it); :}
                 |STRINGLITERAL:sl
                 {:System.out.println("terminaison2"); RESULT = new Terminal(0, 0, sl); :}
+                |OBJECTIDENTIFIER:oi
+                {:System.out.println("terminaison1522"); RESULT = new Terminal(0, 0, oi); :}
                 |boolean:b
                 {:System.out.println("bool"); RESULT = b; :};
 
