@@ -63,7 +63,7 @@ precedence nonassoc ELSE;
 
 
 
-start with methodsArray;
+start with class;
 
 objectid::=     OBJECTIDENTIFIER {:System.out.println("putain"); :};
 
