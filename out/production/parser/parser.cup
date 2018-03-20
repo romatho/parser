@@ -64,7 +64,7 @@ precedence nonassoc ELSE;
 
 
 
-start with class;
+start with program;
 
 objectid::=     OBJECTIDENTIFIER {:System.out.println("putain"); :};
 
@@ -85,7 +85,7 @@ class::=        CLASS TYPEIDENTIFIER:name LBRACE classBody:bd  RBRACE
                 |CLASS TYPEIDENTIFIER:name EXTENDS OBJECTIDENTIFIER:parent LBRACE classBody:bd  RBRACE
                 {: System.out.println("class2"); RESULT = new Class(0, 0, name, parent, bd);:};
 
-classBody::=        field:f classBody:cb
+classBody::=    classBody:cb   field:f
                 {:System.out.println("add field to class body"); cb.addField(f);System.out.println("add field to class body"); RESULT=cb; :}
                 |classBody:cb method:m
                 {:System.out.println("add method to class body"); cb.addMethod(m);System.out.println("add field to class body"); RESULT=cb;:}
