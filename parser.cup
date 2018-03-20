@@ -46,7 +46,7 @@ non terminal ParserArray<Class> classArray; /*done*/
 non terminal ParserArray<Formals> formalArray;/*done*/
 non terminal ParserArray<Field> fieldsArray;/*done*/
 non terminal ParserArray<Method> methodsArray;/*done*/
-non terminal ParserArray<Expressions> expArray; /*done*/
+non terminal ParserArray<Expressions> expArray, argArray, argOthers; /*done*/
 
 
 precedence left PLUS, MINUS;
@@ -63,7 +63,7 @@ precedence nonassoc ELSE;
 
 
 
-start with methodsArray;
+start with expression;
 
 objectid::=     OBJECTIDENTIFIER {:System.out.println("putain"); :};
 
@@ -145,10 +145,10 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new BinOp(0, 0, "AND", exp1, exp2); :}
 
                 /*Call*/
-                |OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR
-                {:RESULT = new Call(0, 0, new Terminal(0, 0, "self"), oi, fa); :}
-                |expression:exp1 DOT OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR
-                {:RESULT = new Call(0, 0, exp1, oi, fa); :}
+                |OBJECTIDENTIFIER:oi LPAR argArray:aa RPAR
+                {:RESULT = new Call(0, 0, new Terminal(0, 0, "self"), oi, aa); :}
+                |expression:exp1 DOT OBJECTIDENTIFIER:oi LPAR argArray:aa RPAR
+                {:RESULT = new Call(0, 0, exp1, oi, aa); :}
 
                 /*New*/
                 |NEW LPAR types:ti RPAR
@@ -206,3 +206,12 @@ method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON typ
 block::=        LBRACE expArray:ea expression:exp1 RBRACE
                 {:System.out.println("block"); ea.add(exp1); System.out.println(ea.toString()); RESULT = new Blocks(0,0,ea); :};
 
+argArray::=     argOthers:args expression:exp1
+                {:args.add(exp1); RESULT=args;:}
+                |
+                {:RESULT=new ParserArray<Expressions>(); :};
+
+argOthers::=    argOthers:args expression:exp1 COMMA
+                {:args.add(exp1); RESULT=args; :}
+                |
+                {:RESULT=new ParserArray<Expressions>(); :};

@@ -4,9 +4,9 @@ public class Call extends Expressions {
 
     private Expressions objectExp;
     private String methodName;
-    private ParserArray<Formals> listExp;
+    private ParserArray<Expressions> listExp;
 
-    public Call(int pColumn, int pLine, Expressions pObjectExp, String pMethodName, ParserArray<Formals> pListExp)
+    public Call(int pColumn, int pLine, Expressions pObjectExp, String pMethodName, ParserArray<Expressions> pListExp)
     {
         super(pColumn, pLine);
         objectExp = pObjectExp;
