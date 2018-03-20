@@ -22,6 +22,7 @@ public class ClassBody extends  Node{
     @Override
     public String toString()
     {
+
         String toDisplay =  myFields.toString()+ ", " +myMethods.toString() ;
         return  toDisplay;
     }
