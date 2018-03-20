@@ -62,17 +62,13 @@ precedence nonassoc LOWER, LOWEREQUAL, IF;
 
 precedence nonassoc ELSE;
 
-
-
 start with program;
 
 program ::=     classArray:ca
                 {: System.out.println("program"); RESULT = new Program(0,0, ca); :};
 
-
-classArray::=   classArray:ca class:c {: System.out.println("classArray1"); ca.add(c); RESULT = ca; :}
+classArray::=   classArray:ca class:c {: System.out.println(c.toString()); ca.add(c); RESULT = ca; :}
                 |                     {: System.out.println("classArray2"); RESULT = new ParserArray<Class>(); :};
-
 
 expArray::=     expArray:ea expression:exp1 SEMICOLON {:System.out.println("expArray1"); ea.add(exp1); System.out.println(ea.toString()); RESULT = ea; :}
                 |                     {: System.out.println("expArray3"); RESULT = new ParserArray<Expressions>(); :};
