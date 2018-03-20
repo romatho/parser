@@ -28,6 +28,7 @@ non terminal Formals formals; /*done*/
 non terminal Method method; /*done*/
 non terminal Program program; /*done*/
 non terminal Types types; /*done*/
+non terminal ClassBody classBody;
 
 
 /*Expression*/
@@ -79,11 +80,17 @@ expArray::=     expArray:ea expression:exp1 SEMICOLON {:System.out.println("expA
                 |                     {: System.out.println("expArray3"); RESULT = new ParserArray<Expressions>(); :};
 
 
-class::=        CLASS TYPEIDENTIFIER:name LBRACE fieldsArray:fa  methodsArray:ma  RBRACE
+class::=        CLASS TYPEIDENTIFIER:name LBRACE classBody  RBRACE
                 {: System.out.println("class1"); RESULT = new Class(0, 0, name, fa, ma);:}
                 |CLASS TYPEIDENTIFIER:name EXTENDS OBJECTIDENTIFIER:parent LBRACE fieldsArray:fa methodsArray:ma  RBRACE
                 {: System.out.println("class2"); RESULT = new Class(0, 0, name, parent, fa, ma);:};
 
+classBody       classBody:cb field:f
+                {:System.out.println("add field to class body"); cb.addField(f); RESULT cb; :}
+                |classBody:cb method:m
+                {:System.out.println("add method to class body"); cb.addMethod(m); RESULT cb;:}
+                |
+                {:System.out.println("RESULT = new ClassBody()");:};
 
 fieldsArray::=   fieldsArray:fa field:f {:System.out.println("fieldArray1"); fa.add(f);System.out.println(fa.toString()); RESULT =fa; :}
                 |                       {: System.out.println("fieldArray2"); RESULT=new ParserArray<Field>(); :};
