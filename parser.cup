@@ -118,7 +118,7 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 /*While*/
                 | WHILE expression:exp1 DO expression:exp2
                 {:RESULT = new While(0, 0, exp1, exp2); :}
-                |WHILE error:e
+                |WHILE expression:exp error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for while expression"); :}
 
                 /*Let*/
@@ -173,6 +173,10 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 |NEW error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for new expression"); :}
 
+                /*block*/
+                | block:b
+                {: RESULT = b; :}
+
                 |terminaison:ter
                 {:RESULT = ter; :};
 
@@ -226,9 +230,7 @@ method::=       OBJECT_IDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON ty
 
 
 block::=        LBRACE expArray:ea expression:exp1 RBRACE
-                {: ea.add(exp1); RESULT = new Blocks(0,0,ea); :}
-                |error:e
-                {: parser.errorMessage(eleft, eright, "Wrong syntax for Method"); :};
+                {: ea.add(exp1); RESULT = new Blocks(0,0,ea); :};
 
 argArray::=     argOthers:args expression:exp1
                 {:args.add(exp1); RESULT=args;:}

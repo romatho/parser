@@ -27,7 +27,7 @@ public class Main {
 
 
     				retrievedSym = lexer.next_token();
-					currentSym = new MySymb(retrievedSym,(sym.terminalNames[retrievedSym.sym].replace("_", "-").toLowerCase());
+					currentSym = new MySymb(retrievedSym,"ok");
     				currentSym.display();
     			}
     		}

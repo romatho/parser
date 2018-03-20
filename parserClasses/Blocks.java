@@ -1,6 +1,6 @@
 package parserClasses;
 
-public class Blocks extends Node{
+public class Blocks extends Expressions{
         private ParserArray<Expressions> exprs;
 
 

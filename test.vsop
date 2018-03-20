@@ -1,6 +1,25 @@
-class Test {
-    x : int32;
-    x : int32;
-    x : int32;
-    x : int32;
+class Test extends Parent {
+    f(c1 : bool, c2 : bool, c3 : bool) : string {
+        if c1 then
+            if c2 then
+                if c3 then {
+                    "c1 c2 c3"
+                } else {
+                    "c1 c2 !c3"
+                }
+            else {
+                if c3 then
+                    "c1 !c2 c3"
+                else
+                    "c1 !c2 !c3"
+            }
+        else
+            if c2 then {
+                if c3 then {
+                    "!c1 c2 c3" }
+                else
+                    "!c1 c2 !c3" }
+            else
+                if c3 then "!c1 !c2 c3" else "!c1 !c2 !c3"
+    }
 }
