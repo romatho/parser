@@ -1,18 +1,19 @@
 package parserClasses;
 
-public class ClassBody {
+public class ClassBody extends  Node{
 
     private ParserArray<Field> myFields;
     private ParserArray<Method> myMethods;
 
-    public ClassBody()
+    public ClassBody(int pColumn, int pLine)
     {
-        myFields= new ParserArray<Field>();
-        myMethods= new ParserArray<Method>();
+        super(pColumn,pLine);
+        this.myFields= new ParserArray<Field>();
+        this.myMethods= new ParserArray<Method>();
     }
     public void addField(Field field)
     {
-        myFields.add(field);
+       myFields.add(field);
     }
     public void addMethod(Method method)
     {

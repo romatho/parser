@@ -1,6 +1,29 @@
 class Main{
 nononono : int32;
+factorial(n : int32) : int32 {
+if n < 2 then 1
+}
+
+main() : int32 {
+print("Enter an integer greater-than or equal to 0: ");
+0
+}
 nononono : int32;
+factorial(n : int32) : int32 {
+if n < 2 then 1
+}
+
+main() : int32 {
+print("Enter an integer greater-than or equal to 0: ");
+0
+}
 nononono : int32;
-nononono : int32;
+factorial(n : int32) : int32 {
+if n < 2 then 1
+}
+
+main() : int32 {
+print("Enter an integer greater-than or equal to 0: ");
+0
+}
 }
