@@ -80,7 +80,7 @@ expArray::=     expArray:ea expression:exp1 SEMICOLON {:System.out.println("expA
 
 class::=        CLASS TYPEIDENTIFIER:name LBRACE classBody:bd  RBRACE
                 {: System.out.println("class1"); RESULT = new Class(0, 0, name, bd );:}
-                |CLASS TYPEIDENTIFIER:name EXTENDS OBJECTIDENTIFIER:parent LBRACE classBody:bd  RBRACE
+                |CLASS TYPEIDENTIFIER:name EXTENDS TYPEIDENTIFIER:parent LBRACE classBody:bd  RBRACE
                 {: System.out.println("class2"); RESULT = new Class(0, 0, name, parent, bd);:};
 
 classBody::=    classBody:cb   field:f
