@@ -6,6 +6,22 @@ import java_cup.runtime.*;
 parser code
 {:
   public Program program;
+  public String filename;
+
+  public parser(java_cup.runtime.Scanner s, String pFilename) {
+      super(s);
+      filename = pFilename;
+  }
+
+
+  public void errorMessage(int pLine, int pColumn)
+  {
+    String errorToDisp = this.filename + ":" + pLine + ":" + pColumn + ": syntax error";
+     System.err.println(errorToDisp);
+  }
+
+
+
 :};
 
 
@@ -65,35 +81,35 @@ precedence nonassoc ELSE;
 start with program;
 
 program ::=     classArray:ca
-                {: System.out.println("program"); RESULT = new Program(0,0, ca); :};
+                {: RESULT = new Program(0,0, ca); :};
 
-classArray::=   classArray:ca class:c {: System.out.println(c.toString()); ca.add(c); RESULT = ca; :}
-                |                     {: System.out.println("classArray2"); RESULT = new ParserArray<Classe>(); :};
+classArray::=   classArray:ca class:c {:  ca.add(c); RESULT = ca; :}
+                |                     {:  RESULT = new ParserArray<Classe>(); :};
 
-expArray::=     expArray:ea expression:exp1 SEMICOLON {:System.out.println("expArray1"); ea.add(exp1); System.out.println(ea.toString()); RESULT = ea; :}
-                |                     {: System.out.println("expArray3"); RESULT = new ParserArray<Expressions>(); :};
+expArray::=     expArray:ea expression:exp1 SEMICOLON {: ea.add(exp1); RESULT = ea; :}
+                |                     {: RESULT = new ParserArray<Expressions>(); :};
 
 
 class::=        CLASS TYPEIDENTIFIER:name LBRACE classBody:bd  RBRACE
-                {: System.out.println("class1"); RESULT = new Classe(0, 0, name, bd );:}
+                {: RESULT = new Classe(0, 0, name, bd );:}
                 |CLASS TYPEIDENTIFIER:name EXTENDS TYPEIDENTIFIER:parent LBRACE classBody:bd  RBRACE
-                {: System.out.println("class2"); RESULT = new Classe(0, 0, name, parent, bd);:};
+                {: RESULT = new Classe(0, 0, name, parent, bd);:};
 
 classBody::=    classBody:cb   field:f
-                {:System.out.println("add field to class body"); cb.addField(f);System.out.println("add field to class body"); RESULT=cb; :}
+                {: cb.addField(f); RESULT=cb; :}
                 |classBody:cb method:m
-                {:System.out.println("add method to class body"); cb.addMethod(m);System.out.println("add field to class body"); RESULT=cb;:}
+                {: cb.addMethod(m); RESULT=cb;:}
                 |
                 {:RESULT = new ClassBody(0,0); :};
 
-fieldsArray::=   fieldsArray:fa field:f {:System.out.println("fieldArray1"); fa.add(f);System.out.println(fa.toString()); RESULT =fa; :}
-                |                       {: System.out.println("fieldArray2"); RESULT=new ParserArray<Field>(); :};
+fieldsArray::=   fieldsArray:fa field:f {: fa.add(f); RESULT =fa; :}
+                |                       {:  RESULT=new ParserArray<Field>(); :};
 
-formalArray::=  formalArray:fa formals:f  COMMA{: System.out.println("formalArray1"); fa.add(f); RESULT =fa; :}
-                |                     {: System.out.println("formalArray2"); RESULT=new ParserArray<Formals>(); :};
+formalArray::=  formalArray:fa formals:f  COMMA{:  fa.add(f); RESULT =fa; :}
+                |                     {: RESULT=new ParserArray<Formals>(); :};
 
-methodsArray::=   methodsArray:ma method:m {:System.out.println("methodArray1"); ma.add(m); RESULT =ma; :}
-                |                     {: System.out.println("methodArray2"); RESULT=new ParserArray<Method>(); :};
+methodsArray::=   methodsArray:ma method:m {: ma.add(m); RESULT =ma; :}
+                |                     {:  RESULT=new ParserArray<Method>(); :};
 
 
                 /*If*/
@@ -101,8 +117,11 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new If(0, 0, exp1, exp2, exp3); :}
                 |IF expression:exp1 THEN expression:exp2
                 {:RESULT = new If(0, 0, exp1, exp2); :}
+
+                /*exp = (exp)*/
                 | LPAR expression:exp1 RPAR
                 {:RESULT = exp1; :}
+
                 /*While*/
                 | WHILE expression:exp1 DO expression:exp2
                 {:RESULT = new While(0, 0, exp1, exp2); :}
@@ -152,7 +171,7 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new Call(0, 0, exp1, oi, aa); :}
 
                 /*New*/
-                |NEW LPAR types:ti RPAR
+                |NEW types:ti
                 {:RESULT = new New(0, 0, ti);:}
 
                 |terminaison:ter
@@ -161,51 +180,51 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 /*Terminaison*/
 
 terminaison::=  INTEGERLITERAL:it
-                {:System.out.println("terminaison1"); RESULT = new Terminal(0, 0, it); :}
+                {: RESULT = new Terminal(0, 0, it); :}
                 |STRINGLITERAL:sl
-                {:System.out.println("terminaison2"); RESULT = new Terminal(0, 0, sl); :}
+                {: RESULT = new Terminal(0, 0, sl); :}
                 |OBJECTIDENTIFIER:oi
-                {:System.out.println("terminaison1522"); RESULT = new Terminal(0, 0, oi); :}
+                {: RESULT = new Terminal(0, 0, oi); :}
                 |boolean:b
-                {:System.out.println("bool"); RESULT = b; :};
+                {: RESULT = b; :};
 
 boolean::=      TRUE
-                {:System.out.println("bool1"); RESULT = new Terminal(0, 0, "true"); :}
+                {: RESULT = new Terminal(0, 0, "true"); :}
                 |FALSE
-                {:System.out.println("bool2"); RESULT = new Terminal(0, 0, "false"); :};
+                {: RESULT = new Terminal(0, 0, "false"); :};
 
 
 field::=        OBJECTIDENTIFIER:oi COLON types:t SEMICOLON
-                {: System.out.println("Field1"); RESULT = new Field(0,0,oi,t,null); :}
+                {:  RESULT = new Field(0,0,oi,t,null); :}
                 |OBJECTIDENTIFIER:oi COLON types:t ASSIGN expression:e SEMICOLON
-                {:System.out.println("Field2"); RESULT = new Field(0,0,oi,t,e); :};
+                {: RESULT = new Field(0,0,oi,t,e); :};
 
 formals::=      OBJECTIDENTIFIER:oi COLON types:t
-                {:System.out.println("formals1"); RESULT = new Formals(0,0,oi,t); :};
+                {: RESULT = new Formals(0,0,oi,t); :};
 
 
 
 
-types::=        TYPEIDENTIFIER:t {:System.out.println("type1"); RESULT = new Types(0,0,t); :}
+types::=        TYPEIDENTIFIER:t {: RESULT = new Types(0,0,t); :}
                 | INT32
-                {: System.out.println("type2"); RESULT = new Types(0,0,"int32"); :}
+                {:  RESULT = new Types(0,0,"int32"); :}
                 | BOOL
-                {: System.out.println("type3"); RESULT = new Types(0,0,"bool"); :}
+                {:  RESULT = new Types(0,0,"bool"); :}
                 | STRING
-                {: System.out.println("type4"); RESULT = new Types(0,0,"string"); :}
+                {: RESULT = new Types(0,0,"string"); :}
                 | UNIT
-                {: System.out.println("type5"); RESULT = new Types(0,0,"unit"); :};
+                {:  RESULT = new Types(0,0,"unit"); :};
 
 
 
 method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON types:t block:b
-                {:System.out.println("method");fa.add(f); RESULT = new Method(0, 0, oi, fa, t, b); :}
+                {:fa.add(f); RESULT = new Method(0, 0, oi, fa, t, b); :}
                 |OBJECTIDENTIFIER:oi LPAR  RPAR COLON types:t block:b
-                                 {:System.out.println("method2"); RESULT = new Method(0, 0, oi, new ParserArray<Formals>(), t, b); :};
+                                 {: RESULT = new Method(0, 0, oi, new ParserArray<Formals>(), t, b); :};
 
 
 block::=        LBRACE expArray:ea expression:exp1 RBRACE
-                {:System.out.println("block"); ea.add(exp1); System.out.println(ea.toString()); RESULT = new Blocks(0,0,ea); :};
+                {: ea.add(exp1); RESULT = new Blocks(0,0,ea); :};
 
 argArray::=     argOthers:args expression:exp1
                 {:args.add(exp1); RESULT=args;:}
