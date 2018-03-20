@@ -54,6 +54,7 @@ public class Main {
 			Symbol parsed = null;
 			try {
 				parsed = p.parse();
+				//System.out.println(p.program.toString());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

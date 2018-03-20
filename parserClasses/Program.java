@@ -8,14 +8,12 @@ public class Program extends Node {
     {
         super(pColumn,pLine);
         myClasses = pMyClasses;
+        System.out.println(this.toString());
     }
 
     @Override
     public String toString()
     {
-        String toDisplay = "[";
-        toDisplay += myClasses.toString();
-        toDisplay += "]";
-        return toDisplay;
+        return myClasses.toString();
     }
 }
