@@ -14,7 +14,9 @@ public class Blocks extends Node{
     @Override
     public String toString()
     {
-            return this.exprs.toString();
+        if(exprs.size() == 1)
+            return this.exprs.get(0).toString();
+        return this.exprs.toString();
 
     }
 

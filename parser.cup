@@ -6,6 +6,7 @@ import java_cup.runtime.*;
 parser code
 {:
   public String filename;
+  public int toReturn = 0;
 
   public parser(java_cup.runtime.Scanner s, String pFilename) {
       super(s);
@@ -17,6 +18,7 @@ parser code
   {
     String errorToDisp = this.filename + ":" + pLine + ":" + pColumn + ": syntax error: " + pMessage ;
      System.err.println(errorToDisp);
+     this.toReturn = 1;
   }
 
 :};
