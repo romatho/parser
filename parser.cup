@@ -88,7 +88,7 @@ class::=        CLASS OBJECTIDENTIFIER:name LBRACE fieldsArray:fa methodsArray:m
 fieldsArray::=   fieldsArray:fa field:f {:System.out.println("fieldArray1"); fa.add(f); RESULT =fa; :}
                 |                     {: System.out.println("fieldArray2"); RESULT=new ParserArray<Field>(); :};
 
-formalArray::=  formals:f COMMA formalArray:fa{: System.out.println("formalArray1"); fa.add(f); RESULT =fa; :}
+formalArray::=  formalArray:fa formals:f  COMMA{: System.out.println("formalArray1"); fa.add(f); RESULT =fa; :}
                 |                     {: System.out.println("formalArray2"); RESULT=new ParserArray<Formals>(); :};
 
 methodsArray::=   methodsArray:ma method:m {:System.out.println("methodArray1"); ma.add(m); RESULT =ma; :}
@@ -196,8 +196,8 @@ types::=        TYPEIDENTIFIER:t {:System.out.println("type1"); RESULT = new Typ
 
 
 
-method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR COLON types:t block:b
-                {:System.out.println("method"); RESULT = new Method(0, 0, oi, fa, t, b); :};
+method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON types:t block:b
+                {:System.out.println("method");fa.add(f); RESULT = new Method(0, 0, oi, fa, t, b); :};
 
 
 block::=        LBRACE expArray:ea expression:exp1 RBRACE

@@ -40,7 +40,7 @@ non terminal New new;
 non terminal Unop unop;
 non terminal While while;*/
 non terminal Terminal terminaison, boolean;
-non terminal objectid;
+non terminal Terminal objectid;
 
 non terminal ParserArray<Class> classArray; /*done*/
 non terminal ParserArray<Formals> formalArray;/*done*/
@@ -63,9 +63,9 @@ precedence nonassoc ELSE;
 
 
 
-start with objectid;
+start with method;
 
-objectid::=     OBJECTIDENTIFIER {:log("putain"):};
+objectid::=     OBJECTIDENTIFIER {:System.out.println("putain"); :};
 
 program ::=     classArray:ca
                 {: System.out.println("program"); RESULT = new Program(0,0, ca); :};
@@ -88,7 +88,8 @@ class::=        CLASS OBJECTIDENTIFIER:name LBRACE fieldsArray:fa methodsArray:m
 fieldsArray::=   fieldsArray:fa field:f {:System.out.println("field1"); fa.add(f); RESULT =fa; :}
                 |                     {: System.out.println("field2"); RESULT=new ParserArray<Field>(); :};
 
-formalArray::=   formalArray:fa formals:f COMMA {: System.out.println("formalArray1"); fa.add(f); RESULT =fa; :}
+formalArray::=  formalArray:fa formals:f  COMMA{: System.out.println("formalArray1"); fa.add(f); RESULT =fa; :}
+             /*   | formals:f  formalArray:fa{: System.out.println("formalArray3"); fa.add(f); RESULT =fa; :}*/
                 |                     {: System.out.println("formalArray2"); RESULT=new ParserArray<Formals>(); :};
 
 methodsArray::=   methodsArray:ma method:m {:System.out.println("methodArray1"); ma.add(m); RESULT =ma; :}
@@ -163,6 +164,8 @@ terminaison::=  INTEGERLITERAL:it
                 {:System.out.println("terminaison1"); RESULT = new Terminal(0, 0, it); :}
                 |STRINGLITERAL:sl
                 {:System.out.println("terminaison2"); RESULT = new Terminal(0, 0, sl); :}
+                |OBJECTIDENTIFIER:oi
+                {:System.out.println("terminaison1522"); RESULT = new Terminal(0, 0, oi); :}
                 |boolean:b
                 {:System.out.println("bool"); RESULT = b; :};
 
@@ -194,8 +197,8 @@ types::=        TYPEIDENTIFIER:t {:System.out.println("type1"); RESULT = new Typ
 
 
 
-method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa RPAR COLON types:t block:b
-                {:System.out.println("method"); RESULT = new Method(0, 0, oi, fa, t, b); :};
+method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON types:t block:b
+                {:System.out.println("method");fa.add(f); RESULT = new Method(0, 0, oi, fa, t, b); :};
 
 
 block::=        LBRACE expArray:ea expression:exp1 RBRACE
