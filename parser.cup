@@ -6,6 +6,16 @@ import java_cup.runtime.*;
 parser code
 {:
   public Program program;
+  public String filename;
+
+  public parser(java_cup.runtime.Scanner s, String pFilename) {
+      super(s);
+      filename = pFilename;
+  }
+
+
+
+
 :};
 
 

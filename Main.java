@@ -47,7 +47,7 @@ public class Main {
 		{
 			parser p = null;
 			try {
-				p = new parser(new Lexer(new FileReader(path), path));
+				p = new parser(new Lexer(new FileReader(path), path), path);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
