@@ -1,6 +1,5 @@
-class Main extends IO {
+class Main {
     main() : int32 {
         0
     }
 }
-

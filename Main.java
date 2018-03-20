@@ -52,7 +52,7 @@ public class Main {
 			}
 			Symbol parsed = null;
 			try {
-				parsed = p.parse();
+				parsed = p.debug_parse();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
