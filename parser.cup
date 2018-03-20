@@ -34,7 +34,7 @@ terminal AND, EQUAL, LOWER, LOWEREQUAL, DIV, NOT, MINUS, PLUS, POW, TIMES;
 
 
 non terminal Blocks block;
-non terminal Classe class; /*done*/
+non terminal Classe class_; /*done*/
 non terminal Expressions expression;/*done*/
 non terminal Field field; /*done*/
 non terminal Formals formals; /*done*/
@@ -77,7 +77,7 @@ start with program;
 program ::=     classArray:ca
                 {: RESULT = new Program(0,0, ca); :};
 
-classArray::=   classArray:ca class:c {: ca.add(c); RESULT = ca; :}
+classArray::=   classArray:ca class_:c {: ca.add(c); RESULT = ca; :}
                 |                     {: RESULT = new ParserArray<Classe>(); :};
 
 
@@ -85,7 +85,7 @@ expArray::=     expArray:ea expression:exp1 SEMICOLON {: ea.add(exp1); RESULT = 
                 |                     {: RESULT = new ParserArray<Expressions>(); :};
 
 
-class::=        CLASS TYPEIDENTIFIER:name LBRACE classBody:bd  RBRACE
+class_::=        CLASS TYPEIDENTIFIER:name LBRACE classBody:bd  RBRACE
                 {: RESULT = new Classe(0, 0, name, bd );:}
                 |CLASS TYPEIDENTIFIER:name EXTENDS TYPEIDENTIFIER:parent LBRACE classBody:bd  RBRACE
                 {: RESULT = new Classe(0, 0, name, parent, bd);:};

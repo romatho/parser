@@ -14,7 +14,7 @@ public class Formals extends Node {
 
     @Override
     public String toString() {
-        return "Formal(" + indentifier + ":" + type.toString() + ")";
+        return  indentifier + ":" + type.toString() ;
     }
 
 }
