@@ -4,31 +4,28 @@ public class Class extends  Node{
 
     private String name;
     private String parentClass;
-    private ParserArray<Field> myFields;
-    private ParserArray<Method> myMethods;
-
-    public Class(int pColumn, int pLine, String pName, ParserArray<Field> pMyFields, ParserArray<Method> pMyMethods)
+    private ClassBody body;
+    public Class(int pColumn, int pLine, String pName, ClassBody body)
     {
         super(pColumn,pLine);
         name = pName;
         parentClass = "Object";
-        myFields = pMyFields;
-        myMethods = pMyMethods;
+        this.body=body;
+
     }
 
-    public Class(int pColumn, int pLine, String pName, String pParentClass, ParserArray<Field> pMyFields, ParserArray<Method> pMyMethods)
+    public Class(int pColumn, int pLine, String pName, String pParentClass,  ClassBody body)
     {
         super(pColumn,pLine);
         name = pName;
         parentClass = pParentClass;
-        myFields = pMyFields;
-        myMethods = pMyMethods;
+        this.body=body;
     }
 
     @Override
     public String toString()
     {
-        String toDisplay = "Class(" + name + ", " + parentClass + ", " + myFields.toString() + ", " + myMethods.toString() + ")";
+        String toDisplay = "Class(" + name + ", " + parentClass + ", " +body.toString() + ")";
         return  toDisplay;
     }
 
