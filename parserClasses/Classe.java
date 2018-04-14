@@ -25,8 +25,18 @@ public class Classe extends  Node{
     @Override
     public String toString()
     {
-        String toDisplay = "Class(" + name + ", " + parentClasse + ", " +body.toString() + ")";
-        return  toDisplay;
+        return  "Class(" + name + ", " + parentClasse + ", " +body.toString() + ")";
+    }
+
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public String getParentClasse()
+    {
+        return parentClasse;
     }
 
 }

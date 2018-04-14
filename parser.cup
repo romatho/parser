@@ -90,7 +90,6 @@ classArray::=   classArray:ca class_:c {: ca.add(c); RESULT = ca; :}
 expArray::=     expArray:ea expression:exp1 SEMICOLON {: ea.add(exp1); RESULT = ea; :}
                 |                     {: RESULT = new ParserArray<Expressions>(); :};
 
-
 class_::=        CLASS TYPE_IDENTIFIER:name LBRACE classBody:bd  RBRACE
                 {: RESULT = new Classe(0, 0, name, bd );:}
                 |CLASS TYPE_IDENTIFIER:name EXTENDS TYPE_IDENTIFIER:parent LBRACE classBody:bd  RBRACE
