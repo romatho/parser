@@ -5,8 +5,8 @@ import java_cup.runtime.*;
 
 parser code
 {:
-  public Program program;
   public String filename;
+  public int toReturn = 0;
 
   public parser(java_cup.runtime.Scanner s, String pFilename) {
       super(s);
@@ -14,13 +14,12 @@ parser code
   }
 
 
-  public void errorMessage(int pLine, int pColumn)
+  public void errorMessage(int pLine, int pColumn, String pMessage)
   {
-    String errorToDisp = this.filename + ":" + pLine + ":" + pColumn + ": syntax error";
+    String errorToDisp = this.filename + ":" + pLine + ":" + pColumn + ": syntax error: " + pMessage ;
      System.err.println(errorToDisp);
+     this.toReturn = 1;
   }
-
-
 
 :};
 
@@ -28,16 +27,16 @@ parser code
 
 terminal BOOL, CLASS, DO, ELSE, EXTENDS, FALSE, IF, IN, INT32, ISNULL, LET, NEW, THEN, TRUE, UNIT, WHILE, ASSIGN, DOT;
 
-terminal String STRING, STRINGLITERAL, OBJECTIDENTIFIER, INTEGERLITERAL, TYPEIDENTIFIER;
+terminal String STRING, STRING_LITERAL, OBJECT_IDENTIFIER, INTEGER_LITERAL, TYPE_IDENTIFIER;
 
 terminal LBRACE, RBRACE, LPAR, RPAR, COLON, SEMICOLON, COMMA;
 
-terminal AND, EQUAL, LOWER, LOWEREQUAL, DIV, NOT, MINUS, PLUS, POW, TIMES;
+terminal AND, EQUAL, LOWER, LOWER_EQUAL, DIV, NOT, MINUS, PLUS, POW, TIMES;
 
 
 
 non terminal Blocks block;
-non terminal Classe class; /*done*/
+non terminal Classe class_; /*done*/
 non terminal Expressions expression;/*done*/
 non terminal Field field; /*done*/
 non terminal Formals formals; /*done*/
@@ -57,59 +56,59 @@ non terminal New new;
 non terminal Unop unop;
 non terminal While while;*/
 non terminal Terminal terminaison, boolean;
-non terminal Terminal objectid;
 
 non terminal ParserArray<Classe> classArray; /*done*/
 non terminal ParserArray<Formals> formalArray;/*done*/
-non terminal ParserArray<Field> fieldsArray;/*done*/
-non terminal ParserArray<Method> methodsArray;/*done*/
 non terminal ParserArray<Expressions> expArray, argArray, argOthers; /*done*/
 
 
-precedence left PLUS, MINUS;
 
-precedence left AND, TIMES, DIV, DOT;
 
-precedence right ASSIGN, ISNULL, POW, OBJECTIDENTIFIER;
-
-precedence left EQUAL;
-
-precedence nonassoc LOWER, LOWEREQUAL, IF;
-
+precedence right ASSIGN;
+precedence left AND;
+precedence right NOT;
+precedence nonassoc LOWER, LOWER_EQUAL, EQUAL, IF;
 precedence nonassoc ELSE;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIV;
+precedence right ISNULL;
+precedence left POW;
+precedence left DOT;
+
+
+
 
 start with program;
 
 program ::=     classArray:ca
                 {: RESULT = new Program(0,0, ca); :};
 
-classArray::=   classArray:ca class:c {:  ca.add(c); RESULT = ca; :}
-                |                     {:  RESULT = new ParserArray<Classe>(); :};
+classArray::=   classArray:ca class_:c {: ca.add(c); RESULT = ca; :}
+                |                     {: RESULT = new ParserArray<Classe>(); :};
+
 
 expArray::=     expArray:ea expression:exp1 SEMICOLON {: ea.add(exp1); RESULT = ea; :}
                 |                     {: RESULT = new ParserArray<Expressions>(); :};
 
 
-class::=        CLASS TYPEIDENTIFIER:name LBRACE classBody:bd  RBRACE
+class_::=        CLASS TYPE_IDENTIFIER:name LBRACE classBody:bd  RBRACE
                 {: RESULT = new Classe(0, 0, name, bd );:}
-                |CLASS TYPEIDENTIFIER:name EXTENDS TYPEIDENTIFIER:parent LBRACE classBody:bd  RBRACE
-                {: RESULT = new Classe(0, 0, name, parent, bd);:};
+                |CLASS TYPE_IDENTIFIER:name EXTENDS TYPE_IDENTIFIER:parent LBRACE classBody:bd  RBRACE
+                {: RESULT = new Classe(0, 0, name, parent, bd);:}
+                |CLASS error:e
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for class expression"); :};
 
 classBody::=    classBody:cb   field:f
                 {: cb.addField(f); RESULT=cb; :}
                 |classBody:cb method:m
                 {: cb.addMethod(m); RESULT=cb;:}
                 |
-                {:RESULT = new ClassBody(0,0); :};
-
-fieldsArray::=   fieldsArray:fa field:f {: fa.add(f); RESULT =fa; :}
-                |                       {:  RESULT=new ParserArray<Field>(); :};
+                {:RESULT = new ClassBody(0,0); :}
+                |classBody:cb error:e
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for bodyClass"); :};
 
 formalArray::=  formalArray:fa formals:f  COMMA{:  fa.add(f); RESULT =fa; :}
                 |                     {: RESULT=new ParserArray<Formals>(); :};
-
-methodsArray::=   methodsArray:ma method:m {: ma.add(m); RESULT =ma; :}
-                |                     {:  RESULT=new ParserArray<Method>(); :};
 
 
                 /*If*/
@@ -117,6 +116,8 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new If(0, 0, exp1, exp2, exp3); :}
                 |IF expression:exp1 THEN expression:exp2
                 {:RESULT = new If(0, 0, exp1, exp2); :}
+                |IF error:e
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for if expression"); :}
 
                 /*exp = (exp)*/
                 | LPAR expression:exp1 RPAR
@@ -125,15 +126,19 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 /*While*/
                 | WHILE expression:exp1 DO expression:exp2
                 {:RESULT = new While(0, 0, exp1, exp2); :}
+                |WHILE expression:exp error:e
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for while expression"); :}
 
                 /*Let*/
-                |LET OBJECTIDENTIFIER:oi COLON types:ti ASSIGN expression:exp1 IN expression:exp2
+                |LET OBJECT_IDENTIFIER:oi COLON types:ti ASSIGN expression:exp1 IN expression:exp2
                 {:RESULT = new Let(0, 0, oi, ti, exp1, exp2); :}
-                |LET OBJECTIDENTIFIER:oi COLON types:ti IN expression:exp1
+                |LET OBJECT_IDENTIFIER:oi COLON types:ti IN expression:exp1
                 {:RESULT = new Let(0, 0, oi, ti, exp1); :}
+                |LET error:e
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for let expression"); :}
 
                 /*Assign*/
-                |OBJECTIDENTIFIER:oi ASSIGN expression:exp1
+                |OBJECT_IDENTIFIER:oi ASSIGN expression:exp1
                 {:RESULT = new Assign(0, 0, oi, exp1); :}
 
                 /*UnOp*/
@@ -149,7 +154,7 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new BinOp(0, 0, "=", exp1, exp2); :}
                 |expression:exp1 LOWER expression:exp2
                 {:RESULT = new BinOp(0, 0, "<", exp1, exp2); :}
-                |expression:exp1 LOWEREQUAL expression:exp2
+                |expression:exp1 LOWER_EQUAL expression:exp2
                 {:RESULT = new BinOp(0, 0, "<=", exp1, exp2); :}
                 |expression:exp1 PLUS expression:exp2
                 {:RESULT = new BinOp(0, 0, "+", exp1, exp2); :}
@@ -165,25 +170,31 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new BinOp(0, 0, "AND", exp1, exp2); :}
 
                 /*Call*/
-                |OBJECTIDENTIFIER:oi LPAR argArray:aa RPAR
+                |OBJECT_IDENTIFIER:oi LPAR argArray:aa RPAR
                 {:RESULT = new Call(0, 0, new Terminal(0, 0, "self"), oi, aa); :}
-                |expression:exp1 DOT OBJECTIDENTIFIER:oi LPAR argArray:aa RPAR
+                |expression:exp1 DOT OBJECT_IDENTIFIER:oi LPAR argArray:aa RPAR
                 {:RESULT = new Call(0, 0, exp1, oi, aa); :}
 
                 /*New*/
                 |NEW types:ti
                 {:RESULT = new New(0, 0, ti);:}
+                |NEW error:e
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for new expression"); :}
+
+                /*block*/
+                | block:b
+                {: RESULT = b; :}
 
                 |terminaison:ter
                 {:RESULT = ter; :};
 
                 /*Terminaison*/
 
-terminaison::=  INTEGERLITERAL:it
+terminaison::=  INTEGER_LITERAL:it
                 {: RESULT = new Terminal(0, 0, it); :}
-                |STRINGLITERAL:sl
+                |STRING_LITERAL:sl
                 {: RESULT = new Terminal(0, 0, sl); :}
-                |OBJECTIDENTIFIER:oi
+                |OBJECT_IDENTIFIER:oi
                 {: RESULT = new Terminal(0, 0, oi); :}
                 |boolean:b
                 {: RESULT = b; :};
@@ -194,18 +205,21 @@ boolean::=      TRUE
                 {: RESULT = new Terminal(0, 0, "false"); :};
 
 
-field::=        OBJECTIDENTIFIER:oi COLON types:t SEMICOLON
+field::=        OBJECT_IDENTIFIER:oi COLON types:t SEMICOLON
                 {:  RESULT = new Field(0,0,oi,t,null); :}
-                |OBJECTIDENTIFIER:oi COLON types:t ASSIGN expression:e SEMICOLON
-                {: RESULT = new Field(0,0,oi,t,e); :};
+                |OBJECT_IDENTIFIER:oi COLON types:t ASSIGN expression:e SEMICOLON
+                {: RESULT = new Field(0,0,oi,t,e); :}
+                |error:e SEMICOLON
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for Field"); :}
+                |OBJECT_IDENTIFIER:oi COLON types:t error:e
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for Field"); :};
 
-formals::=      OBJECTIDENTIFIER:oi COLON types:t
+formals::=      OBJECT_IDENTIFIER:oi COLON types:t
                 {: RESULT = new Formals(0,0,oi,t); :};
 
 
-
-
-types::=        TYPEIDENTIFIER:t {: RESULT = new Types(0,0,t); :}
+types::=        TYPE_IDENTIFIER:t
+                {: RESULT = new Types(0,0,t); :}
                 | INT32
                 {:  RESULT = new Types(0,0,"int32"); :}
                 | BOOL
@@ -215,12 +229,12 @@ types::=        TYPEIDENTIFIER:t {: RESULT = new Types(0,0,t); :}
                 | UNIT
                 {:  RESULT = new Types(0,0,"unit"); :};
 
-
-
-method::=       OBJECTIDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON types:t block:b
+method::=       OBJECT_IDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON types:t block:b
                 {:fa.add(f); RESULT = new Method(0, 0, oi, fa, t, b); :}
-                |OBJECTIDENTIFIER:oi LPAR  RPAR COLON types:t block:b
-                                 {: RESULT = new Method(0, 0, oi, new ParserArray<Formals>(), t, b); :};
+                |OBJECT_IDENTIFIER:oi LPAR  RPAR COLON types:t block:b
+                {: RESULT = new Method(0, 0, oi, new ParserArray<Formals>(), t, b); :}
+                |error:e block
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for Method"); :};
 
 
 block::=        LBRACE expArray:ea expression:exp1 RBRACE

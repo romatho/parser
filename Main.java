@@ -57,6 +57,7 @@ public class Main {
 				//System.out.println(p.program.toString());
 			} catch (Exception e) {
 				e.printStackTrace();
+				System.exit(1);
 			}
 			System.exit(p.toReturn);
         }
