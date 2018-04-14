@@ -1,6 +1,7 @@
 import java_cup.runtime.*;
 import parserClasses.parser;
 import parserClasses.sym;
+import check.Checker;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,7 +10,8 @@ public class Main {
 	static public void main(String arg[])
 	{
 		if(arg.length != 2) {
-			System.err.println("Usage 1: vsopc -lex <SOURCE-FILE> or  vsopc -parse <SOURCE-FILE> ");
+			System.err.println("Usage 1: vsopc -lex <SOURCE-FILE> or  vsopc -parse <SOURCE-FILE> " +
+								"or vspoc -check <SOURCE-FILE>");
 			System.exit(1);
 		}
 		final String path = arg[1];
@@ -61,6 +63,10 @@ public class Main {
 			}
 			System.exit(p.toReturn);
         }
+		else if(arg[0].equals("-check"))
+		{
+			System.out.println("Here should come the checker.");
+		}
         else
         {
             System.err.println("Usage2: vsopc -lex <SOURCE-FILE> or  vsopc -parse <SOURCE-FILE> ");
