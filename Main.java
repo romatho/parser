@@ -65,7 +65,7 @@ public class Main {
         }
 		else if(arg[0].equals("-check"))
 		{
-			System.out.println("Here should come the checker.");
+			Checker c = new Checker();
 		}
         else
         {
