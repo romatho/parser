@@ -22,6 +22,7 @@ public class UnOp extends Expressions{
         return toDisplay;
     }
 
+    @Override
     public String getType()
     {
         String expType = exp.getType();
@@ -33,12 +34,20 @@ public class UnOp extends Expressions{
         {
             case "not":
                 if(!expType.equals("bool"))
+                {
+                    System.out.println("FILENAME:" + exp.displayNode() +
+                            "SEMANTIC error: expected bool with operator not not " + expType);
                     return "ERROR";
+                }
                 return "bool";
 
             case "-":
                 if(!expType.equals("int32"))
+                {
+                    System.out.println("FILENAME:" + exp.displayNode() +
+                            "SEMANTIC error: expected bool with operator - not " + expType);
                     return "ERROR";
+                }
                 return "int32";
 
             case "isnull":
