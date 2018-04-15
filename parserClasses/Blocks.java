@@ -20,4 +20,10 @@ public class Blocks extends Expressions{
 
     }
 
+    @Override
+    public String getType()
+    {
+        return exprs.get(exprs.size()-1).getType();
+    }
+
 }
