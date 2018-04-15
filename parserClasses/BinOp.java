@@ -146,7 +146,7 @@ public class BinOp extends Expressions{
             }
             break;
             case "_":
-                if(firstType.equals(secondType))
+                if(firstType.equals(secondType)&&!secondType.equals("ERROR"))
                     toReturn="bool";
                 else if (!secondType.equals("ERROR")&&!firstType.equals("ERROR"))
             {
