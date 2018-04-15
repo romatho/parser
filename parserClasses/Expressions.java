@@ -8,6 +8,6 @@ public class Expressions extends Node {
         super(pColumn, pLine);
     }
 
-
+    public String getType(){return "type";};
 
 }

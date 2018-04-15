@@ -170,7 +170,7 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
 
                 /*Call*/
                 |OBJECT_IDENTIFIER:oi LPAR argArray:aa RPAR
-                {:RESULT = new Call(0, 0, new Terminal(0, 0, "self"), oi, aa); :}
+                {:RESULT = new Call(0, 0, new Terminal(0, 0, "self","SELF"), oi, aa); :}
                 |expression:exp1 DOT OBJECT_IDENTIFIER:oi LPAR argArray:aa RPAR
                 {:RESULT = new Call(0, 0, exp1, oi, aa); :}
 
@@ -190,18 +190,18 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 /*Terminaison*/
 
 terminaison::=  INTEGER_LITERAL:it
-                {: RESULT = new Terminal(0, 0, it); :}
+                {: RESULT = new Terminal(0, 0, it,"INTEGER_LITERAL"); :}
                 |STRING_LITERAL:sl
-                {: RESULT = new Terminal(0, 0, sl); :}
+                {: RESULT = new Terminal(0, 0, sl,"STRING_LITERAL"); :}
                 |OBJECT_IDENTIFIER:oi
-                {: RESULT = new Terminal(0, 0, oi); :}
+                {: RESULT = new Terminal(0, 0, oi,"OBJECT_IDENTIFIER"); :}
                 |boolean:b
                 {: RESULT = b; :};
 
 boolean::=      TRUE
-                {: RESULT = new Terminal(0, 0, "true"); :}
+                {: RESULT = new Terminal(0, 0, "true","BOOL"); :}
                 |FALSE
-                {: RESULT = new Terminal(0, 0, "false"); :};
+                {: RESULT = new Terminal(0, 0, "false","BOOL"); :};
 
 
 field::=        OBJECT_IDENTIFIER:oi COLON types:t SEMICOLON

@@ -26,5 +26,13 @@ public class BinOp extends Expressions{
         toDisplay += ")";
         return toDisplay;
     }
+    @Override
+    public String getType()
+    {
+        String firstType = firstExp.getType();
+        String secondType = secondExp.getType();
+        switch(op)
+        return toReturn;
+    }
 }
 
