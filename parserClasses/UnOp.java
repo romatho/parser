@@ -21,4 +21,29 @@ public class UnOp extends Expressions{
         toDisplay += ")";
         return toDisplay;
     }
+
+    public String getType()
+    {
+        String expType = exp.getType();
+        // check if there isn't already an error in the lower-level expressions
+        if(expType.equals("ERROR"))
+            return "ERROR";
+
+        switch(firstElement)
+        {
+            case "not":
+                if(!expType.equals("bool"))
+                    return "ERROR";
+                return "bool";
+
+            case "-":
+                if(!expType.equals("int32"))
+                    return "ERROR";
+                return "int32";
+
+            case "isnull":
+                return "bool";
+        }
+        return "ERROR";
+    }
 }
