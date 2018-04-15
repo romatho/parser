@@ -1,20 +1,27 @@
 package parserClasses;
 
 public class Formals extends Node {
-    private String indentifier;
+    private String identifier;
     private Types type;
 
 
     public Formals(int pColumn, int pLine, String indentifier, Types type) {
         super(pColumn, pLine);
-        this.indentifier = indentifier;
+        this.identifier = indentifier;
         this.type = type;
     }
 
 
     @Override
     public String toString() {
-        return  indentifier + ":" + type.toString() ;
+        return  identifier + ":" + type.toString() ;
     }
 
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public String getType() {
+        return type.getType();
+    }
 }

@@ -21,4 +21,11 @@ public class Field  extends Node {
             return "Field(" + identifier + ", " + type.toString() +", "+ expr.toString()+")";
     }
 
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public String getType() {
+        return type.getType();
+    }
 }

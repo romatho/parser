@@ -13,4 +13,8 @@ public class Types extends Node {
         return type;
     }
 
+
+    public String getType() {
+        return type;
+    }
 }

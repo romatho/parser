@@ -16,4 +16,9 @@ public class Program extends Node {
     {
         return myClasses.toString();
     }
+
+    public ParserArray<Classe> getClasses()
+    {
+        return myClasses;
+    }
 }

@@ -1,6 +1,7 @@
 package parserClasses;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ParserArray<E> extends ArrayList<E>{
 
@@ -18,4 +19,5 @@ public class ParserArray<E> extends ArrayList<E>{
         toDisplay += "]";
         return toDisplay;
     }
+
 }

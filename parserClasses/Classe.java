@@ -39,4 +39,8 @@ public class Classe extends  Node{
         return parentClasse;
     }
 
+    public ClassBody getBody() {
+        return body;
+    }
+
 }

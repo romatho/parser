@@ -1,6 +1,6 @@
 package parserClasses;
 
-public class Method extends Node {
+public class Method extends Node{
 
     private ParserArray<Formals> formals;
     private String Identifier;
@@ -23,5 +23,20 @@ public class Method extends Node {
     public String toString() {
         return "Method(" + Identifier + ", " + formals.toString()
                 + ", " + ReturnType.toString() + ", " + block.toString() + ")";
+    }
+
+    public String getIdentifier() {
+        return Identifier;
+    }
+    public ParserArray<Formals> getFormals() {
+        return formals;
+    }
+
+    public String getreturnType() {
+        return Identifier;
+    }
+
+    public String getReturnType() {
+        return ReturnType.getType();
     }
 }

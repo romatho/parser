@@ -8,8 +8,8 @@ public class ClassBody extends  Node{
     public ClassBody(int pColumn, int pLine)
     {
         super(pColumn,pLine);
-        this.myFields= new ParserArray<Field>();
-        this.myMethods= new ParserArray<Method>();
+        this.myFields= new ParserArray<>();
+        this.myMethods= new ParserArray<>();
     }
     public void addField(Field field)
     {
@@ -22,9 +22,17 @@ public class ClassBody extends  Node{
     @Override
     public String toString()
     {
+        return myFields.toString()+ ", " + myMethods.toString() ;
+    }
 
-        String toDisplay =  myFields.toString()+ ", " +myMethods.toString() ;
-        return  toDisplay;
+
+    public ParserArray<Method> getMyMethods()
+    {
+        return myMethods;
+    }
+    public ParserArray<Field> getMyFields()
+    {
+        return myFields;
     }
 
 }
