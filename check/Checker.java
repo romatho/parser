@@ -366,7 +366,7 @@ public class Checker {
                 //then the parent class contain all the method and field of his predecessor
                 if(!inheritanceNotDone.contains(entry.getValue().getParentClasse()) )
                 {
-                    for()
+                    for(HashMap.Entry<String, Method> methodList : allowedMethods.entrySet())
                 }
 
             }
