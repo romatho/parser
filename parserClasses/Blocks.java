@@ -28,17 +28,17 @@ public class Blocks extends Expressions{
 
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
-                          HashMap<String, HashMap<String, String> > classMethodeType,
-                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                          HashMap<String, HashMap<String, String> > classMethodType,
+                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
                           HashMap<String,String> localVariables)
     {
         if (type!=null)
             return type;
         for(int i=0; i<exprs.size()-1;i++)
         {
-            exprs.get(i).getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+            exprs.get(i).getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
         }
-        type= exprs.get(exprs.size()-1).getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+        type= exprs.get(exprs.size()-1).getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
         return type;
     }
 

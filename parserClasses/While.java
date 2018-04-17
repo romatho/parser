@@ -33,14 +33,14 @@ public class While extends Expressions {
 
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
-                           HashMap<String, HashMap<String, String> > classMethodeType,
-                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                           HashMap<String, HashMap<String, String> > classMethodType,
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
                            HashMap<String,String> localVariables)
     {
         if(type!=null)
             return  type;
-        String condType = condition.getType( classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
-        String bodyType = body.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+        String condType = condition.getType( classFieldType, classMethodType, classMethodFormalsType, localVariables);
+        String bodyType = body.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
         // check if there isn't already an error in the lower-level expressions
         if(condType.equals("ERROR") || bodyType.equals("ERROR"))
             type= "ERROR";

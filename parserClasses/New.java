@@ -29,8 +29,8 @@ public class New extends Expressions {
 
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
-                           HashMap<String, HashMap<String, String> > classMethodeType,
-                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                           HashMap<String, HashMap<String, String> > classMethodType,
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
                            HashMap<String,String> localVariables)
     {
         return "";

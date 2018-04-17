@@ -39,14 +39,14 @@ public class BinOp extends Expressions{
 
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
-                           HashMap<String, HashMap<String, String> > classMethodeType,
-                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                           HashMap<String, HashMap<String, String> > classMethodType,
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
                            HashMap<String,String> localVariables)
     {
         if(type!=null)
             return type;
-        String firstType = firstExp.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
-        String secondType = secondExp.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+        String firstType = firstExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
+        String secondType = secondExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
         type="ERROR";
         switch(op) {
             case "+":
