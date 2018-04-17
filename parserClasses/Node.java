@@ -11,6 +11,8 @@ public abstract class Node {
         line = pLine;
     }
 
+    public abstract String toString(boolean checkerMode);
+
     public String displayNode()
     {
         return new String(column + "," + line + "," );

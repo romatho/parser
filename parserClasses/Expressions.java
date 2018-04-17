@@ -1,13 +1,14 @@
 package parserClasses;
 
-public class Expressions extends Node {
-
+public abstract class Expressions extends Node {
 
     public Expressions(int pColumn, int pLine)
     {
         super(pColumn, pLine);
     }
 
-    public String getType(){return "type";};
+    public abstract String toString(boolean checkerMode);
+
+    public abstract String getType();
 
 }

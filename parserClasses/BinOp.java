@@ -15,17 +15,22 @@ public class BinOp extends Expressions{
     }
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
         String toDisplay = "BinOp(";
         toDisplay += op;
         toDisplay += ", ";
         toDisplay += firstExp.toString();
+        if(checkerMode)
+            toDisplay += " : " + getType();
         toDisplay += ", ";
         toDisplay += secondExp.toString();
+        if(checkerMode)
+            toDisplay += " : " + getType();
         toDisplay += ")";
         return toDisplay;
     }
+
     @Override
     public String getType()
     {

@@ -12,11 +12,11 @@ public class Blocks extends Expressions{
         }
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
         if(exprs.size() == 1)
-            return this.exprs.get(0).toString();
-        return this.exprs.toString();
+            return this.exprs.get(0).toString(checkerMode);
+        return this.exprs.toString(checkerMode);
 
     }
 

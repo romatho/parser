@@ -1,5 +1,7 @@
 package parserClasses;
 
+import check.Checker;
+
 public class Call extends Expressions {
 
     private Expressions objectExp;
@@ -16,14 +18,18 @@ public class Call extends Expressions {
 
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
         String toDisplay = "Call(";
         toDisplay += objectExp.toString();
+        if(checkerMode)
+            toDisplay += " : " + objectExp.getType();
         toDisplay += ", ";
         toDisplay += methodName;
         toDisplay += ", ";
-        toDisplay += listExp.toString();
+        toDisplay += listExp.toString(checkerMode);
+        if(checkerMode)
+            toDisplay += " : " + getType();
         toDisplay += ")";
         return toDisplay;
     }
@@ -53,5 +59,7 @@ public class Call extends Expressions {
                 return "ERROR";
             listType[i++] = e.getType();
         }
+
+
     }
 }

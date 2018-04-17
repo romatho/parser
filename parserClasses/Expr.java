@@ -10,6 +10,8 @@ public class Expr extends Node {
         into = pExpr;
     }
 
+    public String toString(boolean checkerMode) {return "";}
+
     public void display()
     {
         System.out.println(displayNode());

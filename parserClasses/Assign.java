@@ -14,12 +14,14 @@ public class Assign extends Expressions{
     }
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
         String toDisplay = "Assign(";
         toDisplay += objectIdentifier;
         toDisplay += ", ";
         toDisplay += exp.toString();
+        if(checkerMode)
+            toDisplay += " : " + getType();
         toDisplay += ")";
         return toDisplay;
     }
@@ -32,6 +34,7 @@ public class Assign extends Expressions{
         if(expType.equals("ERROR"))
             return "ERROR";
 
+        // if objectIdentifier.getType() == expType
         return expType;
     }
 }

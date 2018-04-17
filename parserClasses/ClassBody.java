@@ -20,9 +20,9 @@ public class ClassBody extends  Node{
         myMethods.add(method);
     }
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
-        return myFields.toString()+ ", " + myMethods.toString() ;
+        return myFields.toString(checkerMode)+ ", " + myMethods.toString(checkerMode);
     }
 
 

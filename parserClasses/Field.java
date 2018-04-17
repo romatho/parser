@@ -14,7 +14,7 @@ public class Field  extends Node {
     }
 
     @Override
-    public String toString() {
+    public String toString(boolean checkerMode) {
         if(expr==null)
             return "Field(" + identifier + ", " + type.toString() +")";
         else

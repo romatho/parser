@@ -13,16 +13,24 @@ public class Terminal extends Expressions{
     }
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
-        String toDisplay = value;
+        String toDisplay;
+        if(!checkerMode)
+            toDisplay = value;
+        else
+            toDisplay = value + " : " + getType();
         return toDisplay;
     }
+
     @Override
     public String getType()
     {
-        String toReturn = type;
-        return toReturn;
+        if(type.equals("bool") || type.equals("int32") ||
+                type.equals("string") || type.equals("unit"))
+            return type;
+
+
     }
 
 
