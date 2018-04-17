@@ -48,7 +48,7 @@ public class Assign extends Expressions{
         if(localType != null && !localType.equals(type))
         {
             System.err.println("FILENAME:" + this.displayNode() +
-                    "SEMANTIC error: expected the assigned expression's type to be equal to the variables type");
+                    "SEMANTIC error: expected the assigned expression's type to be equal to the variable's type");
             type = "ERROR";
         }
 
