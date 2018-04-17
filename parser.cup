@@ -194,7 +194,7 @@ terminaison::=  INTEGER_LITERAL:it
                 |STRING_LITERAL:sl
                 {: RESULT = new Terminal(0, 0, sl,"string"); :}
                 |OBJECT_IDENTIFIER:oi
-                {: RESULT = new Terminal(0, 0, oi,oi); :}
+                {: RESULT = new Terminal(0, 0, oi,"OI"); :}
                 |boolean:b
                 {: RESULT = b; :};
 

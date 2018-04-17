@@ -23,6 +23,10 @@ public class Blocks extends Expressions{
     @Override
     public String getType()
     {
+        for(int i=0; i<exprs.size()-1;i++)
+        {
+            exprs.get(i).getType();
+        }
         return exprs.get(exprs.size()-1).getType();
     }
 
