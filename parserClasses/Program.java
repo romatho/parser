@@ -12,9 +12,9 @@ public class Program extends Node {
     }
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
-        return myClasses.toString();
+        return myClasses.toString(checkerMode);
     }
 
     public ParserArray<Classe> getClasses()

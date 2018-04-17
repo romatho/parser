@@ -20,9 +20,9 @@ public class Method extends Node{
 
 
     @Override
-    public String toString() {
-        return "Method(" + Identifier + ", " + formals.toString()
-                + ", " + ReturnType.toString() + ", " + block.toString() + ")";
+    public String toString(boolean checkerMode) {
+        return "Method(" + Identifier + ", " + formals.toString(checkerMode)
+                + ", " + ReturnType.toString(checkerMode) + ", " + block.toString(checkerMode) + ")";
     }
 
     public String getIdentifier() {

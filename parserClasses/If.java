@@ -24,17 +24,17 @@ public class If extends Expressions {
     }
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
         String toDisplay = "If(";
-        toDisplay += condition.toString();
+        toDisplay += condition.toString(checkerMode);
         toDisplay += ", ";
-        toDisplay += thenStatement.toString();
+        toDisplay += thenStatement.toString(checkerMode);
 
         if(elseStatement != null)
         {
             toDisplay += ", ";
-            toDisplay += elseStatement.toString();
+            toDisplay += elseStatement.toString(checkerMode);
         }
 
         toDisplay += ")";

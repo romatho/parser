@@ -15,12 +15,12 @@ public class While extends Expressions {
     }
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
         String toDisplay = "While(";
-        toDisplay += condition.toString();
+        toDisplay += condition.toString(checkerMode);
         toDisplay += ", ";
-        toDisplay += body.toString();
+        toDisplay += body.toString(checkerMode);
         toDisplay += ")";
         return toDisplay;
     }

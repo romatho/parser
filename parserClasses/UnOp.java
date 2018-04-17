@@ -12,12 +12,12 @@ public class UnOp extends Expressions{
     }
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
         String toDisplay = "UnOp(";
         toDisplay += firstElement;
         toDisplay += ", ";
-        toDisplay += exp.toString();
+        toDisplay += exp.toString(checkerMode);
         toDisplay += ")";
         return toDisplay;
     }

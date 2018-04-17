@@ -13,7 +13,8 @@ public class Formals extends Node {
 
 
     @Override
-    public String toString() {
+    public String toString(boolean checkerMode)
+    {
         return  identifier + ":" + type.toString() ;
     }
 

@@ -15,11 +15,9 @@ public class Terminal extends Expressions{
     @Override
     public String toString(boolean checkerMode)
     {
-        String toDisplay;
-        if(!checkerMode)
-            toDisplay = value;
-        else
-            toDisplay = value + " : " + getType();
+        String toDisplay = value;
+        if(checkerMode)
+            toDisplay += " : " + getType();
         return toDisplay;
     }
 

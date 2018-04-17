@@ -27,21 +27,26 @@ public class Let extends Expressions{
     }
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
         String toDisplay = "Let(";
         toDisplay += objectIdentifier;
         toDisplay += ", ";
-        toDisplay += type.toString();
+        toDisplay += type.toString(checkerMode);
         toDisplay += ", ";
-        toDisplay += scope.toString();
+        toDisplay += scope.toString(checkerMode);
         if(init != null)
         {
             toDisplay += ", ";
-            toDisplay += init.toString();
+            toDisplay += init.toString(checkerMode);
         }
         toDisplay += ")";
         return toDisplay;
+    }
+
+    public String getType()
+    {
+
     }
 }
 

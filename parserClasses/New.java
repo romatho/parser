@@ -12,11 +12,19 @@ public class New extends Expressions {
     }
 
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
         String toDisplay = "New(";
-        toDisplay += typeIdentifier.toString();
+        toDisplay += typeIdentifier.toString(checkerMode);
         toDisplay += ")";
+        if(checkerMode)
+            toDisplay += " : " + typeIdentifier.toString(checkerMode);
         return toDisplay;
+    }
+
+    @Override
+    public String getType()
+    {
+
     }
 }

@@ -8,7 +8,7 @@ public class Types extends Node {
         this.type= type;
     }
     @Override
-    public String toString()
+    public String toString(boolean checkerMode)
     {
         return type;
     }
