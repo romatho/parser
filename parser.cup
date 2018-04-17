@@ -7,6 +7,7 @@ parser code
 {:
   public String filename;
   public int toReturn = 0;
+  public program p = RESULT;
 
   public parser(java_cup.runtime.Scanner s, String pFilename) {
       super(s);

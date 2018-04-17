@@ -1,5 +1,7 @@
 package parserClasses;
 
+import java.util.HashMap;
+
 public class Assign extends Expressions{
 
     private String objectIdentifier;

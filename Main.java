@@ -1,4 +1,6 @@
 import java_cup.runtime.*;
+import parserClasses.Program;
+import parserClasses.*;
 import check.Checker;
 
 import java.io.FileNotFoundException;
@@ -54,6 +56,9 @@ public class Main {
 			Symbol parsed = null;
 			try {
 				parsed = p.parse();
+				Program program = (Program) parsed.value;
+				System.out.println(program.toString());
+
 				//System.out.println(p.program.toString());
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -63,7 +68,25 @@ public class Main {
         }
 		else if(arg[0].equals("-check"))
 		{
-			Checker c = new Checker();
+			parser p = null;
+			try {
+				p = new parser(new Lexer(new FileReader(path), path), path);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			Symbol parsed = null;
+			try {
+
+				parsed = p.parse();
+				Program program = (Program) parsed.value;
+//				System.out.println(program.toString());
+				Checker c = new Checker(program);
+					//System.out.println(p.program.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+
 		}
         else
         {
