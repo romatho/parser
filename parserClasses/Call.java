@@ -27,4 +27,31 @@ public class Call extends Expressions {
         toDisplay += ")";
         return toDisplay;
     }
+
+    @Override
+    public String getType()
+    {
+        String objectType = objectExp.getType();
+
+        if(objectType.equals("ERROR"))
+            return "ERROR";
+
+        if(objectType.equals("bool") || objectType.equals("int32") ||
+                objectType.equals("string") || objectType.equals("unit"))
+        {
+            System.out.println("FILENAME:" + objectExp.displayNode() +
+                    "SEMANTIC error: a variable of type " + objectType + " cannot have a method");
+            return "ERROR";
+        }
+
+        String[] listType = new String[listExp.size()];
+
+        int i = 0;
+        for(Expressions e : listExp)
+        {
+            if(e.getType().equals("ERROR"))
+                return "ERROR";
+            listType[i++] = e.getType();
+        }
+    }
 }

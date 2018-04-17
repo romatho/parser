@@ -2,7 +2,6 @@ package parserClasses;
 
 public class Assign extends Expressions{
 
-
     private String objectIdentifier;
     private Expressions exp;
 
@@ -23,5 +22,16 @@ public class Assign extends Expressions{
         toDisplay += exp.toString();
         toDisplay += ")";
         return toDisplay;
+    }
+
+    @Override
+    public String getType()
+    {
+        String expType = exp.getType();
+
+        if(expType.equals("ERROR"))
+            return "ERROR";
+
+        return expType;
     }
 }
