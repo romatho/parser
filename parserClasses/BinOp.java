@@ -1,5 +1,10 @@
 package parserClasses;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class BinOp extends Expressions{
 
     private String op;
@@ -32,10 +37,13 @@ public class BinOp extends Expressions{
     }
 
     @Override
-    public String getType()
+    public String getType( HashMap<String, HashMap<String, String>> classFieldType,
+                           HashMap<String, HashMap<String, String> > classMethodeType,
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                           HashMap<String,String> localVariables)
     {
-        String firstType = firstExp.getType();
-        String secondType = secondExp.getType();
+        String firstType = firstExp.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+        String secondType = secondExp.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
         String toReturn="ERROR";
         switch(op) {
             case "+":

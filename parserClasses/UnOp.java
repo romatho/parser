@@ -1,5 +1,10 @@
 package parserClasses;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class UnOp extends Expressions{
     private String firstElement;
     private Expressions exp;
@@ -23,9 +28,12 @@ public class UnOp extends Expressions{
     }
 
     @Override
-    public String getType()
+    public String getType( HashMap<String, HashMap<String, String>> classFieldType,
+                           HashMap<String, HashMap<String, String> > classMethodeType,
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                           HashMap<String,String> localVariables)
     {
-        String expType = exp.getType();
+        String expType = exp.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
         // check if there isn't already an error in the lower-level expressions
         if(expType.equals("ERROR"))
             return "ERROR";

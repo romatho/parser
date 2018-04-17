@@ -1,5 +1,10 @@
 package parserClasses;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Let extends Expressions{
 
     private String objectIdentifier;
@@ -45,7 +50,10 @@ public class Let extends Expressions{
     }
 
     @Override
-    public String getType()
+    public String getType( HashMap<String, HashMap<String, String>> classFieldType,
+                           HashMap<String, HashMap<String, String> > classMethodeType,
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                           HashMap<String,String> localVariables)
     {
         return "";
     }

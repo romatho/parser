@@ -1,5 +1,10 @@
 package parserClasses;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class If extends Expressions {
     private Expressions condition;
     private Expressions thenStatement;
@@ -42,25 +47,28 @@ public class If extends Expressions {
     }
 
     @Override
-    public String getType()
+    public String getType( HashMap<String, HashMap<String, String>> classFieldType,
+                           HashMap<String, HashMap<String, String> > classMethodeType,
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                           HashMap<String,String> localVariables)
     {
-        if(condition.getType().equals("ERROR") || thenStatement.getType().equals("ERROR") ||
-                elseStatement.getType().equals("ERROR"))
+        if(condition.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables).equals("ERROR") || thenStatement.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables).equals("ERROR") ||
+                elseStatement.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables).equals("ERROR"))
             return "ERROR";
 
-        if(!condition.getType().equals("bool"))
+        if(!condition.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables).equals("bool"))
         {
             System.err.println("FILENAME:"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
             return "ERROR";
         }
 
-        if(thenStatement.getType().equals(elseStatement.getType()))
-            return thenStatement.getType();
-        else if (thenStatement.getType().equals("unit"))
+        if(thenStatement.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables).equals(elseStatement.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables)))
+            return thenStatement.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+        else if (thenStatement.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables).equals("unit"))
         {
             return "unit";
         }
-        else if (elseStatement.getType().equals("unit"))
+        else if (elseStatement.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables).equals("unit"))
         {
             return "unit";
         }

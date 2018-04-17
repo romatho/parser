@@ -1,5 +1,10 @@
 package parserClasses;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class While extends Expressions {
 
     private Expressions condition;
@@ -26,10 +31,13 @@ public class While extends Expressions {
     }
 
     @Override
-    public String getType()
+    public String getType( HashMap<String, HashMap<String, String>> classFieldType,
+                           HashMap<String, HashMap<String, String> > classMethodeType,
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                           HashMap<String,String> localVariables)
     {
-        String condType = condition.getType();
-        String bodyType = body.getType();
+        String condType = condition.getType( classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+        String bodyType = body.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
         // check if there isn't already an error in the lower-level expressions
         if(condType.equals("ERROR") || bodyType.equals("ERROR"))
             return "ERROR";

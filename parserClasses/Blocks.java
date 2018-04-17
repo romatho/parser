@@ -1,5 +1,10 @@
 package parserClasses;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Blocks extends Expressions{
         private ParserArray<Expressions> exprs;
 
@@ -21,13 +26,16 @@ public class Blocks extends Expressions{
     }
 
     @Override
-    public String getType()
+    public String getType( HashMap<String, HashMap<String, String>> classFieldType,
+                          HashMap<String, HashMap<String, String> > classMethodeType,
+                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                          HashMap<String,String> localVariables)
     {
         for(int i=0; i<exprs.size()-1;i++)
         {
-            exprs.get(i).getType();
+            exprs.get(i).getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
         }
-        return exprs.get(exprs.size()-1).getType();
+        return exprs.get(exprs.size()-1).getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
     }
 
 }

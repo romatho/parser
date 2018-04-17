@@ -1,5 +1,8 @@
 package parserClasses;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Call extends Expressions {
@@ -35,9 +38,12 @@ public class Call extends Expressions {
     }
 
     @Override
-    public String getType()
+    public String getType( HashMap<String, HashMap<String, String>> classFieldType,
+                           HashMap<String, HashMap<String, String> > classMethodeType,
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                           HashMap<String,String> localVariables)
     {
-        String objectType = objectExp.getType();
+        String objectType = objectExp.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
 
         if(objectType.equals("ERROR"))
             return "ERROR";
@@ -57,9 +63,9 @@ public class Call extends Expressions {
         int i = 0;
         for(Expressions e : listExp)
         {
-            if(e.getType().equals("ERROR"))
+            if(e.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables).equals("ERROR"))
                 return "ERROR";
-            listType[i++] = e.getType();
+            listType[i++] = e.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
         }
 
         //TODO: return smth else
