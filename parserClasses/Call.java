@@ -10,6 +10,7 @@ public class Call extends Expressions {
     private Expressions objectExp;
     private String methodName;
     private ParserArray<Expressions> listExp;
+    private String type;
 
     public Call(int pColumn, int pLine, Expressions pObjectExp, String pMethodName, ParserArray<Expressions> pListExp)
     {
@@ -17,6 +18,7 @@ public class Call extends Expressions {
         objectExp = pObjectExp;
         methodName = pMethodName;
         listExp = pListExp;
+        type = null;
     }
 
 
@@ -26,49 +28,61 @@ public class Call extends Expressions {
         String toDisplay = "Call(";
         toDisplay += objectExp.toString();
         if(checkerMode)
-            toDisplay += " : " + objectExp.getType();
+            toDisplay += " : " + type;
         toDisplay += ", ";
         toDisplay += methodName;
         toDisplay += ", ";
         toDisplay += listExp.toString(checkerMode);
         if(checkerMode)
-            toDisplay += " : " + getType();
+            toDisplay += " : " + type;
         toDisplay += ")";
         return toDisplay;
     }
 
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
-                           HashMap<String, HashMap<String, String> > classMethodeType,
-                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
+                           HashMap<String, HashMap<String, String> > classMethodType,
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
                            HashMap<String,String> localVariables)
     {
-        String objectType = objectExp.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+        String objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
 
         if(objectType.equals("ERROR"))
-            return "ERROR";
+        {
+            type = "ERROR";
+            return type;
+        }
 
         if(objectType.equals("bool") || objectType.equals("int32") ||
                 objectType.equals("string") || objectType.equals("unit"))
         {
             System.err.println("FILENAME:" + objectExp.displayNode() +
-                    "SEMANTIC error: a variable of type " + objectType + " cannot have a method");
-            return "ERROR";
+                    "SEMANTIC error: A variable of type " + objectType + " cannot have a method.");
+            type = "ERROR";
+            return type;
         }
 
-
-
-        String[] listType = new String[listExp.size()];
-
+        // check if the arguments given to the function have the same type as the formals
         int i = 0;
         for(Expressions e : listExp)
         {
-            if(e.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables).equals("ERROR"))
-                return "ERROR";
-            listType[i++] = e.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+            if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables).equals("ERROR"))
+            {
+                type = "ERROR";
+                return type;
+            }
+            String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
+            Pair<String, String> argument = classMethodFormalsType.get(objectType).get(methodName).get(i);
+            if(!argument.getValue().equals(argType))
+            {
+                System.err.println("FILENAME:" + objectExp.displayNode() +
+                        "SEMANTIC error: The argument " + argument.getKey() + " must be of type " +
+                        argument.getValue() + " and not " + argType);
+                type = "ERROR";
+                return type;
+            }
         }
 
-        //TODO: return smth else
-        return "";
+        return classMethodType.get(objectType).get(methodName);
     }
 }
