@@ -43,7 +43,7 @@ public class Call extends Expressions {
         if(objectType.equals("bool") || objectType.equals("int32") ||
                 objectType.equals("string") || objectType.equals("unit"))
         {
-            System.out.println("FILENAME:" + objectExp.displayNode() +
+            System.err.println("FILENAME:" + objectExp.displayNode() +
                     "SEMANTIC error: a variable of type " + objectType + " cannot have a method");
             return "ERROR";
         }

@@ -44,12 +44,12 @@ public class BinOp extends Expressions{
             else if (!firstType.equals("int32")&&!firstType.equals("ERROR"))
             {
                 toReturn="ERROR";
-                System.out.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator + not "+firstType);
+                System.err.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator + not "+firstType);
             }
             else if (!secondType.equals("int32")&&!secondType.equals("ERROR"))
             {
                 toReturn="ERROR";
-                System.out.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator + not "+secondType);
+                System.err.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator + not "+secondType);
             }
             break;
             case "<":
@@ -58,12 +58,12 @@ public class BinOp extends Expressions{
                 else if (!firstType.equals("int32")&&!firstType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator < not "+firstType);
+                    System.err.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator < not "+firstType);
                 }
                 else if (!secondType.equals("int32")&&!secondType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator < not "+secondType);
+                    System.err.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator < not "+secondType);
                 }
                 break;
             case "<=":
@@ -72,12 +72,12 @@ public class BinOp extends Expressions{
                 else if (!firstType.equals("int32")&&!firstType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator <= not "+firstType);
+                    System.err.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator <= not "+firstType);
                 }
                 else if (!secondType.equals("int32")&&!secondType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator <= not "+secondType);
+                    System.err.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator <= not "+secondType);
                 }
                 break;
             case "-":
@@ -86,12 +86,12 @@ public class BinOp extends Expressions{
                 else if (!firstType.equals("int32")&&!firstType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator - not "+firstType);
+                    System.err.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator - not "+firstType);
                 }
                 else if (!secondType.equals("int32")&&!secondType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator - not "+secondType);
+                    System.err.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator - not "+secondType);
                 }
                 break;
             case "*":
@@ -100,12 +100,12 @@ public class BinOp extends Expressions{
                 else if (!firstType.equals("int32")&&!firstType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator * not "+firstType);
+                    System.err.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator * not "+firstType);
                 }
                 else if (!secondType.equals("int32")&&!secondType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator * not "+secondType);
+                    System.err.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator * not "+secondType);
                 }
                 break;
             case "/":
@@ -114,12 +114,12 @@ public class BinOp extends Expressions{
                 else if (!firstType.equals("int32")&&!firstType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator / not "+firstType);
+                    System.err.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator / not "+firstType);
                 }
                 else if (!secondType.equals("int32")&&!secondType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator / not "+secondType);
+                    System.err.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator / not "+secondType);
                 }
                 break;
             case "^":
@@ -128,12 +128,12 @@ public class BinOp extends Expressions{
                 else if (!firstType.equals("int32")&&!firstType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator  not "+firstType);
+                    System.err.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected int32 with operator  not "+firstType);
                 }
                 else if (!secondType.equals("int32")&&!secondType.equals("ERROR"))
                 {
                     toReturn="ERROR";
-                    System.out.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator ^ not "+secondType);
+                    System.err.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected int32 with operator ^ not "+secondType);
                 }
                 break;
             case "and":
@@ -142,12 +142,12 @@ public class BinOp extends Expressions{
                 else if (!firstType.equals("bool")&&!firstType.equals("ERROR"))
             {
                 toReturn="ERROR";
-                System.out.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected bool with operator and not "+firstType);
+                System.err.println("FILENAME:"+ firstExp.displayNode()+"SEMANTIC error: expected bool with operator and not "+firstType);
             }
             else if (!secondType.equals("bool")&&!secondType.equals("ERROR"))
             {
                 toReturn="ERROR";
-                System.out.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected bool with operator and not "+secondType);
+                System.err.println("FILENAME:"+ secondExp.displayNode()+"SEMANTIC error: expected bool with operator and not "+secondType);
             }
             break;
             case "_":
@@ -156,7 +156,7 @@ public class BinOp extends Expressions{
                 else if (!secondType.equals("ERROR")&&!firstType.equals("ERROR"))
             {
                 toReturn="ERROR";
-                System.out.println("FILENAME:"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
+                System.err.println("FILENAME:"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
             }
         }
         return toReturn;

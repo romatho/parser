@@ -50,7 +50,7 @@ public class If extends Expressions {
 
         if(!condition.getType().equals("bool"))
         {
-            System.out.println("FILENAME:"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
+            System.err.println("FILENAME:"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
             return "ERROR";
         }
 
@@ -66,7 +66,7 @@ public class If extends Expressions {
         }
         else
         {
-            System.out.println("FILENAME:"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
+            System.err.println("FILENAME:"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
             return "ERROR";
         }
 
