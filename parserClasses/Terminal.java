@@ -53,7 +53,7 @@ public class Terminal extends Expressions{
                 }
                 else
                 {
-                    type = classFieldType.get(classe).get(value)
+                    type = classFieldType.get(classe).get(value);
                     return type;
                 }
             } else {
@@ -64,7 +64,7 @@ public class Terminal extends Expressions{
         } else {
             return type;
         }
-
+    return type;
     }
 
 }
