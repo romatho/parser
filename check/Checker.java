@@ -305,22 +305,27 @@ public class Checker {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void displayHash() {
+        System.out.println("affichage hashtable Classe");
+        for (HashMap.Entry<String, Classe> entry : allowedClasses.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue().toString());
+        }
+        System.out.println("affichage hashtable Method");
+        for (HashMap.Entry<String, HashMap<String, Method> > entry : allowedMethods.entrySet()) {
+            System.out.println(entry.getKey());
+            for (HashMap.Entry<String, Method> entrySec : entry.getValue().entrySet()) {
+                System.out.println(entrySec.getKey());
+                System.out.println(entrySec.getValue().toString());
+            }
+        }
+        System.out.println("affichage hashtable Classe");
+        for (HashMap.Entry<String, HashMap<String, Field> > entry : allowedField.entrySet()) {
+            System.out.println(entry.getKey());
+            for (HashMap.Entry<String, Field> entrySec : entry.getValue().entrySet()) {
+                System.out.println(entrySec.getKey());
+                System.out.println(entrySec.getValue().toString());
+            }
+        }
+    }
 }
