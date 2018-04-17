@@ -31,7 +31,7 @@ public class New extends Expressions {
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables)
+                           HashMap<String,String> localVariables, String classe)
     {
         return "";
     }

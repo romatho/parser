@@ -43,12 +43,12 @@ public class Call extends Expressions {
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables)
+                           HashMap<String,String> localVariables, String classe)
     {
         if(type != null)
             return type;
 
-        String objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
+        String objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe);
 
         if(objectType.equals("ERROR"))
         {
@@ -79,12 +79,12 @@ public class Call extends Expressions {
         int i = 0;
         for(Expressions e : listExp)
         {
-            if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables).equals("ERROR"))
+            if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe).equals("ERROR"))
             {
                 type = "ERROR";
                 return type;
             }
-            String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
+            String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe);
             Pair<String, String> argument = classMethodFormalsType.get(objectType).get(methodName).get(i);
             if(!argument.getValue().equals(argType))
             {

@@ -35,11 +35,11 @@ public class Assign extends Expressions{
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                           HashMap<String, HashMap<String, String> > classMethodType,
-                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType, HashMap<String,String> localVariables)
+                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe)
     {
         if(type!=null)
             return  type;
-        type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
+        type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe);
 
 
         // if objectIdentifier.getType() == expType

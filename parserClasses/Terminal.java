@@ -29,13 +29,18 @@ public class Terminal extends Expressions{
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables)
+                           HashMap<String,String> localVariables, String classe)
     {
         if(type.equals("bool") || type.equals("int32") ||
                 type.equals("string") || type.equals("unit"))
             return type;
 
-        return "";
+        else{
+            if(localVariables.get(value)==null)
+            {
+                if()
+            }
+        }
     }
 
 
