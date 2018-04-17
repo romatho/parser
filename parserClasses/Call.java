@@ -1,5 +1,7 @@
 package parserClasses;
 
+import java.util.HashMap;
+
 public class Call extends Expressions {
 
     private Expressions objectExp;
@@ -47,6 +49,8 @@ public class Call extends Expressions {
                     "SEMANTIC error: a variable of type " + objectType + " cannot have a method");
             return "ERROR";
         }
+
+
 
         String[] listType = new String[listExp.size()];
 

@@ -25,8 +25,8 @@ public class Checker {
 
 
     private HashMap<String, HashMap<String, String> > classFieldType;
-    private HashMap<String, HashMap<String, String> > classMethodeType;
-    private HashMap<String, HashMap<String, ArrayList< Pair<String, String> > > > classMethodeFormalsType;
+    private HashMap<String, HashMap<String, String> > classMethodType;
+    private HashMap<String, HashMap<String, ArrayList< Pair<String, String> > > > classMethodFormalsType;
 
     /*CONSTRUCTOR*/
 
