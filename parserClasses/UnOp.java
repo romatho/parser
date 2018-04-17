@@ -32,11 +32,11 @@ public class UnOp extends Expressions{
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe)
+                           HashMap<String,String> localVariables, String classe, String methode)
     {
         if(type!=null)
             return type;
-        String expType = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe);
+        String expType = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, methode);
         // check if there isn't already an error in the lower-level expressions
         if(expType.equals("ERROR"))
             type= "ERROR";
