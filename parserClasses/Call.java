@@ -53,11 +53,21 @@ public class Call extends Expressions {
             return type;
         }
 
+        // check if the call is really made on a method of a class
         if(objectType.equals("bool") || objectType.equals("int32") ||
                 objectType.equals("string") || objectType.equals("unit"))
         {
             System.err.println("FILENAME:" + objectExp.displayNode() +
                     "SEMANTIC error: A variable of type " + objectType + " cannot have a method.");
+            type = "ERROR";
+            return type;
+        }
+
+        // check if the class contains the specified method or not
+        if(classMethodType.get(objectType).get(methodName) == null)
+        {
+            System.err.println("FILENAME:" + objectExp.displayNode() +
+                    "SEMANTIC error: An object of class " + objectType + " doesn't have a method " + methodName);
             type = "ERROR";
             return type;
         }
