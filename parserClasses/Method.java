@@ -1,5 +1,10 @@
 package parserClasses;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Method extends Node{
 
     private ParserArray<Formals> formals;
@@ -32,8 +37,12 @@ public class Method extends Node{
         return formals;
     }
 
-    public String getreturnType() {
-        return Identifier;
+    public void getType(HashMap<String, HashMap<String, String>> classFieldType,
+                   HashMap<String, HashMap<String, String> > classMethodType,
+                   HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
+                   HashMap<String,String> localVariables, String classe)
+    {
+        this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, Identifier);
     }
 
     public String getReturnType() {
