@@ -3,13 +3,8 @@ class C {
     i : int32;
 }
 
-
-
-    HashMap<String, string> classeName-type
-
-
-    HashMap<String, HashMap<String, string> > classeName-methodName-type;
-    HashMap<String, HashMap<String, string> > classeName-fieldName-type;
-    HashMap<String, HashMap<String, HashMap<String, String> > > classeName-methodName-formalName-type;
-    HashMap< >
-    HashMap<String, String> allowedField;
+class D extends C{
+    // Fields should begin with lower-case letter
+    j : int32;
+    i : int32;
+}

@@ -1,5 +1,6 @@
 package check;
 
+
 import javafx.util.Pair;
 import parserClasses.*;
 
@@ -14,7 +15,7 @@ public class Checker {
 
     private int nbError;
     //map allowed class with their name
-    private HashMap<String, classe, methode> allowedClasses;
+    private HashMap<String, Classe> allowedClasses;
     //map allowed method with their name and their class name
     private HashMap<String, HashMap<String, Method> > allowedMethods;
     //map allowed formals with their name , their associated name and their associated class name
@@ -27,6 +28,7 @@ public class Checker {
     private HashMap<String, HashMap<String, String> > classFieldType;
     private HashMap<String, HashMap<String, String> > classMethodType;
     private HashMap<String, HashMap<String, ArrayList< Pair<String, String> > > > classMethodFormalsType;
+//    private HashMap<String, HashMap<String, HashMap<String, String> > > classMethodeFormalsType;
 
     /*CONSTRUCTOR*/
 
@@ -38,9 +40,11 @@ public class Checker {
         allowedMethods = new HashMap<>();
         allowedField = new HashMap<>();
         allowedFormals = new HashMap<>();
+        classFieldType = new HashMap<>();
+        classMethodType = new HashMap<>();
+        classMethodFormalsType = new HashMap<>();
         System.out.println("Checker initialized successfully.");
         semanticCheck(program);
-        displayHash();
     }
 
     /*PRIVATE*/
@@ -69,11 +73,17 @@ public class Checker {
         //first pass
         checkClass(program.getClasses());
         //second pass
-        for(HashMap.Entry<String, classe, methode> current: allowedClasses.entrySet()){
+        for(HashMap.Entry<String, Classe> current: allowedClasses.entrySet()){
             checkMethod(current.getValue());
             checkField(current.getValue());
         }
+        //displayHash();
         addInheritance();
+        System.out.println();
+        System.out.println("convertHashmap output");
+        System.out.println();
+        convertHashmap();
+        //displayStringHash();
 
 
     }
@@ -93,7 +103,7 @@ public class Checker {
          * classesMap is a map containing all the Classes of the program
          * Creation of classesMap and check the re-definition of Classe
          */
-        HashMap<String, classe, methode> classesMap = new HashMap<>();
+        HashMap<String, Classe> classesMap = new HashMap<>();
 
         for(Classe current: sons)
         {
@@ -124,9 +134,9 @@ public class Checker {
          * For each Classe in classesMap, loop on predecessors to create a 'toAdd' map with all the predecessors of the current Classe
          * This 'toAdd' is then added to the map of classes 'allowedClasses'.
          */
-        for(HashMap.Entry<String, classe, methode> entry : classesMap.entrySet())
+        for(HashMap.Entry<String, Classe> entry : classesMap.entrySet())
         {
-            Map<String, classe, methode> toAdd = new HashMap<>();
+            Map<String, Classe> toAdd = new HashMap<>();
             String it = entry.getKey();
             /*
              * The loop stop if :
@@ -141,7 +151,7 @@ public class Checker {
                     !it.equals("IO") &&
                     !it.equals("Object"))
             {
-                toAdd.put(it, classe, methodesMap.get(it));
+                toAdd.put(it, classesMap.get(it));
                 it = classesMap.get(it).getParentClasse();
             }
             if(toAdd.containsKey(it))
@@ -319,10 +329,10 @@ public class Checker {
         System.out.println();
         System.out.println("***affichage hashtable Classe***");
         System.out.println();
-        for (HashMap.Entry<String, classe, methode> entry : allowedClasses.entrySet()) {
-            System.out.print("nom classe : ");
+        for (HashMap.Entry<String, Classe> entry : allowedClasses.entrySet()) {
+            System.out.print(" nom classe : ");
             System.out.println(entry.getKey());
-            System.out.println(entry.getValue().toString());
+            System.out.println(entry.getValue().toString(false));
         }
         System.out.println();
         System.out.println("***affichage hashtable Method***");
@@ -334,7 +344,7 @@ public class Checker {
                 System.out.print("nom methode : ");
                 System.out.print(entrySec.getKey());
                 System.out.print(" valeur methode : ");
-                System.out.println(entrySec.getValue().toString());
+                System.out.println(entrySec.getValue().toString(false));
             }
         }
         System.out.println();
@@ -347,28 +357,188 @@ public class Checker {
                 System.out.print("nom field : ");
                 System.out.print(entrySec.getKey());
                 System.out.print(" valeur field : ");
-                System.out.println(entrySec.getValue().toString());
+                System.out.println(entrySec.getValue().toString(false));
             }
         }
     }
+
+    public void displayStringHash() {
+
+        System.out.println();
+        System.out.println("***display String Hash Debut***");
+        System.out.println("***affichage hashtable field***");
+        System.out.println();
+        for (HashMap.Entry<String, HashMap<String, String> > classEntry : classFieldType.entrySet()) {
+            System.out.print("nom classe : ");
+            System.out.println(classEntry.getKey());
+            if(classFieldType.containsKey(classEntry.getKey()))
+                for(HashMap.Entry<String, String> fieldEntry : classFieldType.get(classEntry.getKey()).entrySet())
+                {
+                    System.out.print("\t nom field : ");
+                    System.out.print(fieldEntry.getKey());
+                    System.out.println(" return type: " + fieldEntry.getValue());
+                }
+
+        }
+
+        System.out.println();
+        System.out.println("***affichage hashtable method***");
+        System.out.println();
+        for (HashMap.Entry<String, HashMap<String, String> > classEntry : classMethodType.entrySet()) {
+            System.out.print("nom classe : ");
+            System.out.println(classEntry.getKey());
+            for(HashMap.Entry<String, String> methodEntry : classMethodType.get(classEntry.getKey()).entrySet())
+            {
+                System.out.print("\t nom method : ");
+                System.out.print(methodEntry.getKey());
+                System.out.println(" return type: " + methodEntry.getValue());
+            }
+
+        }
+
+        System.out.println();
+        System.out.println("***affichage hashtable method formal***");
+        System.out.println();
+        for (HashMap.Entry<String, HashMap<String, ArrayList < Pair<String, String> > > > classEntry : classMethodFormalsType.entrySet()) {
+            System.out.print("nom classe : ");
+            System.out.println(classEntry.getKey());
+
+            for (HashMap.Entry<String, ArrayList < Pair<String, String> > > methodEntry : classEntry.getValue().entrySet()) {
+                System.out.print("\t nom methode : ");
+                System.out.println(methodEntry.getKey());
+
+                for (Pair <String, String > formalEntry : methodEntry.getValue()) {
+                    System.out.print("\t \t ");
+                    System.out.print("nom formal : ");
+                    System.out.print(formalEntry.getKey());
+                    System.out.print(" return type: ");
+                    System.out.println(formalEntry.getValue());
+                }
+            }
+        }
+        System.out.println("***display String Hash Fin***");
+    }
+
+
+
+
+
     public void addInheritance()
     {
-        ArrayList<String> inheritanceNotDone();
-        for(HashMap.Entry<String, classe, methode> entry : allowedClasses.entrySet())
+        ArrayList<String> inheritanceNotDone= new ArrayList<>();
+        for(HashMap.Entry<String, Classe> entry : allowedClasses.entrySet())
         {
-            if(!(entry.getValue().getParentClasse() == "IO") && !(entry.getValue().getParentClasse() == "Object" ))
+            if(!entry.getValue().getParentClasse().equals("IO") && !entry.getValue().getParentClasse().equals("Object" ))
                 inheritanceNotDone.add(entry.getKey());
         }
+        System.out.println("inheritance not Done = ");
+        for(String toDisp : inheritanceNotDone)
+            System.out.println(toDisp);
         while(inheritanceNotDone.size() !=0)
         {
-            for(HashMap.Entry<String, classe, methode> entry : allowedClasses.entrySet())
+            for(HashMap.Entry<String, Classe> entry : allowedClasses.entrySet())
             {
                 //then the parent class contain all the method and field of his predecessor
                 if(!inheritanceNotDone.contains(entry.getValue().getParentClasse()) )
                 {
-                    for(HashMap.Entry<String, Method> methodList : allowedMethods.entrySet())
+                    //check in all the method of the parent
+                    if(allowedMethods.containsKey(entry.getValue().getParentClasse()))
+                    {
+                        for(HashMap.Entry<String, Method> method: allowedMethods.get(entry.getValue().getParentClasse()).entrySet() )
+                        {
+                            if(allowedMethods.get(entry.getKey()).containsKey(method.getKey()))
+                            {
+                                Method parentMethod = method.getValue();
+                                Method currentClassMethod = allowedMethods.get(entry.getKey()).get(method.getValue().getIdentifier());
+                                if(!checkMethodPrototypeEquality(parentMethod, currentClassMethod))
+                                    System.out.println("Error: Wrong re-definition of the parent Method " + parentMethod.getIdentifier());
+                            }
+                            else
+                            {
+                                allowedMethods.get(entry.getKey()).put(method.getKey(), method.getValue());
+                                HashMap<String, Formals> toAdd = allowedFormals.get(entry.getValue().getParentClasse()).get(method.getValue().getIdentifier());
+                                allowedFormals.get(entry.getKey()).put(method.getKey(), toAdd);
+                            }
+                        }
+                    }
+                    //check in all the Field of the parent
+                    if(allowedField.containsKey(entry.getValue().getParentClasse()))
+                    {
+                        for(HashMap.Entry<String, Field> field: allowedField.get(entry.getValue().getParentClasse()).entrySet())
+                        {
+                            if(allowedField.get(entry.getKey()).containsKey(field.getKey()))
+                            {
+                                System.out.println("Error: re-definition of the parent Field " + field.getKey());
+                            }
+                            else
+                            {
+                                allowedField.get(entry.getKey()).put(field.getKey(), field.getValue());
+                            }
+                        }
+                    }
+                    //remove the element for inheritance list
+                    inheritanceNotDone.remove(entry.getKey());
                 }
+            }
+        }
+    }
 
+    private Boolean checkMethodPrototypeEquality(Method a, Method b)
+    {
+        if(a.getReturnType().equals(b.getReturnType()) &&
+                a.getFormals().size() == b.getFormals().size())
+        {
+            for(int i = 0; i< a.getFormals().size(); i++)
+            {
+                if(a.getFormals().get(i).getType().equals(a.getFormals().get(i).getType()))
+                    return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    //convert hashmap of object into hashmap of String
+    private void convertHashmap()
+    {
+        for(HashMap.Entry<String, Classe> classEntry: allowedClasses.entrySet()) {
+            HashMap<String, String> methoConvert = new HashMap<>();
+            HashMap<String, ArrayList<Pair<String, String> > > formalConvert = new HashMap<>();
+            HashMap<String, HashMap<String, Formals>> allowedFormalsMethod = allowedFormals.get(classEntry.getKey());
+            System.out.println("class entry get key: " + classEntry.getKey() + " done ");
+            System.out.println("method filling");
+            if(allowedMethods.containsKey(classEntry.getKey())){
+                for (HashMap.Entry<String, Method> methodEntry : allowedMethods.get(classEntry.getKey()).entrySet()) {
+                    methoConvert.put(methodEntry.getKey(), methodEntry.getValue().getReturnType());
+
+                    ArrayList< Pair <String, String> > methodFormalConvert = new ArrayList<>();
+                    if(methodEntry.getValue().getFormals().size() >0 ){
+                        for (Formals formal : methodEntry.getValue().getFormals())
+                            methodFormalConvert.add(new Pair(formal.getIdentifier(), formal.getType()));
+                        formalConvert.put(methodEntry.getKey(), methodFormalConvert);
+                    }
+
+                    /*
+                    HashMap<String, String> methodeFormalConvert = new HashMap<>();
+                    if(allowedFormalsMethod.containsKey(methodEntry.getKey())){
+                        for (HashMap.Entry<String, Formals> formalEntry : allowedFormalsMethod.get(methodEntry.getKey()).entrySet())
+                            methodeFormalConvert.put(formalEntry.getKey(), formalEntry.getValue().getType());
+                        formalConvert.put(methodEntry.getKey(), methodeFormalConvert);
+                    }*/
+
+                }
+                classMethodType.put(classEntry.getKey(), methoConvert);
+                classMethodFormalsType.put(classEntry.getKey(), formalConvert);
+            }
+            /**/
+            System.out.println("field filling");
+            HashMap<String, String> fieldConvert = new HashMap<>();
+            if(allowedField.containsKey(classEntry.getKey()))
+            {
+                for (HashMap.Entry<String, Field> fieldEntry : allowedField.get(classEntry.getKey()).entrySet())
+                    fieldConvert.put(fieldEntry.getKey(), fieldEntry.getValue().getType());
+                classFieldType.put(classEntry.getKey(), fieldConvert);
             }
         }
     }
