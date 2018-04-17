@@ -41,15 +41,14 @@ public class Terminal extends Expressions{
                     ArrayList<Pair<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
                     int i = 0;
                     for (i = 0; i < temp.size(); i++) {
-                        if (temp.get(i).getKey() == value) {
+                        if (temp.get(i).getKey().equals(value)) {
                             type = temp.get(i).getValue();
                             return type;
                         }
                     }
-                    if (i == temp.size()) {
-                        System.err.println("FILENAME:" + this.displayNode() + "SEMANTIC error: " + this.value + " is undefined");
-                        return "ERROR";
-                    }
+
+                    System.err.println("FILENAME:" + this.displayNode() + "SEMANTIC error: " + this.value + " is undefined");
+                    return "ERROR";
                 }
                 else
                 {
@@ -61,10 +60,9 @@ public class Terminal extends Expressions{
                 return type;
 
             }
-        } else {
-            return type;
         }
-    return type;
+
+        return type;
     }
 
 }
