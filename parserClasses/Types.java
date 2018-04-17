@@ -19,10 +19,7 @@ public class Types extends Node {
     }
 
 
-    public String getType( HashMap<String, HashMap<String, String>> classFieldType,
-                           HashMap<String, HashMap<String, String> > classMethodeType,
-                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
-                           HashMap<String,String> localVariables) {
+    public String getType( ) {
         return type;
     }
 }

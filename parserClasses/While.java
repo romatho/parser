@@ -9,6 +9,7 @@ public class While extends Expressions {
 
     private Expressions condition;
     private Expressions body;
+    private String type =null;
 
 
 
@@ -36,19 +37,22 @@ public class While extends Expressions {
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
                            HashMap<String,String> localVariables)
     {
+        if(type!=null)
+            return  type;
         String condType = condition.getType( classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
         String bodyType = body.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
         // check if there isn't already an error in the lower-level expressions
         if(condType.equals("ERROR") || bodyType.equals("ERROR"))
-            return "ERROR";
+            type= "ERROR";
 
         if(!condType.equals("bool"))
         {
             System.out.println("FILENAME:" + condition.displayNode() +
                     "SEMANTIC error: expected bool as type for the condition not " + condType);
-            return "ERROR";
+            type= "ERROR";
         }
 
-        return bodyType;
+        type= bodyType;
+        return type;
     }
 }

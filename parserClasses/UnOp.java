@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class UnOp extends Expressions{
     private String firstElement;
     private Expressions exp;
+    private String type =null;
 
     public UnOp(int pColumn, int pLine, String pFirstElement, Expressions pExp)
     {
@@ -33,10 +34,12 @@ public class UnOp extends Expressions{
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
                            HashMap<String,String> localVariables)
     {
+        if(type!=null)
+            return type;
         String expType = exp.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
         // check if there isn't already an error in the lower-level expressions
         if(expType.equals("ERROR"))
-            return "ERROR";
+            type= "ERROR";
 
         switch(firstElement)
         {
@@ -45,22 +48,24 @@ public class UnOp extends Expressions{
                 {
                     System.out.println("FILENAME:" + exp.displayNode() +
                             "SEMANTIC error: expected bool with operator 'not' not " + expType);
-                    return "ERROR";
+                    type= "ERROR";
                 }
-                return "bool";
-
+                type= "bool";
+                return type;
             case "-":
                 if(!expType.equals("int32"))
                 {
                     System.out.println("FILENAME:" + exp.displayNode() +
                             "SEMANTIC error: expected bool with operator '-' not " + expType);
-                    return "ERROR";
+                    type= "ERROR";
                 }
-                return "int32";
-
+                type= "int32";
+                return type;
             case "isnull":
-                return "bool";
+                type= "bool";
+                return type;
         }
-        return "ERROR";
+        type= "ERROR";
+        return type;
     }
 }
