@@ -44,9 +44,10 @@ public class Let extends Expressions{
         return toDisplay;
     }
 
+    @Override
     public String getType()
     {
-
+        return "";
     }
 }
 

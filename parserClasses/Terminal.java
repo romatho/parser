@@ -28,7 +28,7 @@ public class Terminal extends Expressions{
                 type.equals("string") || type.equals("unit"))
             return type;
 
-
+        return "";
     }
 
 

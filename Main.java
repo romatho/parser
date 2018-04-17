@@ -1,6 +1,4 @@
 import java_cup.runtime.*;
-import parserClasses.parser;
-import parserClasses.sym;
 import check.Checker;
 
 import java.io.FileNotFoundException;

@@ -1,7 +1,5 @@
 package parserClasses;
 
-import check.Checker;
-
 public class Call extends Expressions {
 
     private Expressions objectExp;
@@ -60,6 +58,7 @@ public class Call extends Expressions {
             listType[i++] = e.getType();
         }
 
-
+        //TODO: return smth else
+        return "";
     }
 }

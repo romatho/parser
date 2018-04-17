@@ -25,6 +25,6 @@ public class New extends Expressions {
     @Override
     public String getType()
     {
-
+        return "";
     }
 }
