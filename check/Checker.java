@@ -14,7 +14,7 @@ public class Checker {
 
     private int nbError;
     //map allowed class with their name
-    private HashMap<String, Classe> allowedClasses;
+    private HashMap<String, classe, methode> allowedClasses;
     //map allowed method with their name and their class name
     private HashMap<String, HashMap<String, Method> > allowedMethods;
     //map allowed formals with their name , their associated name and their associated class name
@@ -69,7 +69,7 @@ public class Checker {
         //first pass
         checkClass(program.getClasses());
         //second pass
-        for(HashMap.Entry<String, Classe> current: allowedClasses.entrySet()){
+        for(HashMap.Entry<String, classe, methode> current: allowedClasses.entrySet()){
             checkMethod(current.getValue());
             checkField(current.getValue());
         }
@@ -93,7 +93,7 @@ public class Checker {
          * classesMap is a map containing all the Classes of the program
          * Creation of classesMap and check the re-definition of Classe
          */
-        HashMap<String, Classe> classesMap = new HashMap<>();
+        HashMap<String, classe, methode> classesMap = new HashMap<>();
 
         for(Classe current: sons)
         {
@@ -124,9 +124,9 @@ public class Checker {
          * For each Classe in classesMap, loop on predecessors to create a 'toAdd' map with all the predecessors of the current Classe
          * This 'toAdd' is then added to the map of classes 'allowedClasses'.
          */
-        for(HashMap.Entry<String, Classe> entry : classesMap.entrySet())
+        for(HashMap.Entry<String, classe, methode> entry : classesMap.entrySet())
         {
-            Map<String, Classe> toAdd = new HashMap<>();
+            Map<String, classe, methode> toAdd = new HashMap<>();
             String it = entry.getKey();
             /*
              * The loop stop if :
@@ -141,7 +141,7 @@ public class Checker {
                     !it.equals("IO") &&
                     !it.equals("Object"))
             {
-                toAdd.put(it, classesMap.get(it));
+                toAdd.put(it, classe, methodesMap.get(it));
                 it = classesMap.get(it).getParentClasse();
             }
             if(toAdd.containsKey(it))
@@ -319,7 +319,7 @@ public class Checker {
         System.out.println();
         System.out.println("***affichage hashtable Classe***");
         System.out.println();
-        for (HashMap.Entry<String, Classe> entry : allowedClasses.entrySet()) {
+        for (HashMap.Entry<String, classe, methode> entry : allowedClasses.entrySet()) {
             System.out.print("nom classe : ");
             System.out.println(entry.getKey());
             System.out.println(entry.getValue().toString());
@@ -354,14 +354,14 @@ public class Checker {
     public void addInheritance()
     {
         ArrayList<String> inheritanceNotDone();
-        for(HashMap.Entry<String, Classe> entry : allowedClasses.entrySet())
+        for(HashMap.Entry<String, classe, methode> entry : allowedClasses.entrySet())
         {
             if(!(entry.getValue().getParentClasse() == "IO") && !(entry.getValue().getParentClasse() == "Object" ))
                 inheritanceNotDone.add(entry.getKey());
         }
         while(inheritanceNotDone.size() !=0)
         {
-            for(HashMap.Entry<String, Classe> entry : allowedClasses.entrySet())
+            for(HashMap.Entry<String, classe, methode> entry : allowedClasses.entrySet())
             {
                 //then the parent class contain all the method and field of his predecessor
                 if(!inheritanceNotDone.contains(entry.getValue().getParentClasse()) )
