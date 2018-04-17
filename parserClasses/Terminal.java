@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Terminal extends Expressions{
-
-    private String value;
     private String type;
+    private String value;
 
     public Terminal(int pColumn, int pLine, String pValue,String pType)
     {
@@ -22,7 +21,7 @@ public class Terminal extends Expressions{
     {
         String toDisplay = value;
         if(checkerMode)
-            toDisplay += " : " + getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+            toDisplay += " : " + type;
         return toDisplay;
     }
 

@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class Blocks extends Expressions{
         private ParserArray<Expressions> exprs;
 
+        private String type =null;
 
 
         public Blocks( int pColumn, int pLine, ParserArray<Expressions> exprs)
@@ -31,11 +32,14 @@ public class Blocks extends Expressions{
                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
                           HashMap<String,String> localVariables)
     {
+        if (type!=null)
+            return type;
         for(int i=0; i<exprs.size()-1;i++)
         {
             exprs.get(i).getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
         }
-        return exprs.get(exprs.size()-1).getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+        type= exprs.get(exprs.size()-1).getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+        return type;
     }
 
 }

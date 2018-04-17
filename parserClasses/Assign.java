@@ -9,6 +9,7 @@ public class Assign extends Expressions{
 
     private String objectIdentifier;
     private Expressions exp;
+    private String type =null;
 
 
     public Assign(int pColumn, int pLine, String pObjectIdentifier, Expressions pExp)
@@ -26,7 +27,7 @@ public class Assign extends Expressions{
         toDisplay += ", ";
         toDisplay += exp.toString();
         if(checkerMode)
-            toDisplay += " : " + getType();
+            toDisplay += " : " + type;
         toDisplay += ")";
         return toDisplay;
     }
@@ -34,15 +35,14 @@ public class Assign extends Expressions{
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                           HashMap<String, HashMap<String, String> > classMethodeType,
-                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType,
-                          HashMap<String,String> localVariables)
+                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodeFormalsType, HashMap<String,String> localVariables)
     {
-        String expType = exp.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
+        if(type!=null)
+            return  type;
+        type = exp.getType(classFieldType, classMethodeType, classMethodeFormalsType, localVariables);
 
-        if(expType.equals("ERROR"))
-            return "ERROR";
 
         // if objectIdentifier.getType() == expType
-        return expType;
+        return type;
     }
 }
