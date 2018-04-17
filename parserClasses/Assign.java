@@ -9,7 +9,7 @@ public class Assign extends Expressions{
 
     private String objectIdentifier;
     private Expressions exp;
-    private String type =null;
+    private String type = null;
 
 
     public Assign(int pColumn, int pLine, String pObjectIdentifier, Expressions pExp)
@@ -37,10 +37,20 @@ public class Assign extends Expressions{
                           HashMap<String, HashMap<String, String> > classMethodType,
                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe)
     {
-        if(type!=null)
-            return  type;
-        type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe);
+        if(type != null)
+            return type;
 
+        type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe);
+        if(type.equals("ERROR"))
+            return type;
+        String fieldType = classFieldType.get();
+        String localType = localVariables.get(objectIdentifier);
+        if(localType != null && !localType.equals(type))
+        {
+            System.err.println("FILENAME:" + this.displayNode() +
+                    "SEMANTIC error: expected the assigned expression's type to be equal to the variables type");
+            type = "ERROR";
+        }
 
         // if objectIdentifier.getType() == expType
         return type;
