@@ -1,7 +1,9 @@
 package check;
 
+import javafx.util.Pair;
 import parserClasses.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,10 +22,16 @@ public class Checker {
     //map allowed field with their name and their class name
     private HashMap<String, HashMap<String, Field> > allowedField;
 
+
+
+    private HashMap<String, HashMap<String, String> > classFieldType;
+    private HashMap<String, HashMap<String, String> > classMethodeType;
+    private HashMap<String, HashMap<String, ArrayList< Pair<String, String> > > > classMethodeFormalsType;
+
     /*CONSTRUCTOR*/
 
 
-    public Checker()
+    public Checker(Program program)
     {
         nbError = 0;
         allowedClasses = new HashMap<>();
@@ -31,6 +39,8 @@ public class Checker {
         allowedField = new HashMap<>();
         allowedFormals = new HashMap<>();
         System.out.println("Checker initialized successfully.");
+        semanticCheck(program);
+        displayHash();
     }
 
     /*PRIVATE*/
@@ -63,6 +73,9 @@ public class Checker {
             checkMethod(current.getValue());
             checkField(current.getValue());
         }
+        addInheritance();
+
+
     }
 
     /*
@@ -136,7 +149,9 @@ public class Checker {
                 System.out.println("Error: cycle in the predecessor: '" + it + "' become is own predecessor");
                 nbError++;
             }
-            else if(!classesMap.containsKey(it))
+            else if(!classesMap.containsKey(it) &&
+                    !it.equals("IO") &&
+                    !it.equals("Object"))
             {
                 System.out.println("Error: the parent class '" + it + "' is not defined");
                 nbError++;
@@ -265,9 +280,6 @@ public class Checker {
         return formalMap;
     }
 
-
-
-
     /*
      * Second Pass (about Field of class):
      *  - Check for re-declaration of field
@@ -303,28 +315,60 @@ public class Checker {
     }
 
 
-
-
     public void displayHash() {
-        System.out.println("affichage hashtable Classe");
+        System.out.println();
+        System.out.println("***affichage hashtable Classe***");
+        System.out.println();
         for (HashMap.Entry<String, Classe> entry : allowedClasses.entrySet()) {
+            System.out.print("nom classe : ");
             System.out.println(entry.getKey());
             System.out.println(entry.getValue().toString());
         }
-        System.out.println("affichage hashtable Method");
+        System.out.println();
+        System.out.println("***affichage hashtable Method***");
+        System.out.println();
         for (HashMap.Entry<String, HashMap<String, Method> > entry : allowedMethods.entrySet()) {
+            System.out.print("nom classe : ");
             System.out.println(entry.getKey());
             for (HashMap.Entry<String, Method> entrySec : entry.getValue().entrySet()) {
-                System.out.println(entrySec.getKey());
+                System.out.print("nom methode : ");
+                System.out.print(entrySec.getKey());
+                System.out.print(" valeur methode : ");
                 System.out.println(entrySec.getValue().toString());
             }
         }
-        System.out.println("affichage hashtable Classe");
+        System.out.println();
+        System.out.println("***affichage hashtable Field***");
+        System.out.println();
         for (HashMap.Entry<String, HashMap<String, Field> > entry : allowedField.entrySet()) {
+            System.out.print("nom classe : ");
             System.out.println(entry.getKey());
             for (HashMap.Entry<String, Field> entrySec : entry.getValue().entrySet()) {
-                System.out.println(entrySec.getKey());
+                System.out.print("nom field : ");
+                System.out.print(entrySec.getKey());
+                System.out.print(" valeur field : ");
                 System.out.println(entrySec.getValue().toString());
+            }
+        }
+    }
+    public void addInheritance()
+    {
+        ArrayList<String> inheritanceNotDone();
+        for(HashMap.Entry<String, Classe> entry : allowedClasses.entrySet())
+        {
+            if(!(entry.getValue().getParentClasse() == "IO") && !(entry.getValue().getParentClasse() == "Object" ))
+                inheritanceNotDone.add(entry.getKey());
+        }
+        while(inheritanceNotDone.size() !=0)
+        {
+            for(HashMap.Entry<String, Classe> entry : allowedClasses.entrySet())
+            {
+                //then the parent class contain all the method and field of his predecessor
+                if(!inheritanceNotDone.contains(entry.getValue().getParentClasse()) )
+                {
+                    for()
+                }
+
             }
         }
     }

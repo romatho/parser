@@ -8,7 +8,7 @@ public class Program extends Node {
     {
         super(pColumn,pLine);
         myClasses = pMyClasses;
-        System.out.println(this.toString());
+        //System.out.println(this.toString());
     }
 
     @Override
