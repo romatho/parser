@@ -990,7 +990,7 @@ class CUP$parser$actions {
 		int aaleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int aaright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		ParserArray<Expressions> aa = (ParserArray<Expressions>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		RESULT = new Call(0, 0, new Terminal(0, 0, "self"), oi, aa); 
+		RESULT = new Call(0, 0, new Terminal(0, 0, "self","SELF"), oi, aa); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expression",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1068,7 +1068,7 @@ class CUP$parser$actions {
 		int itleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int itright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String it = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Terminal(0, 0, it); 
+		 RESULT = new Terminal(0, 0, it,"int32"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("terminaison",9, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1080,7 +1080,7 @@ class CUP$parser$actions {
 		int slleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int slright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String sl = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Terminal(0, 0, sl); 
+		 RESULT = new Terminal(0, 0, sl,"string"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("terminaison",9, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1092,7 +1092,7 @@ class CUP$parser$actions {
 		int oileft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int oiright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String oi = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Terminal(0, 0, oi); 
+		 RESULT = new Terminal(0, 0, oi,"OI"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("terminaison",9, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1113,7 +1113,7 @@ class CUP$parser$actions {
           case 47: // boolean ::= TRUE 
             {
               Terminal RESULT =null;
-		 RESULT = new Terminal(0, 0, "true"); 
+		 RESULT = new Terminal(0, 0, "true","bool"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("boolean",10, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1122,7 +1122,7 @@ class CUP$parser$actions {
           case 48: // boolean ::= FALSE 
             {
               Terminal RESULT =null;
-		 RESULT = new Terminal(0, 0, "false"); 
+		 RESULT = new Terminal(0, 0, "false","bool"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("boolean",10, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
