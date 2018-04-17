@@ -44,30 +44,31 @@ public class If extends Expressions {
     @Override
     public String getType()
     {
-        if(!condition.getType().equals("bool")&&!condition.getType().equals("ERROR")){
+        if(condition.getType().equals("ERROR") || thenStatement.getType().equals("ERROR") ||
+                elseStatement.getType().equals("ERROR"))
+            return "ERROR";
+
+        if(!condition.getType().equals("bool"))
+        {
             System.out.println("FILENAME:"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
             return "ERROR";
         }
 
-        if(condition.getType().equals("ERROR"))
-            return "ERROR";
-        if(thenStatement.getType().equals(elseStatement.getType())&&!thenStatement.getType().equals("ERROR"))
+        if(thenStatement.getType().equals(elseStatement.getType()))
             return thenStatement.getType();
-        else if (thenStatement.getType().equals("unit")&&!elseStatement.getType().equals("ERROR"))
+        else if (thenStatement.getType().equals("unit"))
         {
             return "unit";
         }
-        else if (!thenStatement.getType().equals("ERROR")&&elseStatement.getType().equals("unit"))
+        else if (elseStatement.getType().equals("unit"))
         {
             return "unit";
         }
-        else if (!thenStatement.getType().equals("ERROR")&&!elseStatement.getType().equals("ERROR"))
+        else
         {
             System.out.println("FILENAME:"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
             return "ERROR";
         }
-        else
-            return "ERROR";
 
     }
 }
