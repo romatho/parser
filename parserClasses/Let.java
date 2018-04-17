@@ -55,7 +55,32 @@ public class Let extends Expressions{
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
                            HashMap<String,String> localVariables)
     {
-        return "";
+
+        if(type.getType().equals("ERROR"))
+            return "ERROR";
+
+        // if init exists, check if its type corresponds to the one defined for the object
+        if(init != null)
+        {
+            String initType = init.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
+            if(initType.equals("ERROR"))
+                return "ERROR";
+            if(!initType.equals(type.getType()))
+            {
+                System.err.println("FILENAME:" + this.displayNode() +
+                        "SEMANTIC error: expected same type for the variable and its initialisation");
+                return "ERROR";
+            }
+        }
+
+        // check if there is an error in the expression of the scope with the defined variable
+        localVariables.put(objectIdentifier, type.getType());
+        String scopeType = scope.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables);
+        localVariables.remove(objectIdentifier);
+        if(scopeType.equals("ERROR"))
+            return "ERROR";
+
+        return type.getType();
     }
 }
 
