@@ -43,8 +43,9 @@ public class Checker {
         classFieldType = new HashMap<>();
         classMethodType = new HashMap<>();
         classMethodFormalsType = new HashMap<>();
-        System.out.println("Checker initialized successfully.");
         semanticCheck(program);
+        System.out.println(program.toString(false));
+        System.out.println(program.toString(true));
     }
 
     /*PRIVATE*/
@@ -79,10 +80,8 @@ public class Checker {
         }
         //displayHash();
         addInheritance();
-        System.out.println();
-        System.out.println("convertHashmap output");
-        System.out.println();
         convertHashmap();
+        getType();
         //displayStringHash();
 
 
@@ -431,9 +430,6 @@ public class Checker {
             if(!entry.getValue().getParentClasse().equals("IO") && !entry.getValue().getParentClasse().equals("Object" ))
                 inheritanceNotDone.add(entry.getKey());
         }
-        System.out.println("inheritance not Done = ");
-        for(String toDisp : inheritanceNotDone)
-            System.out.println(toDisp);
         while(inheritanceNotDone.size() !=0)
         {
             for(HashMap.Entry<String, Classe> entry : allowedClasses.entrySet())
@@ -506,8 +502,6 @@ public class Checker {
             HashMap<String, String> methoConvert = new HashMap<>();
             HashMap<String, ArrayList<Pair<String, String> > > formalConvert = new HashMap<>();
             HashMap<String, HashMap<String, Formals>> allowedFormalsMethod = allowedFormals.get(classEntry.getKey());
-            System.out.println("class entry get key: " + classEntry.getKey() + " done ");
-            System.out.println("method filling");
             if(allowedMethods.containsKey(classEntry.getKey())){
                 for (HashMap.Entry<String, Method> methodEntry : allowedMethods.get(classEntry.getKey()).entrySet()) {
                     methoConvert.put(methodEntry.getKey(), methodEntry.getValue().getReturnType());
@@ -532,7 +526,6 @@ public class Checker {
                 classMethodFormalsType.put(classEntry.getKey(), formalConvert);
             }
             /**/
-            System.out.println("field filling");
             HashMap<String, String> fieldConvert = new HashMap<>();
             if(allowedField.containsKey(classEntry.getKey()))
             {
@@ -542,4 +535,19 @@ public class Checker {
             }
         }
     }
+
+    void getType()
+    {
+        for(HashMap.Entry<String, HashMap<String, Method> > entryClass : allowedMethods.entrySet())
+        {
+            for(HashMap.Entry<String, Method> entryMethod: allowedMethods.get(entryClass.getKey()).entrySet())
+            {
+                entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey());
+            }
+        }
+    }
+
+
+
+
 }

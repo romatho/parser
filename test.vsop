@@ -3,8 +3,13 @@ class C {
     i : int32;
 }
 
+class Main extends IO{
+    j : int32;
+    main() : int32{
+    0
+    }
+}
 class D extends C{
     // Fields should begin with lower-case letter
     j : int32;
-    i : int32;
 }

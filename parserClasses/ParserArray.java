@@ -7,6 +7,7 @@ public class ParserArray<E extends Node> extends ArrayList<E>{
 
     public String toString(boolean checkerMode)
     {
+        System.out.println("Parser array");
         StringBuilder toDisplay = new StringBuilder("[");
         for(int i = 0; i < this.size() - 1; i++)
         {

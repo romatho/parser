@@ -14,6 +14,7 @@ public class Program extends Node {
     @Override
     public String toString(boolean checkerMode)
     {
+        System.out.println("program");
         return myClasses.toString(checkerMode);
     }
 
