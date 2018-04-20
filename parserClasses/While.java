@@ -1,9 +1,9 @@
 package parserClasses;
 
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class While extends Expressions {
 
@@ -34,7 +34,7 @@ public class While extends Expressions {
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
-                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
+                           HashMap<String, HashMap<String, ArrayList< Map.Entry<String, String> >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String methode)
     {
         if(type!=null)

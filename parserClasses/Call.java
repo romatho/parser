@@ -1,7 +1,6 @@
 package parserClasses;
 
-import javafx.util.Pair;
-
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -42,7 +41,7 @@ public class Call extends Expressions {
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
-                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
+                           HashMap<String, HashMap<String, ArrayList< Map.Entry<String, String> >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String methode)
     {
         if(type != null)
@@ -85,7 +84,7 @@ public class Call extends Expressions {
                 return type;
             }
             String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, methode);
-            Pair<String, String> argument = classMethodFormalsType.get(objectType).get(methodName).get(i);
+            Map.Entry<String, String> argument = classMethodFormalsType.get(objectType).get(methodName).get(i);
             if(!argument.getValue().equals(argType))
             {
                 System.err.println("FILENAME:" + objectExp.displayNode() +
