@@ -39,8 +39,7 @@ public class Method extends Node{
 
     public void getType(HashMap<String, HashMap<String, String>> classFieldType,
                    HashMap<String, HashMap<String, String> > classMethodType,
-                   HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                   HashMap<String,String> localVariables, String classe)
+                   HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType, String classe)
     {
         this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, Identifier);
     }
