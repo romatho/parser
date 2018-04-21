@@ -53,7 +53,7 @@ public class Let extends Expressions{
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String methode)
+                           HashMap<String,String> localVariables, String classe, String filename, String methode)
     {
 
         if(type.getType().equals("ERROR"))
@@ -62,12 +62,12 @@ public class Let extends Expressions{
         // if init exists, check if its type corresponds to the one defined for the object
         if(init != null)
         {
-            String initType = init.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, methode);
+            String initType = init.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
             if(initType.equals("ERROR"))
                 return "ERROR";
             if(!initType.equals(type.getType()))
             {
-                System.err.println("FILENAME:" + this.displayNode() +
+                System.err.println(filename +":" + this.displayNode() +
                         "SEMANTIC error: expected same type for the variable and its initialisation");
                 return "ERROR";
             }
@@ -75,7 +75,7 @@ public class Let extends Expressions{
 
         // check if there is an error in the expression of the scope with the defined variable
         localVariables.put(objectIdentifier, type.getType());
-        String scopeType = scope.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, methode);
+        String scopeType = scope.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
         localVariables.remove(objectIdentifier);
         if(scopeType.equals("ERROR"))
             return "ERROR";

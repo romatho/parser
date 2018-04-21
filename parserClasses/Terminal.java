@@ -29,7 +29,7 @@ public class Terminal extends Expressions{
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String methode) {
+                           HashMap<String,String> localVariables, String classe, String filename, String methode) {
 
         if (type.equals("bool") || type.equals("int32") ||
                 type.equals("string") || type.equals("unit"))
@@ -47,7 +47,7 @@ public class Terminal extends Expressions{
                         }
                     }
 
-                    System.err.println("FILENAME:" + this.displayNode() + "SEMANTIC error: " + this.value + " is undefined");
+                    System.err.println(filename +":" + this.displayNode() + "SEMANTIC error: " + this.value + " is undefined");
                     return "ERROR";
                 }
                 else

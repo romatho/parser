@@ -12,7 +12,7 @@ public class Checker {
 
     /*FIELD*/
 
-
+    private String filename;
     private int nbError;
     //map allowed class with their name
     private HashMap<String, Classe> allowedClasses;
@@ -33,7 +33,7 @@ public class Checker {
     /*CONSTRUCTOR*/
 
 
-    public Checker(Program program)
+    public Checker(Program program, String filemane)
     {
         nbError = 0;
         allowedClasses = new HashMap<>();
@@ -46,6 +46,7 @@ public class Checker {
         semanticCheck(program);
         System.out.println(program.toString(false));
         System.out.println(program.toString(true));
+        this.filename=filemane;
     }
 
     /*PRIVATE*/
@@ -542,7 +543,7 @@ public class Checker {
         {
             for(HashMap.Entry<String, Method> entryMethod: allowedMethods.get(entryClass.getKey()).entrySet())
             {
-                entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey());
+                entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey(),this.filename);
             }
         }
     }
