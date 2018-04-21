@@ -39,12 +39,16 @@ public class Terminal extends Expressions{
             if (localVariables.get(value) == null) {
                 if (classFieldType.get(classe).get(value) == null) {
                     ArrayList<Pair<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
-                    int i = 0;
-                    for (i = 0; i < temp.size(); i++) {
+
+                    for (int i = 0; i < temp.size(); i++) {
                         if (temp.get(i).getKey().equals(value)) {
                             type = temp.get(i).getValue();
                             return type;
                         }
+                    }
+                    if(type.equals("SELF")){
+                        type= classe;
+                        return type;
                     }
 
                     System.err.println(filename +":" + this.displayNode() + "SEMANTIC error: " + this.value + " is undefined");
