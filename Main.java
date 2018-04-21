@@ -80,7 +80,7 @@ public class Main {
 				parsed = p.parse();
 				Program program = (Program) parsed.value;
 //				System.out.println(program.toString());
-				Checker c = new Checker(program);
+				Checker c = new Checker(program,path);
 					//System.out.println(p.program.toString());
 			} catch (Exception e) {
 				e.printStackTrace();

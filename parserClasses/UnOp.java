@@ -1,6 +1,7 @@
 package parserClasses;
 
-import java.util.Map;
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,12 +31,12 @@ public class UnOp extends Expressions{
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
-                           HashMap<String, HashMap<String, ArrayList< Map.Entry<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String methode)
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
+                           HashMap<String,String> localVariables, String classe, String filename, String methode)
     {
         if(type!=null)
             return type;
-        String expType = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, methode);
+        String expType = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
         // check if there isn't already an error in the lower-level expressions
         if(expType.equals("ERROR"))
             type= "ERROR";
@@ -45,7 +46,7 @@ public class UnOp extends Expressions{
             case "not":
                 if(!expType.equals("bool"))
                 {
-                    System.out.println("FILENAME:" + exp.displayNode() +
+                    System.out.println(filename +":" + exp.displayNode() +
                             "SEMANTIC error: expected bool with operator 'not' not " + expType);
                     type= "ERROR";
                 }
@@ -54,7 +55,7 @@ public class UnOp extends Expressions{
             case "-":
                 if(!expType.equals("int32"))
                 {
-                    System.out.println("FILENAME:" + exp.displayNode() +
+                    System.out.println(filename +":" + exp.displayNode() +
                             "SEMANTIC error: expected bool with operator '-' not " + expType);
                     type= "ERROR";
                 }

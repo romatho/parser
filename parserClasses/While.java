@@ -1,9 +1,9 @@
 package parserClasses;
 
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class While extends Expressions {
 
@@ -34,20 +34,20 @@ public class While extends Expressions {
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
-                           HashMap<String, HashMap<String, ArrayList< Map.Entry<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String methode)
+                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
+                           HashMap<String,String> localVariables, String classe, String filename, String methode)
     {
         if(type!=null)
             return  type;
-        String condType = condition.getType( classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, methode);
-        String bodyType = body.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, methode);
+        String condType = condition.getType( classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
+        String bodyType = body.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
         // check if there isn't already an error in the lower-level expressions
         if(condType.equals("ERROR") || bodyType.equals("ERROR"))
             type= "ERROR";
 
         if(!condType.equals("bool"))
         {
-            System.out.println("FILENAME:" + condition.displayNode() +
+            System.out.println(filename +":" + condition.displayNode() +
                     "SEMANTIC error: expected bool as type for the condition not " + condType);
             type= "ERROR";
         }

@@ -1,6 +1,7 @@
 package parserClasses;
 
-import java.util.Map;
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,12 +35,12 @@ public class Assign extends Expressions{
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                           HashMap<String, HashMap<String, String> > classMethodType,
-                          HashMap<String, HashMap<String, ArrayList< Map.Entry<String, String> >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe, String methode)
+                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe, String filename, String methode)
     {
         if(type != null)
             return  type;
 
-        type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, methode);
+        type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
 
         if(type.equals("ERROR"))
             return type;
@@ -49,7 +50,7 @@ public class Assign extends Expressions{
         {
             if(classFieldType.get(classe).get(objectIdentifier) == null)
             {
-                ArrayList<Map.Entry<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
+                ArrayList<Pair<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
                 int i = 0;
                 for (i = 0; i < temp.size(); i++)
                 {
@@ -60,7 +61,7 @@ public class Assign extends Expressions{
                     }
                 }
 
-                System.err.println("FILENAME:" + this.displayNode() +
+                System.err.println(filename +":" + this.displayNode() +
                         "SEMANTIC error: " + objectIdentifier + " is undefined");
                 type = "ERROR";
                 return "ERROR";
