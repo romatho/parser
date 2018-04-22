@@ -1,12 +1,13 @@
 package check;
 
 
+import java.util.Map;
+
 import javafx.util.Pair;
 import parserClasses.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Checker {
 
@@ -22,8 +23,8 @@ public class Checker {
     private HashMap<String, HashMap<String, HashMap<String, Formals> > > allowedFormals;
     //map allowed field with their name and their class name
     private HashMap<String, HashMap<String, Field> > allowedField;
-
-
+    //the IO Classe
+    private Classe IOClass;
 
     private HashMap<String, HashMap<String, String> > classFieldType;
     private HashMap<String, HashMap<String, String> > classMethodType;
@@ -32,6 +33,37 @@ public class Checker {
 
     /*CONSTRUCTOR*/
 
+    private void buildIOClass()
+    {
+        ClassBody IoBodyClass = new ClassBody(0,0);
+
+        // print(s:string): IO{}
+        ParserArray<Formals> parsFormPrint= new ParserArray<>();
+        parsFormPrint.add(new Formals(0,0, "s",new Types(0,0, "string")));
+        //System.out.println(parsForm.get(0).toString(false));
+        IoBodyClass.addMethod(new Method(0,0,"print", parsFormPrint, new Types(0,0,"IO") , new Blocks(0,0, new ParserArray<Expressions>())));
+        // printBool(b:bool): IO{}
+        ParserArray<Formals> parsFormPrintBool= new ParserArray<>();
+        parsFormPrintBool.add(new Formals(0,0, "b",new Types(0,0, "bool")));
+        IoBodyClass.addMethod(new Method(0,0,"printBool", parsFormPrintBool, new Types(0,0,"IO") , new Blocks(0,0, new ParserArray<Expressions>())));
+
+        // printInt32(i:int32): IO{}
+        ParserArray<Formals> parsFormPrintInt32= new ParserArray<>();
+        parsFormPrintInt32.add(new Formals(0,0, "i",new Types(0,0, "int32")));
+        IoBodyClass.addMethod(new Method(0,0,"printInt32", parsFormPrintInt32, new Types(0,0,"IO") , new Blocks(0,0, new ParserArray<Expressions>())));
+
+        // inputLine(): string{}
+        ParserArray<Formals> parsFormEmpty = new ParserArray<>();
+        IoBodyClass.addMethod(new Method(0,0,"inputLine", parsFormEmpty, new Types(0,0,"string") , new Blocks(0,0, new ParserArray<Expressions>())));
+
+        // inputBool(): bool{}
+        IoBodyClass.addMethod(new Method(0,0,"inputBool", parsFormEmpty, new Types(0,0,"bool") , new Blocks(0,0, new ParserArray<Expressions>())));
+
+        // inputInt32(): int32{}
+        IoBodyClass.addMethod(new Method(0,0,"inputInt32", parsFormEmpty, new Types(0,0,"int32") , new Blocks(0,0, new ParserArray<Expressions>())));
+
+        IOClass = new Classe(0, 0, "IO", "Object",  IoBodyClass);
+    }
 
     public Checker(Program program, String filemane)
     {
@@ -43,9 +75,10 @@ public class Checker {
         classFieldType = new HashMap<>();
         classMethodType = new HashMap<>();
         classMethodFormalsType = new HashMap<>();
+        buildIOClass();
         semanticCheck(program);
-        System.out.println(program.toString(false));
-        System.out.println(program.toString(true));
+       // System.out.println(program.toString(false));
+        //System.out.println(program.toString(true));
         this.filename=filemane;
     }
 
@@ -82,10 +115,12 @@ public class Checker {
         //displayHash();
         addInheritance();
         convertHashmap();
-        getType();
+        //displayHash();
         //displayStringHash();
-
-
+        //System.out.println(program.toString(false));
+        //displayStringHash();
+        getType(program);
+        //System.out.println(program.toString(true));
     }
 
     /*
@@ -104,12 +139,13 @@ public class Checker {
          * Creation of classesMap and check the re-definition of Classe
          */
         HashMap<String, Classe> classesMap = new HashMap<>();
+        classesMap.put(IOClass.getName(), IOClass);
 
         for(Classe current: sons)
         {
             // re-definition if the class exist in the already created map or if the class name is "IO" or "Object"
             if(!classesMap.containsKey(current.getName()) &&
-                    !current.getName().equals("IO") ||
+                    /*!current.getName().equals("IO") ||*/
                     !current.getName().equals("Object"))
                 classesMap.put(current.getName(), current);
             else
@@ -148,7 +184,7 @@ public class Checker {
             while(  classesMap.containsKey(it) &&
                     !allowedClasses.containsKey(it) &&
                     !toAdd.containsKey(it) &&
-                    !it.equals("IO") &&
+                    /*!it.equals("IO") &&*/
                     !it.equals("Object"))
             {
                 toAdd.put(it, classesMap.get(it));
@@ -160,7 +196,7 @@ public class Checker {
                 nbError++;
             }
             else if(!classesMap.containsKey(it) &&
-                    !it.equals("IO") &&
+                    /*!it.equals("IO") &&*/
                     !it.equals("Object"))
             {
                 System.out.println("Error: the parent class '" + it + "' is not defined");
@@ -406,7 +442,6 @@ public class Checker {
             for (HashMap.Entry<String, ArrayList < Pair<String, String> > > methodEntry : classEntry.getValue().entrySet()) {
                 System.out.print("\t nom methode : ");
                 System.out.println(methodEntry.getKey());
-
                 for (Pair <String, String > formalEntry : methodEntry.getValue()) {
                     System.out.print("\t \t ");
                     System.out.print("nom formal : ");
@@ -428,7 +463,7 @@ public class Checker {
         ArrayList<String> inheritanceNotDone= new ArrayList<>();
         for(HashMap.Entry<String, Classe> entry : allowedClasses.entrySet())
         {
-            if(!entry.getValue().getParentClasse().equals("IO") && !entry.getValue().getParentClasse().equals("Object" ))
+            if(/*!entry.getValue().getParentClasse().equals("IO") &&*/ !entry.getValue().getParentClasse().equals("Object" ))
                 inheritanceNotDone.add(entry.getKey());
         }
         while(inheritanceNotDone.size() !=0)
@@ -501,18 +536,18 @@ public class Checker {
     {
         for(HashMap.Entry<String, Classe> classEntry: allowedClasses.entrySet()) {
             HashMap<String, String> methoConvert = new HashMap<>();
-            HashMap<String, ArrayList<Pair<String, String> > > formalConvert = new HashMap<>();
+            HashMap<String, ArrayList< Pair<String, String> > > formalConvert = new HashMap<>();
             HashMap<String, HashMap<String, Formals>> allowedFormalsMethod = allowedFormals.get(classEntry.getKey());
             if(allowedMethods.containsKey(classEntry.getKey())){
                 for (HashMap.Entry<String, Method> methodEntry : allowedMethods.get(classEntry.getKey()).entrySet()) {
                     methoConvert.put(methodEntry.getKey(), methodEntry.getValue().getReturnType());
 
-                    ArrayList< Pair <String, String> > methodFormalConvert = new ArrayList<>();
-                    if(methodEntry.getValue().getFormals().size() >0 ){
+                    ArrayList< Pair<String, String> > methodFormalConvert = new ArrayList<>();
+                    if(methodEntry.getValue().getFormals().size() >0 )
                         for (Formals formal : methodEntry.getValue().getFormals())
                             methodFormalConvert.add(new Pair(formal.getIdentifier(), formal.getType()));
-                        formalConvert.put(methodEntry.getKey(), methodFormalConvert);
-                    }
+                    formalConvert.put(methodEntry.getKey(), methodFormalConvert);
+
 
                     /*
                     HashMap<String, String> methodeFormalConvert = new HashMap<>();
@@ -537,14 +572,19 @@ public class Checker {
         }
     }
 
-    void getType()
+    void getType(Program program)
     {
         for(HashMap.Entry<String, HashMap<String, Method> > entryClass : allowedMethods.entrySet())
         {
-            for(HashMap.Entry<String, Method> entryMethod: allowedMethods.get(entryClass.getKey()).entrySet())
-            {
-                entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey(),this.filename);
-            }
+            //check if the class is not IO
+            if(program.getClasses().contains(allowedClasses.get(entryClass.getKey())))
+                for(HashMap.Entry<String, Method> entryMethod: allowedMethods.get(entryClass.getKey()).entrySet())
+                {
+                    //check if the method is not a parent method : To avoid multiple 'getType' on the same method
+                    if(allowedClasses.get(entryClass.getKey()).getBody().getMyMethods().contains(entryMethod.getValue())) {
+                        entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey(), this.filename);
+                    }
+                }
         }
     }
 

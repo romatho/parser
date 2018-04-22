@@ -1,7 +1,6 @@
 package parserClasses;
 
-import javafx.util.Pair;
-
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 

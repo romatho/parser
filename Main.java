@@ -81,7 +81,7 @@ public class Main {
 				Program program = (Program) parsed.value;
 //				System.out.println(program.toString());
 				Checker c = new Checker(program,path);
-					//System.out.println(p.program.toString());
+				System.out.println(program.toString(true));
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.exit(1);

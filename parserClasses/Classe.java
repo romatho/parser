@@ -25,7 +25,6 @@ public class Classe extends  Node{
     @Override
     public String toString(boolean checkerMode)
     {
-        System.out.println("Classes");
         return  "Class(" + name + ", " + parentClasse + ", " + body.toString(checkerMode) + ")";
     }
 

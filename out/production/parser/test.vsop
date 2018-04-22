@@ -1,4 +1,7 @@
-class C {
-    // Fields should begin with lower-case letter
-    i : int32;
+class Main extends IO
+{
+	main() : int32 {
+		print("hello");
+		0
+	}
 }
