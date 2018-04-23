@@ -161,7 +161,11 @@ public class BinOp extends Expressions{
             }
             break;
             case "=":
-                if(!firstType.equals(secondType))
+                if(firstType.equals("ERROR") || secondType.equals("ERROR"))
+                {
+                    type = "ERROR";
+                }
+                else if(!firstType.equals(secondType))
                 {
                     type = "ERROR";
                     System.err.println(filename +":"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator =");
