@@ -10,7 +10,7 @@ public class BinOp extends Expressions{
     private String op;
     private Expressions firstExp;
     private Expressions secondExp;
-    private String type =null;
+    private String type = null;
 
     public BinOp(int pColumn, int pLine, String pOp, Expressions pFirstExp, Expressions pSecondExp)
     {
@@ -27,13 +27,11 @@ public class BinOp extends Expressions{
         toDisplay += op;
         toDisplay += ", ";
         toDisplay += firstExp.toString();
-        if(checkerMode)
-            toDisplay += " : " + type;
         toDisplay += ", ";
         toDisplay += secondExp.toString();
+        toDisplay += ")";
         if(checkerMode)
             toDisplay += " : " + type;
-        toDisplay += ")";
         return toDisplay;
     }
 

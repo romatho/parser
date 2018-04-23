@@ -1,15 +1,9 @@
-class C {
-    // Fields should begin with lower-case letter
-    i : int32;
+class GrandParent {
+    i(j : int32) : int32 { j + 42 }
 }
-
-class Main extends IO{
-    j : int32;
-    main() : int32{
-    0
-    }
+class Parent extends GrandParent {
 }
-class D extends C{
-    // Fields should begin with lower-case letter
-    j : int32;
+class Child extends Parent {
+    i(j : int32) : int32 { j * 42 }
 }
+class Main { main() : int32 { 0 } }
