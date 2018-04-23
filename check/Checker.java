@@ -67,6 +67,7 @@ public class Checker {
 
     public Checker(Program program, String filename)
     {
+        this.filename=filename;
         toReturn = 0;
         allowedClasses = new HashMap<>();
         allowedMethods = new HashMap<>();
@@ -79,7 +80,7 @@ public class Checker {
         semanticCheck(program);
         // System.out.println(program.toString(false));
         //System.out.println(program.toString(true));
-        this.filename=filename;
+
     }
 
     /*PRIVATE*/
