@@ -1,8 +1,4 @@
-class GrandParent {
-    i(j : int32) : int32 { j + 42 }
+class MyClass {
+    myField : int32 <- let x : int32 <- 42 in x;
 }
-class Parent extends GrandParent {
-}
-class Child extends Parent {
-    i(j : int32) : int32 { j * 42 }
-}
+class Main { main() : int32 { 0 } }

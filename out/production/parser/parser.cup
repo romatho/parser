@@ -1,5 +1,5 @@
-package parserClasses;
 import java_cup.runtime.*;
+import parserClasses.*;
 
 
 
@@ -7,7 +7,6 @@ parser code
 {:
   public String filename;
   public int toReturn = 0;
-  public program p = RESULT;
 
   public parser(java_cup.runtime.Scanner s, String pFilename) {
       super(s);
@@ -116,6 +115,8 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new If(0, 0, exp1, exp2, exp3); :}
                 |IF expression:exp1 THEN expression:exp2
                 {:RESULT = new If(0, 0, exp1, exp2); :}
+                |IF expression:exp1 THEN LPAR RPAR
+                {:RESULT = new If(0, 0, exp1,new Terminal(0, 0, "()","unit") ); :}
                 |IF error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for if expression"); :}
 
@@ -165,9 +166,9 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 |expression:exp1 POW expression:exp2
                 {:RESULT = new BinOp(0, 0, "^", exp1, exp2); :}
                 |expression:exp1 DIV expression:exp2
-                {:RESULT = new BinOp(0, 0, "//", exp1, exp2); :}
+                {:RESULT = new BinOp(0, 0, "/", exp1, exp2); :}
                 |expression:exp1 AND expression:exp2
-                {:RESULT = new BinOp(0, 0, "AND", exp1, exp2); :}
+                {:RESULT = new BinOp(0, 0, "and", exp1, exp2); :}
 
                 /*Call*/
                 |OBJECT_IDENTIFIER:oi LPAR argArray:aa RPAR

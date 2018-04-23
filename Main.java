@@ -2,7 +2,7 @@ import java_cup.runtime.*;
 import parserClasses.Program;
 import parserClasses.*;
 import check.Checker;
-import lex.MySymb;
+//import lex.MySymb;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

@@ -9,3 +9,5 @@ parser\.java
 sym\.java
 
 *.class
+
+out/
