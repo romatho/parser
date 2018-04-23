@@ -18,7 +18,12 @@ public class Field  extends Node {
         if(expr==null)
             return "Field(" + identifier + ", " + type.toString(checkerMode) +")";
         else
-            return "Field(" + identifier + ", " + type.toString(checkerMode) +", "+ expr.toString(checkerMode)+")";
+        {
+            String toDisplay = "Field(" + identifier + ", " + type.toString(checkerMode) +", "+ expr.toString(checkerMode)+")";
+            if(checkerMode)
+                toDisplay += " : " + type.getType();
+            return toDisplay;
+        }
     }
 
     public String getIdentifier() {

@@ -1,4 +1,4 @@
-class MyClass {
-    myField : int32 <- let x : int32 <- 42 in x;
+class MyClass extends Object {
+    myField : int32 <- { true; 42 };
 }
 class Main { main() : int32 { 0 } }

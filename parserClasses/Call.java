@@ -5,6 +5,8 @@ import check.Checker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Call extends Expressions {
 
@@ -85,6 +87,15 @@ public class Call extends Expressions {
         int i = 0;
         for(Expressions e : listExp)
         {
+            /*System.out.println(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c));
+            System.out.println("method: " + methodName);
+            Iterator it = classMethodType.entrySet().iterator();
+            while(it.hasNext())
+            {
+                Map.Entry pair = (Map.Entry) it.next();
+                System.out.println(pair.getKey());
+                it.remove();
+            }*/
             if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR"))
             {
                 c.toReturn=1;
