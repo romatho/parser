@@ -1,4 +1,4 @@
 class MyClass {
-    myField : int32 <- let x : int32 <- 42 in -x;
+    myField : int32;
 }
 class Main { main() : int32 { 0 } }

@@ -591,10 +591,9 @@ public class Checker {
                         entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey(), this.filename, this);
                     }
                 }
-
                 for (HashMap.Entry<String, Field> entryField: allowedField.get(entryClass.getKey()).entrySet()) {
                     //check if the field is not a parent method : To avoid multiple 'getType' on the same method
-                    if (allowedClasses.get(entryClass.getKey()).getBody().getMyFields().contains(entryField.getValue())) {
+                    if (allowedClasses.get(entryClass.getKey()).getBody().getMyFields().contains(entryField.getValue()) && entryField.getValue().getExpression() != null ) {
                         entryField.getValue().getExpression().getType(classFieldType, classMethodType, classMethodFormalsType,  new HashMap<String,String>(), entryClass.getKey(), this.filename, null,this);
                     }
                 }
