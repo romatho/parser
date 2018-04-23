@@ -44,7 +44,8 @@ public class Let extends Expressions{
         {
             toDisplay += ", ";
             toDisplay += init.toString(false);
-            toDisplay += " : " + type.toString(checkerMode);
+            if(checkerMode)
+                toDisplay += " : " + type.toString(checkerMode);
         }
         toDisplay += ")";
         if(checkerMode)

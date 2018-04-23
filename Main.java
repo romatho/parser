@@ -76,7 +76,7 @@ public class Main {
 				e.printStackTrace();
 			}
 			Symbol parsed = null;
-			Checker c;
+			Checker c = null;
 			try {
 
 				parsed = p.parse();
@@ -86,9 +86,8 @@ public class Main {
 				System.out.println(program.toString(true));
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(1);
+				System.exit(c.toReturn);
 			}
-			//System.exit(c.toReturn);
 		}
         else
         {
