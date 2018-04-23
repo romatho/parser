@@ -5,6 +5,8 @@ import check.Checker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Terminal extends Expressions{
     private String type;
@@ -40,6 +42,12 @@ public class Terminal extends Expressions{
             if (localVariables.get(value) == null) {
                 if (classFieldType.get(classe).get(value) == null) {
                     ArrayList<Pair<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
+                    Iterator it = classMethodFormalsType.entrySet().iterator();
+                    while (it.hasNext())
+                    {
+                        Map.Entry pair = (Map.Entry) it.next();
+                        System.out.println(pair.getKey());
+                    }
                     if(temp != null)
                     {
                         int i = 0;
@@ -70,10 +78,11 @@ public class Terminal extends Expressions{
 
             }
         }
-     if(type.equals("SELF"))
-     {
-        type= classe;
-        return type;
+
+        if(type.equals("SELF"))
+        {
+            type= classe;
+            return type;
         }
         c.toReturn=1;
         System.err.println(filename +":" + this.displayNode() + "SEMANTIC error: " + this.value + " is undefined");

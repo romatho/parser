@@ -55,24 +55,27 @@ public class Assign extends Expressions{
             if(classFieldType.get(classe).get(objectIdentifier) == null)
             {
                 ArrayList<Pair<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
-                int i = 0;
-                for (i = 0; i < temp.size(); i++)
+                if(temp != null)
                 {
-                    if(temp.get(i).getKey().equals(objectIdentifier))
+                    int i = 0;
+                    for (i = 0; i < temp.size(); i++)
                     {
-                        if(temp.get(i).getValue().equals(type))
+                        if(temp.get(i).getKey().equals(objectIdentifier))
                         {
-                            c.toReturn=1;
-                            return type;
+                            if(temp.get(i).getValue().equals(type))
+                            {
+                                c.toReturn=1;
+                                return type;
+                            }
                         }
                     }
-                }
 
-                System.err.println(filename +":" + this.displayNode() +
-                        "SEMANTIC error: " + objectIdentifier + " is undefined");
-                type = "ERROR";
-                c.toReturn=1;
-                return "ERROR";
+                    System.err.println(filename +":" + this.displayNode() +
+                            "SEMANTIC error: " + objectIdentifier + " is undefined");
+                    type = "ERROR";
+                    c.toReturn=1;
+                    return "ERROR";
+                }
             }
             else
             {
