@@ -160,17 +160,19 @@ public class BinOp extends Expressions{
                 System.err.println(filename +":"+ secondExp.displayNode()+"SEMANTIC error: expected bool with operator and not "+secondType);
             }
             break;
-            case "_":
-                if(firstType.equals(secondType)&&!secondType.equals("ERROR"))
-                    type="bool";
-                else if (!secondType.equals("ERROR")&&!firstType.equals("ERROR"))
-            {
-                type="ERROR";
-                System.err.println(filename +":"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
-            }
+            case "=":
+                if(!firstType.equals(secondType))
+                {
+                    type = "ERROR";
+                    System.err.println(filename +":"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator =");
+                }
+                else
+                {
+                    type = "bool";
+                }
         }
-        if(type=="ERROR")
-            c.toReturn =1;
+        if(type.equals("ERROR"))
+            c.toReturn = 1;
         return type;
     }
 }
