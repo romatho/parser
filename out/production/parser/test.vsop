@@ -1,7 +1,4 @@
-    class // Strange indentation is allowed
- T
-        {
-    field : int32 <- let x : int32 <- 42 in x * x;
-
-
+class MyClass {
+    myField : unit <- if true then ();
 }
+class Main { main() : int32 { 0 } }
