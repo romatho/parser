@@ -74,13 +74,38 @@ public class Let extends Expressions{
         }
 
         // check if there is an error in the expression of the scope with the defined variable
-        localVariables.put(objectIdentifier, type.getType());
+        String ltype="OI";
+        if (localVariables.get(objectIdentifier) == null) {
+                if (classFieldType.get(classe).get(objectIdentifier) == null) {
+                    ArrayList<Pair<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
+                    int i =0;
+                    for ( i = 0; i < temp.size(); i++) {
+                        if (temp.get(i).getKey().equals(objectIdentifier)) {
+                            ltype = temp.get(i).getValue();
+                        }
+                        }
+                        if(i==temp.size())
+                        {
+                            System.err.println(filename +":" + this.displayNode() +
+                        "SEMANTIC error: Unknown variable " + objectIdentifier);
+                        return "ERROR";
+                        }
+                }
+                else
+                {
+                    ltype = classFieldType.get(classe).get(objectIdentifier);
+                }
+            } else {
+                ltype = localVariables.get(objectIdentifier);
+
+            }
+        localVariables.put(objectIdentifier,ltype);
         String scopeType = scope.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
         localVariables.remove(objectIdentifier);
         if(scopeType.equals("ERROR"))
             return "ERROR";
 
-        return type.getType();
+        return ltype;
     }
 }
 

@@ -1,5 +1,5 @@
-package parserClasses;
 import java_cup.runtime.*;
+import parserClasses.*;
 
 
 
@@ -164,9 +164,9 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 |expression:exp1 POW expression:exp2
                 {:RESULT = new BinOp(0, 0, "^", exp1, exp2); :}
                 |expression:exp1 DIV expression:exp2
-                {:RESULT = new BinOp(0, 0, "//", exp1, exp2); :}
+                {:RESULT = new BinOp(0, 0, "/", exp1, exp2); :}
                 |expression:exp1 AND expression:exp2
-                {:RESULT = new BinOp(0, 0, "AND", exp1, exp2); :}
+                {:RESULT = new BinOp(0, 0, "and", exp1, exp2); :}
 
                 /*Call*/
                 |OBJECT_IDENTIFIER:oi LPAR argArray:aa RPAR

@@ -26,14 +26,12 @@ public class BinOp extends Expressions{
         String toDisplay = "BinOp(";
         toDisplay += op;
         toDisplay += ", ";
-        toDisplay += firstExp.toString();
-        if(checkerMode)
-            toDisplay += " : " + type;
+        toDisplay += firstExp.toString(checkerMode);
         toDisplay += ", ";
-        toDisplay += secondExp.toString();
+        toDisplay += secondExp.toString(checkerMode);
+        toDisplay += ")"
         if(checkerMode)
             toDisplay += " : " + type;
-        toDisplay += ")";
         return toDisplay;
     }
 
