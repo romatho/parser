@@ -40,35 +40,11 @@ public class Terminal extends Expressions{
 
         else if (type.equals("OI")) {
             if (localVariables.get(value) == null) {
-                System.out.println("localVariables:");
-                Iterator it = localVariables.entrySet().iterator();
-                while (it.hasNext())
-                {
-                    Map.Entry pair = (Map.Entry) it.next();
-                    System.out.println(pair.getKey() + ":" + pair.getValue());
-                }
-                System.out.println("classFieldType:");
-                it = classFieldType.entrySet().iterator();
-                while (it.hasNext())
-                {
-                    Map.Entry pair = (Map.Entry) it.next();
-                    System.out.println(pair.getKey());
-                }
                 if (classFieldType.get(classe).get(value) == null) {
                     ArrayList<Pair<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
-                    System.out.println("classMethodFormalsType:");
-                    it = classMethodFormalsType.entrySet().iterator();
-                    while (it.hasNext())
-                    {
-                        Map.Entry pair = (Map.Entry) it.next();
-                        System.out.println(pair.getKey());
-                    }
-                    System.out.println("classe:" + classe);
-                    System.out.println("methode:" + methode);
                     if(temp != null)
                     {
                         int i = 0;
-                        System.out.println("temp is not null");
                         for ( i = 0; i < temp.size(); i++) {
                             if (temp.get(i).getKey().equals(value)) {
                                 type = temp.get(i).getValue();
