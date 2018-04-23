@@ -1,6 +1,7 @@
 package parserClasses;
 
 import javafx.util.Pair;
+import check.Checker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +10,8 @@ public class If extends Expressions {
     private Expressions condition;
     private Expressions thenStatement;
     private Expressions elseStatement;
-    private String type = null;
+
+
 
     public If(int pColumn, int pLine, Expressions pCondition, Expressions pThen)
     {
@@ -42,8 +44,6 @@ public class If extends Expressions {
         }
 
         toDisplay += ")";
-        if(checkerMode)
-            toDisplay += " : " + type;
         return toDisplay;
     }
 
@@ -51,52 +51,40 @@ public class If extends Expressions {
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String filename, String methode)
+                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
-        System.out.println("getType called");
-        if(type != null)
-            return type;
-
-        if(condition.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode).equals("ERROR") || thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode).equals("ERROR") ||
-                elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode).equals("ERROR"))
-        {
-            type = "ERROR";
+        if(condition.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR") || thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR") ||
+                elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR"))
+            {
+            c.toReturn=1;
             return "ERROR";
+
         }
 
-        if(!condition.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode).equals("bool"))
+        if(!condition.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("bool"))
         {
             System.err.println(filename +":"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
-            type = "ERROR";
+            c.toReturn=1;
             return "ERROR";
         }
         if(elseStatement==null)
+            return thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+        if(thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals(elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c)))
+            return thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+        else if (thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("unit"))
         {
-            type = thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
-            return type;
-        }
-
-        if(thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode).equals(elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode)))
-        {
-            type = thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
-            return type;
-        }
-
-        else if (thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode).equals("unit"))
-        {
-            type = "unit";
             return "unit";
         }
-        else if (elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode).equals("unit"))
+        else if (elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("unit"))
         {
-            type = "unit";
             return "unit";
         }
         else
         {
+            c.toReturn=1;
             System.err.println(filename +":"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
-            type = "ERROR";
             return "ERROR";
         }
+
     }
 }

@@ -1,6 +1,7 @@
 package parserClasses;
 
 import javafx.util.Pair;
+import check.Checker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,14 +35,17 @@ public class UnOp extends Expressions{
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String filename, String methode)
+                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
         if(type!=null)
             return type;
-        String expType = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
+        String expType = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
         // check if there isn't already an error in the lower-level expressions
         if(expType.equals("ERROR"))
+        {
+            c.toReturn=1;
             type= "ERROR";
+        }
 
         switch(firstElement)
         {
@@ -51,6 +55,7 @@ public class UnOp extends Expressions{
                     System.out.println(filename +":" + exp.displayNode() +
                             "SEMANTIC error: expected bool with operator 'not' not " + expType);
                     type= "ERROR";
+                    c.toReturn=1;
                 }
                 type= "bool";
                 return type;
@@ -58,7 +63,8 @@ public class UnOp extends Expressions{
                 if(!expType.equals("int32"))
                 {
                     System.out.println(filename +":" + exp.displayNode() +
-                            "SEMANTIC error: expected int32 with operator '-' not " + expType);
+                            "SEMANTIC error: expected bool with operator '-' not " + expType);
+                    c.toReturn=1;
                     type= "ERROR";
                 }
                 type= "int32";
@@ -67,6 +73,7 @@ public class UnOp extends Expressions{
                 type= "bool";
                 return type;
         }
+        c.toReturn=1;
         type= "ERROR";
         return type;
     }

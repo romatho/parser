@@ -1,6 +1,7 @@
 package parserClasses;
 
 import javafx.util.Pair;
+import check.Checker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ public class BinOp extends Expressions{
     private String op;
     private Expressions firstExp;
     private Expressions secondExp;
-    private String type = null;
+    private String type =null;
 
     public BinOp(int pColumn, int pLine, String pOp, Expressions pFirstExp, Expressions pSecondExp)
     {
@@ -39,12 +40,12 @@ public class BinOp extends Expressions{
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String filename, String methode)
+                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
         if(type!=null)
             return type;
-        String firstType = firstExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
-        String secondType = secondExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
+        String firstType = firstExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+        String secondType = secondExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
         type="ERROR";
         switch(op) {
             case "+":
@@ -118,8 +119,8 @@ public class BinOp extends Expressions{
                 }
                 break;
             case "/":
-                if(firstType.equals("INTEGER_LITERAL")&&secondType.equals("INTEGER_LITERAL"))
-                    type="bool";
+                if(firstType.equals("int32")&&secondType.equals("int32"))
+                    type="int32";
                 else if (!firstType.equals("int32")&&!firstType.equals("ERROR"))
                 {
                     type="ERROR";
@@ -132,8 +133,8 @@ public class BinOp extends Expressions{
                 }
                 break;
             case "^":
-                if(firstType.equals("INTEGER_LITERAL")&&secondType.equals("INTEGER_LITERAL"))
-                    type="bool";
+                if(firstType.equals("int32")&&secondType.equals("int32"))
+                    type="int32";
                 else if (!firstType.equals("int32")&&!firstType.equals("ERROR"))
                 {
                     type="ERROR";
@@ -168,6 +169,8 @@ public class BinOp extends Expressions{
                 System.err.println(filename +":"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
             }
         }
+        if(type=="ERROR")
+            c.toReturn =1;
         return type;
     }
 }

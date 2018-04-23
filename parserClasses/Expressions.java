@@ -1,6 +1,7 @@
 package parserClasses;
 
 import javafx.util.Pair;
+import check.Checker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +17,6 @@ public abstract class Expressions extends Node {
     public abstract String getType( HashMap<String, HashMap<String, String>> classFieldType,
              HashMap<String, HashMap<String, String> > classMethodType,
              HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                                    HashMap<String,String> localVariables, String classe, String filename, String methode);
+                                    HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c);
 
 }

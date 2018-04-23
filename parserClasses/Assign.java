@@ -1,6 +1,7 @@
 package parserClasses;
 
 import javafx.util.Pair;
+import check.Checker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,15 +36,18 @@ public class Assign extends Expressions{
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                           HashMap<String, HashMap<String, String> > classMethodType,
-                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe, String filename, String methode)
+                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
         if(type != null)
             return  type;
 
-        type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
+        type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
 
         if(type.equals("ERROR"))
+        {
+            c.toReturn=1;
             return type;
+        }
 
         // check if the object identifier is defined somewhere and if it has the same type as the assigned expression
         if(localVariables.get(objectIdentifier) == null)
@@ -57,13 +61,17 @@ public class Assign extends Expressions{
                     if(temp.get(i).getKey().equals(objectIdentifier))
                     {
                         if(temp.get(i).getValue().equals(type))
+                        {
+                            c.toReturn=1;
                             return type;
+                        }
                     }
                 }
 
                 System.err.println(filename +":" + this.displayNode() +
                         "SEMANTIC error: " + objectIdentifier + " is undefined");
                 type = "ERROR";
+                c.toReturn=1;
                 return "ERROR";
             }
             else
@@ -74,7 +82,10 @@ public class Assign extends Expressions{
         }
 
         if(!localVariables.get(objectIdentifier).equals(type))
+        {
+            c.toReturn=1;
             type = "ERROR";
+        }
 
         return type;
     }

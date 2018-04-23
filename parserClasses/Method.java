@@ -1,6 +1,7 @@
 package parserClasses;
 
 import javafx.util.Pair;
+import check.Checker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,9 +40,9 @@ public class Method extends Node{
 
     public void getType(HashMap<String, HashMap<String, String>> classFieldType,
                    HashMap<String, HashMap<String, String> > classMethodType,
-                   HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType, String classe, String filename)
+                   HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType, String classe, String filename,Checker c)
     {
-        this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier);
+        this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c);
     }
 
     public String getReturnType() {

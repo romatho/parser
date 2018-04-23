@@ -1,6 +1,7 @@
 package parserClasses;
 
 import javafx.util.Pair;
+import check.Checker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,24 +36,29 @@ public class While extends Expressions {
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String filename, String methode)
+                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
         if(type!=null)
             return  type;
-        String condType = condition.getType( classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
-        String bodyType = body.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
+        String condType = condition.getType( classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode,c);
+        String bodyType = body.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode,c);
         // check if there isn't already an error in the lower-level expressions
         if(condType.equals("ERROR") || bodyType.equals("ERROR"))
+        {
+            c.toReturn=1;
             type= "ERROR";
+        }
 
         if(!condType.equals("bool"))
         {
             System.out.println(filename +":" + condition.displayNode() +
                     "SEMANTIC error: expected bool as type for the condition not " + condType);
             type= "ERROR";
+            c.toReturn=1;
         }
 
         type= bodyType;
+        c.toReturn=1;
         return type;
     }
 }

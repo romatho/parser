@@ -1,6 +1,7 @@
 package parserClasses;
 
 import javafx.util.Pair;
+import check.Checker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,17 +45,18 @@ public class Call extends Expressions {
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String filename, String methode)
+                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
 
         if(type != null)
             return type;
 
-        String objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
+        String objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
 
         if(objectType.equals("ERROR"))
         {
             type = "ERROR";
+            c.toReturn=1;
             return type;
         }
         // check if the call is really made on a method of a class
@@ -64,6 +66,7 @@ public class Call extends Expressions {
             System.err.println(filename +":" + objectExp.displayNode() +
                     "SEMANTIC error: A variable of type " + objectType + " cannot have a method.");
             type = "ERROR";
+            c.toReturn=1;
             return type;
         }
         // check if the class contains the specified method or not
@@ -73,6 +76,7 @@ public class Call extends Expressions {
         {
             System.err.println(filename +":" + objectExp.displayNode() +
                     "SEMANTIC error: An object of class " + objectType + " doesn't have a method " + methodName);
+            c.toReturn=1;
             type = "ERROR";
             return type;
         }
@@ -81,12 +85,13 @@ public class Call extends Expressions {
         int i = 0;
         for(Expressions e : listExp)
         {
-            if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode).equals("ERROR"))
+            if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR"))
             {
+                c.toReturn=1;
                 type = "ERROR";
                 return type;
             }
-            String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
+            String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
             Pair<String, String> argument;
             if(objectType.equals("SELF"))
                 argument = classMethodFormalsType.get(classe).get(methodName).get(i);
@@ -99,6 +104,7 @@ public class Call extends Expressions {
                 System.err.println(filename +":" + objectExp.displayNode() +
                         "SEMANTIC error: The argument " + argument.getKey() + " must be of type " +
                         argument.getValue() + " and not " + argType);
+                c.toReturn=1;        
                 type = "ERROR";
                 return type;
             }
