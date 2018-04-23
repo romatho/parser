@@ -14,7 +14,7 @@ public class Checker {
     /*FIELD*/
 
     private String filename;
-    private int nbError;
+    public int toReturn =0;
     //map allowed class with their name
     private HashMap<String, Classe> allowedClasses;
     //map allowed method with their name and their class name
@@ -67,7 +67,7 @@ public class Checker {
 
     public Checker(Program program, String filemane)
     {
-        nbError = 0;
+        toReturn = 0;
         allowedClasses = new HashMap<>();
         allowedMethods = new HashMap<>();
         allowedField = new HashMap<>();
@@ -151,7 +151,7 @@ public class Checker {
             else
             {
                 System.err.println("Error: re-definition of class '" + current.getName() + "'");
-                nbError++;
+                toReturn =1;
             }
         }
 
@@ -159,12 +159,12 @@ public class Checker {
         if(!classesMap.containsKey("Main"))
         {
             System.err.println("Error: Main class not defined ");
-            nbError++;
+            toReturn = 1;
         } else if (!(classesMap.get("Main").getParentClasse().equals("IO") ||
                 classesMap.get("Main").getParentClasse().equals("Object")) )
         {
             System.err.println("Error: main does not implement IO");
-            nbError++;
+            toReturn = 1;
         }
 
         /*
@@ -194,14 +194,14 @@ public class Checker {
             if(toAdd.containsKey(it))
             {
                 System.err.println("Error: cycle in the predecessor: '" + it + "' become is own predecessor");
-                nbError++;
+                toReturn = 1;
             }
             else if(!classesMap.containsKey(it) &&
                     /*!it.equals("IO") &&*/
                     !it.equals("Object"))
             {
                 System.err.println("Error: the parent class '" + it + "' is not defined");
-                nbError++;
+                toReturn = 1;
             }
             else
                 allowedClasses.putAll(toAdd);
@@ -236,12 +236,12 @@ public class Checker {
             {
                 //erreur redéfinition d'une méthode
                 System.err.println("Error: re-definition of class '" + current.getIdentifier() + "'");
-                nbError++;
+                toReturn = 1;
             }
             else if (!allowedType(current.getReturnType()))
             {
                 System.err.println("Error: the returned type '" + current.getReturnType() + "' of the method '" + current.getIdentifier() + "' does not exist");
-                nbError++;
+                toReturn = 1;
             }
             else
             {
@@ -274,12 +274,12 @@ public class Checker {
                 Boolean mainCorrectyIplemented = true;
                 if(!methodMap.get("main").getFormals().isEmpty()) {
                     System.err.println("Error: the main method of the Main class has at least one formal");
-                    nbError++;
+                    toReturn = 1;
                     mainCorrectyIplemented= false;
                 }
                 if(!methodMap.get("main").getReturnType().equals("int32")){
                     System.err.println("Error: the main method of the Main class must return an int32");
-                    nbError++;
+                    toReturn = 1;
                     mainCorrectyIplemented = false;
                 }
                 if(!mainCorrectyIplemented)
@@ -315,11 +315,11 @@ public class Checker {
         for (Formals current : method.getFormals()) {
             if (formalMap.containsKey(current.getIdentifier())) {
                 System.err.println("Error: formal redefinition");
-                nbError++;
+                toReturn = 1;
             }
             else if (!allowedType(current.getType())) {
                 System.err.println("Error: the type '" + current.getType() + "' of the formal '" + current.getIdentifier() + "' is not defined");
-                nbError++;
+                toReturn = 1;
             }
             else
                 formalMap.put(current.getIdentifier(), current);
@@ -345,15 +345,16 @@ public class Checker {
         for (Field current : classe.getBody().getMyFields()) {
             if (fieldMap.containsKey(current.getIdentifier())) {
                 System.err.println("Error: field redefinition");
-                nbError++;
+                toReturn = 1;
             }
             else if (!allowedType(current.getType())) {
                 System.err.println("Error: the type '" + current.getType() + "' of the field '" + current.getIdentifier() + "' is not defined");
-                nbError++;
+                toReturn = 1;
             }
             else if(current.getIdentifier().equals("self"))
             {
                 System.err.println("Error: in " + classe.getName() + " a field cannot be named 'self'");
+                toReturn = 1;
             }
             else
                 fieldMap.put(current.getIdentifier(), current);
@@ -484,7 +485,10 @@ public class Checker {
                                 Method parentMethod = method.getValue();
                                 Method currentClassMethod = allowedMethods.get(entry.getKey()).get(method.getValue().getIdentifier());
                                 if(!checkMethodPrototypeEquality(parentMethod, currentClassMethod))
+                                {
                                     System.err.println("Error: Wrong re-definition of the parent Method " + parentMethod.getIdentifier());
+                                    toReturn = 1;
+                                }
                             }
                             else
                             {
@@ -502,6 +506,7 @@ public class Checker {
                             if(allowedField.get(entry.getKey()).containsKey(field.getKey()))
                             {
                                 System.err.println("Error: re-definition of the parent Field " + field.getKey());
+                                toReturn = 1;
                             }
                             else
                             {
@@ -587,5 +592,10 @@ public class Checker {
                     }
                 }
         }
+    }
+
+    public void setError()
+    {
+        toReturn = 1;
     }
 }

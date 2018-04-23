@@ -76,18 +76,19 @@ public class Main {
 				e.printStackTrace();
 			}
 			Symbol parsed = null;
+			Checker c;
 			try {
 
 				parsed = p.parse();
 				Program program = (Program) parsed.value;
 //				System.out.println(program.toString());
-				Checker c = new Checker(program,path);
+				c = new Checker(program,path);
 				System.out.println(program.toString(true));
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.exit(1);
 			}
-
+			System.exit(c.toReturn);
 		}
         else
         {
