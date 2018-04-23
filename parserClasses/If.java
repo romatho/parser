@@ -55,6 +55,15 @@ public class If extends Expressions {
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
+        if(type != null)
+            return type;
+
+        if(elseStatement==null)
+        {
+            type = thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+            return type;
+        }
+        
         if(condition.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR") || thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR") ||
                 elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR"))
             {
@@ -70,11 +79,7 @@ public class If extends Expressions {
             type = "ERROR";
             return "ERROR";
         }
-        if(elseStatement==null)
-        {
-            type = thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
-            return type;
-        }
+
         if(thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals(elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c)))
         {
             type = thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
