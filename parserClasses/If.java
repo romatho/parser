@@ -61,7 +61,8 @@ public class If extends Expressions {
             System.err.println(filename +":"+ this.displayNode()+"SEMANTIC error: expected same type for both expressions with operator _");
             return "ERROR";
         }
-
+        if(elseStatement==null)
+            return thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
         if(thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode).equals(elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode)))
             return thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
         else if (thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode).equals("unit"))
