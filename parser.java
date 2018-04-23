@@ -779,7 +779,7 @@ class CUP$parser$actions {
 		int exp2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int exp2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Expressions exp2 = (Expressions)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		RESULT = new Let(0, 0, oi, ti, exp1, exp2); 
+		RESULT = new Let(0, 0, oi, ti, exp2, exp1); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expression",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
