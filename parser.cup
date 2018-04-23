@@ -116,7 +116,7 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 |IF expression:exp1 THEN expression:exp2
                 {:RESULT = new If(0, 0, exp1, exp2); :}
                 |IF expression:exp1 THEN LPAR RPAR
-                {:RESULT = new If(0, 0, exp1, null); :}
+                {:RESULT = new If(0, 0, exp1,new Terminal(0, 0, "()","unit") ); :}
                 |IF error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for if expression"); :}
 
