@@ -132,7 +132,7 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
 
                 /*Let*/
                 |LET OBJECT_IDENTIFIER:oi COLON types:ti ASSIGN expression:exp1 IN expression:exp2
-                {:RESULT = new Let(0, 0, oi, ti, exp1, exp2); :}
+                {:RESULT = new Let(0, 0, oi, ti, exp2, exp1); :}
                 |LET OBJECT_IDENTIFIER:oi COLON types:ti IN expression:exp1
                 {:RESULT = new Let(0, 0, oi, ti, exp1); :}
                 |LET error:e

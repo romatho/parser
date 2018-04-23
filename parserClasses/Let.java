@@ -115,7 +115,7 @@ public class Let extends Expressions{
                 ltype = localVariables.get(objectIdentifier);
 
             }
-        localVariables.put(objectIdentifier,ltype);
+        localVariables.put(objectIdentifier,type.getType());
         String scopeType = scope.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode, c);
         localVariables.remove(objectIdentifier);
         if(scopeType.equals("ERROR"))
