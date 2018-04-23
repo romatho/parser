@@ -65,7 +65,7 @@ public class Checker {
         IOClass = new Classe(0, 0, "IO", "Object",  IoBodyClass);
     }
 
-    public Checker(Program program, String filemane)
+    public Checker(Program program, String filename)
     {
         toReturn = 0;
         allowedClasses = new HashMap<>();
@@ -77,9 +77,9 @@ public class Checker {
         classMethodFormalsType = new HashMap<>();
         buildIOClass();
         semanticCheck(program);
-       // System.out.println(program.toString(false));
+        // System.out.println(program.toString(false));
         //System.out.println(program.toString(true));
-        this.filename=filemane;
+        this.filename=filename;
     }
 
     /*PRIVATE*/
@@ -150,7 +150,7 @@ public class Checker {
                 classesMap.put(current.getName(), current);
             else
             {
-                System.err.println("Error: re-definition of class '" + current.getName() + "'");
+                System.err.println(filename + ":" + current.line + ":" +current.column + ": semantic error: re-definition of class '" + current.getName() + "'");
                 toReturn =1;
             }
         }
@@ -158,12 +158,12 @@ public class Checker {
         //check no definition of "Main"
         if(!classesMap.containsKey("Main"))
         {
-            System.err.println("Error: Main class not defined ");
+            System.err.println(filename + ":0:0: semantic error: Main class not defined ");
             toReturn = 1;
         } else if (!(classesMap.get("Main").getParentClasse().equals("IO") ||
                 classesMap.get("Main").getParentClasse().equals("Object")) )
         {
-            System.err.println("Error: main does not implement IO");
+            System.err.println(filename + ":0:0: semantic error: main does not implement IO");
             toReturn = 1;
         }
 
@@ -181,7 +181,7 @@ public class Checker {
              *      The iterator is a class that is already in the toReturn Map
              *      The iterator is a class that is already in the toAdd Map (Cycle in the predecessor list => error)
              *      The iterator is the class "IO" or "Object"
-            * */
+             * */
             while(  classesMap.containsKey(it) &&
                     !allowedClasses.containsKey(it) &&
                     !toAdd.containsKey(it) &&
@@ -193,14 +193,14 @@ public class Checker {
             }
             if(toAdd.containsKey(it))
             {
-                System.err.println("Error: cycle in the predecessor: '" + it + "' become is own predecessor");
+                System.err.println(filename + ":" + classesMap.get(it).line + ":" + classesMap.get(it).column + ": semantic error: cycle in the predecessor: '" + it + "' become is own predecessor");
                 toReturn = 1;
             }
             else if(!classesMap.containsKey(it) &&
                     /*!it.equals("IO") &&*/
                     !it.equals("Object"))
             {
-                System.err.println("Error: the parent class '" + it + "' is not defined");
+                System.err.println(filename + ":" + classesMap.get(it).line + ":" + classesMap.get(it).column + ": semantic error: the parent class '" + it + "' is not defined");
                 toReturn = 1;
             }
             else
@@ -222,7 +222,7 @@ public class Checker {
 
     public void checkMethod(Classe classe) {
 
-         /*
+        /*
          * methodMap is a map containing all the Method of the class
          * Creation of methodMap and check the re-definition of Method
          * Check if the expected returnType is one of the following:
@@ -235,12 +235,12 @@ public class Checker {
             if (methodMap.containsKey(current.getIdentifier()))
             {
                 //erreur redéfinition d'une méthode
-                System.err.println("Error: re-definition of class '" + current.getIdentifier() + "'");
+                System.err.println(filename + ":" + current.line + ":" + current.column + ": semantic error: re-definition of class '" + current.getIdentifier() + "'");
                 toReturn = 1;
             }
             else if (!allowedType(current.getReturnType()))
             {
-                System.err.println("Error: the returned type '" + current.getReturnType() + "' of the method '" + current.getIdentifier() + "' does not exist");
+                System.err.println(filename + ":" + current.line + ":" + current.column + ": semantic error: the returned type '" + current.getReturnType() + "' of the method '" + current.getIdentifier() + "' does not exist");
                 toReturn = 1;
             }
             else
@@ -259,7 +259,7 @@ public class Checker {
             }
         }
 
-         /*
+        /*
          * Check :
          * If Main class implements main method
          * If the main method has no argument
@@ -268,21 +268,21 @@ public class Checker {
          */
         if(classe.getName().equals("Main")) {
             if(!methodMap.containsKey("main")) {
-                System.err.println("Error: Main class does not have a method main");
+                System.err.println(filename + ":0:0: semantic error: Main class does not have a method main");
             }
             else {
-                Boolean mainCorrectyIplemented = true;
+                Boolean mainCorrectyImplemented = true;
                 if(!methodMap.get("main").getFormals().isEmpty()) {
-                    System.err.println("Error: the main method of the Main class has at least one formal");
+                    System.err.println(filename + ":" + methodMap.get("main").line + ":" + methodMap.get("main").column + ": semantic error: the main method of the Main class has at least one formal and does need");
                     toReturn = 1;
-                    mainCorrectyIplemented= false;
+                    mainCorrectyImplemented= false;
                 }
                 if(!methodMap.get("main").getReturnType().equals("int32")){
-                    System.err.println("Error: the main method of the Main class must return an int32");
+                    System.err.println(filename + ":" + methodMap.get("main").line + ":" + methodMap.get("main").column + ": semantic error: the main method of the Main class must return an int32");
                     toReturn = 1;
-                    mainCorrectyIplemented = false;
+                    mainCorrectyImplemented = false;
                 }
-                if(!mainCorrectyIplemented)
+                if(!mainCorrectyImplemented)
                 {
                     methodMap.remove("main");
                     formalMethodMap.remove("main");
@@ -293,7 +293,7 @@ public class Checker {
         {
             methodMap.remove("main");
             formalMethodMap.remove("main");
-            System.out.println("Error: '" + classe.getName() + "'  has a main method but only Main claas is allowed to have a main method");
+            System.out.println(filename + ":" + classe.line + ":" + classe.column + ": semantic error: '" + classe.getName() + "'  has a main method but only Main class is allowed to have a main method");
         }
         allowedMethods.put(classe.getName(), methodMap);
         allowedFormals.put(classe.getName(), formalMethodMap);
@@ -307,18 +307,18 @@ public class Checker {
 
     public HashMap<String, Formals> checkFormal(Method method) {
 
-         /*
+        /*
          * fieldMap is a map containing all the fields of the class
          * Creation of fieldMap and check the re-definition of Field
          */
         HashMap<String, Formals> formalMap = new HashMap<>();
         for (Formals current : method.getFormals()) {
             if (formalMap.containsKey(current.getIdentifier())) {
-                System.err.println("Error: formal redefinition");
+                System.err.println(filename + ":" + current.line + ":" + current.column + ": semantic error: formal redefinition");
                 toReturn = 1;
             }
             else if (!allowedType(current.getType())) {
-                System.err.println("Error: the type '" + current.getType() + "' of the formal '" + current.getIdentifier() + "' is not defined");
+                System.err.println(filename + ":" + current.line + ":" + current.column + ": semantic error: the type '" + current.getType() + "' of the formal '" + current.getIdentifier() + "' is not defined");
                 toReturn = 1;
             }
             else
@@ -337,23 +337,23 @@ public class Checker {
 
     public void checkField(Classe classe) {
 
-         /*
+        /*
          * fieldMap is a map containing all the fields of the class
          * Creation of fieldMap and check the re-definition of Field
          */
         HashMap<String, Field> fieldMap = new HashMap<>();
         for (Field current : classe.getBody().getMyFields()) {
             if (fieldMap.containsKey(current.getIdentifier())) {
-                System.err.println("Error: field redefinition");
+                System.err.println(filename + ":" + current.line + ":" + current.column + ": semantic error: field redefinition");
                 toReturn = 1;
             }
             else if (!allowedType(current.getType())) {
-                System.err.println("Error: the type '" + current.getType() + "' of the field '" + current.getIdentifier() + "' is not defined");
+                System.err.println(filename + ":" + current.line + ":" + current.column + ": semantic error: the type '" + current.getType() + "' of the field '" + current.getIdentifier() + "' is not defined");
                 toReturn = 1;
             }
             else if(current.getIdentifier().equals("self"))
             {
-                System.err.println("Error: in " + classe.getName() + " a field cannot be named 'self'");
+                System.err.println(filename + ":" + current.line + ":" + current.column + ": semantic error: in " + classe.getName() + " a field cannot be named 'self'");
                 toReturn = 1;
             }
             else
@@ -486,7 +486,7 @@ public class Checker {
                                 Method currentClassMethod = allowedMethods.get(entry.getKey()).get(method.getValue().getIdentifier());
                                 if(!checkMethodPrototypeEquality(parentMethod, currentClassMethod))
                                 {
-                                    System.err.println("Error: Wrong re-definition of the parent Method " + parentMethod.getIdentifier());
+                                    System.err.println(filename + ":" + currentClassMethod.line + ":" + currentClassMethod.column + ": semantic error: Wrong re-definition of the parent Method " + parentMethod.getIdentifier());
                                     toReturn = 1;
                                 }
                             }
@@ -505,7 +505,7 @@ public class Checker {
                         {
                             if(allowedField.get(entry.getKey()).containsKey(field.getKey()))
                             {
-                                System.err.println("Error: re-definition of the parent Field " + field.getKey());
+                                System.err.println(filename + ":" + field.getValue().line + ":" + field.getValue().column + ": semantic error: re-definition of the parent Field " + field.getKey());
                                 toReturn = 1;
                             }
                             else
@@ -588,14 +588,9 @@ public class Checker {
                 {
                     //check if the method is not a parent method : To avoid multiple 'getType' on the same method
                     if(allowedClasses.get(entryClass.getKey()).getBody().getMyMethods().contains(entryMethod.getValue())) {
-                        entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey(), this.filename);
+                        entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey(), this.filename, this);
                     }
                 }
         }
-    }
-
-    public void setError()
-    {
-        toReturn = 1;
     }
 }

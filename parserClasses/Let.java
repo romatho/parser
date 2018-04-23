@@ -63,7 +63,7 @@ public class Let extends Expressions{
 
         if(type.getType().equals("ERROR"))
         {
-            c.ToReturn=1;
+            c.toReturn=1;
             return "ERROR";
         }
 
@@ -73,14 +73,14 @@ public class Let extends Expressions{
             String initType = init.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode,c);
             if(initType.equals("ERROR"))
             {
-                c.ToReturn=1;
+                c.toReturn=1;
                 return "ERROR";
             }
             if(!initType.equals(type.getType()))
             {
                 System.err.println(filename +":" + this.displayNode() +
                         "SEMANTIC error: expected same type for the variable and its initialisation");
-                c.ToReturn=1;
+                c.toReturn=1;
                 return "ERROR";
             }
         }
@@ -100,7 +100,7 @@ public class Let extends Expressions{
                         {
                             System.err.println(filename +":" + this.displayNode() +
                         "SEMANTIC error: Unknown variable " + objectIdentifier);
-                        c.ToReturn=1;
+                        c.toReturn=1;
                         return "ERROR";
                         }
                 }
@@ -117,7 +117,7 @@ public class Let extends Expressions{
         localVariables.remove(objectIdentifier);
         if(scopeType.equals("ERROR"))
         {
-            c.ToReturn=1;
+            c.toReturn=1;
             return "ERROR";
         }
 
