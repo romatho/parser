@@ -42,9 +42,7 @@ public class Let extends Expressions{
         if(init != null)
         {
             toDisplay += ", ";
-            toDisplay += init.toString(false);
-            if(checkerMode)
-                toDisplay += " : " + type.toString(checkerMode);
+            toDisplay += init.toString(checkerMode);
         }
         toDisplay += ", ";
         toDisplay += scope.toString(checkerMode);
