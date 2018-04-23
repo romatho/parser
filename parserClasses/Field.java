@@ -28,4 +28,8 @@ public class Field  extends Node {
     public String getType() {
         return type.getType();
     }
+
+    public Expressions getExpression() {
+        return expr;
+    }
 }

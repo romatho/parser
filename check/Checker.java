@@ -584,14 +584,20 @@ public class Checker {
         for(HashMap.Entry<String, HashMap<String, Method> > entryClass : allowedMethods.entrySet())
         {
             //check if the class is not IO
-            if(program.getClasses().contains(allowedClasses.get(entryClass.getKey())))
-                for(HashMap.Entry<String, Method> entryMethod: allowedMethods.get(entryClass.getKey()).entrySet())
-                {
+            if(program.getClasses().contains(allowedClasses.get(entryClass.getKey()))) {
+                for (HashMap.Entry<String, Method> entryMethod : allowedMethods.get(entryClass.getKey()).entrySet()) {
                     //check if the method is not a parent method : To avoid multiple 'getType' on the same method
-                    if(allowedClasses.get(entryClass.getKey()).getBody().getMyMethods().contains(entryMethod.getValue())) {
+                    if (allowedClasses.get(entryClass.getKey()).getBody().getMyMethods().contains(entryMethod.getValue())) {
                         entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey(), this.filename, this);
                     }
                 }
+                for (HashMap.Entry<String, Field> entryField: allowedField.get(entryClass.getKey()).entrySet()) {
+                    //check if the field is not a parent method : To avoid multiple 'getType' on the same method
+                    if (allowedClasses.get(entryClass.getKey()).getBody().getMyFields().contains(entryField.getValue())) {
+                        entryField.getValue().getExpression().getType(classFieldType, classMethodType, classMethodFormalsType,  new HashMap<String,String>(), entryClass.getKey(), this.filename, null,this);
+                    }
+                }
+            }
         }
     }
 }

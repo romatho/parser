@@ -78,7 +78,6 @@ public class Main {
 			Symbol parsed = null;
 			Checker c = null;
 			try {
-
 				parsed = p.parse();
 				Program program = (Program) parsed.value;
 //				System.out.println(program.toString());
