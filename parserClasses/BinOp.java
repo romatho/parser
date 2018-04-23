@@ -29,7 +29,7 @@ public class BinOp extends Expressions{
         toDisplay += firstExp.toString(checkerMode);
         toDisplay += ", ";
         toDisplay += secondExp.toString(checkerMode);
-        toDisplay += ")"
+        toDisplay += ")";
         if(checkerMode)
             toDisplay += " : " + type;
         return toDisplay;
