@@ -25,6 +25,8 @@ public class UnOp extends Expressions{
         toDisplay += ", ";
         toDisplay += exp.toString(checkerMode);
         toDisplay += ")";
+        if(checkerMode)
+            toDisplay += " : " + type;
         return toDisplay;
     }
 
