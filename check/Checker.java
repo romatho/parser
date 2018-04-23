@@ -150,7 +150,7 @@ public class Checker {
                 classesMap.put(current.getName(), current);
             else
             {
-                System.out.println("Error: re-definition of class '" + current.getName() + "'");
+                System.err.println("Error: re-definition of class '" + current.getName() + "'");
                 nbError++;
             }
         }
@@ -158,12 +158,12 @@ public class Checker {
         //check no definition of "Main"
         if(!classesMap.containsKey("Main"))
         {
-            System.out.println("Error: Main class not defined ");
+            System.err.println("Error: Main class not defined ");
             nbError++;
         } else if (!(classesMap.get("Main").getParentClasse().equals("IO") ||
                 classesMap.get("Main").getParentClasse().equals("Object")) )
         {
-            System.out.println("Error: main does not implement IO");
+            System.err.println("Error: main does not implement IO");
             nbError++;
         }
 
@@ -193,14 +193,14 @@ public class Checker {
             }
             if(toAdd.containsKey(it))
             {
-                System.out.println("Error: cycle in the predecessor: '" + it + "' become is own predecessor");
+                System.err.println("Error: cycle in the predecessor: '" + it + "' become is own predecessor");
                 nbError++;
             }
             else if(!classesMap.containsKey(it) &&
                     /*!it.equals("IO") &&*/
                     !it.equals("Object"))
             {
-                System.out.println("Error: the parent class '" + it + "' is not defined");
+                System.err.println("Error: the parent class '" + it + "' is not defined");
                 nbError++;
             }
             else
@@ -235,12 +235,12 @@ public class Checker {
             if (methodMap.containsKey(current.getIdentifier()))
             {
                 //erreur redéfinition d'une méthode
-                System.out.println("Error: re-definition of class '" + current.getIdentifier() + "'");
+                System.err.println("Error: re-definition of class '" + current.getIdentifier() + "'");
                 nbError++;
             }
             else if (!allowedType(current.getReturnType()))
             {
-                System.out.println("Error: the returned type '" + current.getReturnType() + "' of the method '" + current.getIdentifier() + "' does not exist");
+                System.err.println("Error: the returned type '" + current.getReturnType() + "' of the method '" + current.getIdentifier() + "' does not exist");
                 nbError++;
             }
             else
@@ -268,17 +268,17 @@ public class Checker {
          */
         if(classe.getName().equals("Main")) {
             if(!methodMap.containsKey("main")) {
-                System.out.println("Error: Main class does not have a method main");
+                System.err.println("Error: Main class does not have a method main");
             }
             else {
                 Boolean mainCorrectyIplemented = true;
                 if(!methodMap.get("main").getFormals().isEmpty()) {
-                    System.out.println("Error: the main method of the Main class has at least one formal");
+                    System.err.println("Error: the main method of the Main class has at least one formal");
                     nbError++;
                     mainCorrectyIplemented= false;
                 }
                 if(!methodMap.get("main").getReturnType().equals("int32")){
-                    System.out.println("Error: the main method of the Main class must return an int32");
+                    System.err.println("Error: the main method of the Main class must return an int32");
                     nbError++;
                     mainCorrectyIplemented = false;
                 }
@@ -314,11 +314,11 @@ public class Checker {
         HashMap<String, Formals> formalMap = new HashMap<>();
         for (Formals current : method.getFormals()) {
             if (formalMap.containsKey(current.getIdentifier())) {
-                System.out.println("Error: formal redefinition");
+                System.err.println("Error: formal redefinition");
                 nbError++;
             }
             else if (!allowedType(current.getType())) {
-                System.out.println("Error: the type '" + current.getType() + "' of the formal '" + current.getIdentifier() + "' is not defined");
+                System.err.println("Error: the type '" + current.getType() + "' of the formal '" + current.getIdentifier() + "' is not defined");
                 nbError++;
             }
             else
@@ -344,16 +344,16 @@ public class Checker {
         HashMap<String, Field> fieldMap = new HashMap<>();
         for (Field current : classe.getBody().getMyFields()) {
             if (fieldMap.containsKey(current.getIdentifier())) {
-                System.out.println("Error: field redefinition");
+                System.err.println("Error: field redefinition");
                 nbError++;
             }
             else if (!allowedType(current.getType())) {
-                System.out.println("Error: the type '" + current.getType() + "' of the field '" + current.getIdentifier() + "' is not defined");
+                System.err.println("Error: the type '" + current.getType() + "' of the field '" + current.getIdentifier() + "' is not defined");
                 nbError++;
             }
             else if(current.getIdentifier().equals("self"))
             {
-                System.out.println("Error: in " + classe.getName() + " a field cannot be named 'self'");
+                System.err.println("Error: in " + classe.getName() + " a field cannot be named 'self'");
             }
             else
                 fieldMap.put(current.getIdentifier(), current);
@@ -484,7 +484,7 @@ public class Checker {
                                 Method parentMethod = method.getValue();
                                 Method currentClassMethod = allowedMethods.get(entry.getKey()).get(method.getValue().getIdentifier());
                                 if(!checkMethodPrototypeEquality(parentMethod, currentClassMethod))
-                                    System.out.println("Error: Wrong re-definition of the parent Method " + parentMethod.getIdentifier());
+                                    System.err.println("Error: Wrong re-definition of the parent Method " + parentMethod.getIdentifier());
                             }
                             else
                             {
@@ -501,7 +501,7 @@ public class Checker {
                         {
                             if(allowedField.get(entry.getKey()).containsKey(field.getKey()))
                             {
-                                System.out.println("Error: re-definition of the parent Field " + field.getKey());
+                                System.err.println("Error: re-definition of the parent Field " + field.getKey());
                             }
                             else
                             {
