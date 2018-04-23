@@ -25,8 +25,9 @@ public class Call extends Expressions {
     @Override
     public String toString(boolean checkerMode)
     {
+
         String toDisplay = "Call(";
-        toDisplay += objectExp.toString();
+        toDisplay += objectExp.toString(false);
         if(checkerMode)
             toDisplay += " : " + type;
         toDisplay += ", ";
@@ -45,6 +46,7 @@ public class Call extends Expressions {
                            HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode)
     {
+
         if(type != null)
             return type;
 
@@ -55,7 +57,6 @@ public class Call extends Expressions {
             type = "ERROR";
             return type;
         }
-
         // check if the call is really made on a method of a class
         if(objectType.equals("bool") || objectType.equals("int32") ||
                 objectType.equals("string") || objectType.equals("unit"))
@@ -65,9 +66,10 @@ public class Call extends Expressions {
             type = "ERROR";
             return type;
         }
-
         // check if the class contains the specified method or not
-        if(classMethodType.get(objectType).get(methodName) == null)
+        if((objectType.equals("SELF") && classMethodType.get(classe).get(methodName) == null) ||
+                ((!objectType.equals("SELF") && classMethodType.get(objectType).get(methodName) == null)))
+//        if(classMethodType.get(objectType).get(methodName) == null)
         {
             System.err.println(filename +":" + objectExp.displayNode() +
                     "SEMANTIC error: An object of class " + objectType + " doesn't have a method " + methodName);
@@ -85,7 +87,13 @@ public class Call extends Expressions {
                 return type;
             }
             String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode);
-            Pair<String, String> argument = classMethodFormalsType.get(objectType).get(methodName).get(i);
+            Pair<String, String> argument;
+            if(objectType.equals("SELF"))
+                argument = classMethodFormalsType.get(classe).get(methodName).get(i);
+            else
+                argument = classMethodFormalsType.get(objectType).get(methodName).get(i);
+
+
             if(!argument.getValue().equals(argType))
             {
                 System.err.println(filename +":" + objectExp.displayNode() +
@@ -94,9 +102,9 @@ public class Call extends Expressions {
                 type = "ERROR";
                 return type;
             }
+            else
+                type = argType;
         }
-
-        type = classMethodType.get(objectType).get(methodName);
         return type;
     }
 }
