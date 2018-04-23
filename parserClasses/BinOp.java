@@ -105,7 +105,7 @@ public class BinOp extends Expressions{
                 break;
             case "*":
                 if(firstType.equals("int32")&&secondType.equals("int32"))
-                    type="bool";
+                    type="int32";
                 else if (!firstType.equals("int32")&&!firstType.equals("ERROR"))
                 {
                     type="ERROR";

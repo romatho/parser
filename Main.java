@@ -88,7 +88,7 @@ public class Main {
 				e.printStackTrace();
 				System.exit(1);
 			}
-			System.exit(c.toReturn);
+			//System.exit(c.toReturn);
 		}
         else
         {
