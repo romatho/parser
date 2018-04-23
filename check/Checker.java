@@ -160,7 +160,8 @@ public class Checker {
         {
             System.out.println("Error: Main class not defined ");
             nbError++;
-        } else if (!classesMap.get("Main").getParentClasse().equals("IO"))
+        } else if (!(classesMap.get("Main").getParentClasse().equals("IO") ||
+                classesMap.get("Main").getParentClasse().equals("Object")) )
         {
             System.out.println("Error: main does not implement IO");
             nbError++;
@@ -522,7 +523,7 @@ public class Checker {
         {
             for(int i = 0; i< a.getFormals().size(); i++)
             {
-                if(a.getFormals().get(i).getType().equals(a.getFormals().get(i).getType()))
+                if(! a.getFormals().get(i).getType().equals(b.getFormals().get(i).getType()))
                     return false;
             }
             return true;
