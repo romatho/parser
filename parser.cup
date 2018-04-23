@@ -240,6 +240,9 @@ method::=       OBJECT_IDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON ty
 
 block::=        LBRACE expArray:ea expression:exp1 RBRACE
                 {: ea.add(exp1); RESULT = new Blocks(0,0,ea); :};
+                |
+                |error:e
+                {: parser.errorMessage(eleft, eright, "Wrong syntax for block definition"); :};
 
 argArray::=     argOthers:args expression:exp1
                 {:args.add(exp1); RESULT=args;:}

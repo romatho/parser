@@ -1,4 +1,8 @@
 class MyClass {
+<<<<<<< Updated upstream
     myField : int32 <- let x : int32 <- 42 in x;
+=======
+    myField : bool <- 42 = 0;
+>>>>>>> Stashed changes
 }
 class Main { main() : int32 { 0 } }
