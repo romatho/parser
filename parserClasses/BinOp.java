@@ -26,9 +26,9 @@ public class BinOp extends Expressions{
         String toDisplay = "BinOp(";
         toDisplay += op;
         toDisplay += ", ";
-        toDisplay += firstExp.toString();
+        toDisplay += firstExp.toString(checkerMode);
         toDisplay += ", ";
-        toDisplay += secondExp.toString();
+        toDisplay += secondExp.toString(checkerMode);
         toDisplay += ")";
         if(checkerMode)
             toDisplay += " : " + type;

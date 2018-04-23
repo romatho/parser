@@ -2,6 +2,7 @@ import java_cup.runtime.*;
 import parserClasses.Program;
 import parserClasses.*;
 import check.Checker;
+import lex.MySymb;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -29,7 +30,7 @@ public class Main {
 
 
     				retrievedSym = lexer.next_token();
-					currentSym = new MySymb(retrievedSym,"ok");
+					currentSym = new MySymb(retrievedSym,sym.terminalNames[retrievedSym.sym].replace("_", "-").toLowerCase());
     				currentSym.display();
     			}
     		}
@@ -57,7 +58,7 @@ public class Main {
 			try {
 				parsed = p.parse();
 				Program program = (Program) parsed.value;
-				System.out.println(program.toString());
+				System.out.println(program.toString(false));
 
 				//System.out.println(p.program.toString());
 			} catch (Exception e) {

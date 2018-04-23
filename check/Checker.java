@@ -588,8 +588,4 @@ public class Checker {
                 }
         }
     }
-
-
-
-
 }
