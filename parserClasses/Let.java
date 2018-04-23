@@ -43,10 +43,12 @@ public class Let extends Expressions{
         if(init != null)
         {
             toDisplay += ", ";
-            toDisplay += init.toString(!checkerMode);
+            toDisplay += init.toString(false);
             toDisplay += " : " + type.toString(checkerMode);
         }
         toDisplay += ")";
+        if(checkerMode)
+            toDisplay += " : " + type.toString(checkerMode);
         return toDisplay;
     }
 
