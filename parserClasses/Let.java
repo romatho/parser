@@ -39,8 +39,6 @@ public class Let extends Expressions{
         toDisplay += objectIdentifier;
         toDisplay += ", ";
         toDisplay += type.toString(checkerMode);
-        toDisplay += ", ";
-        toDisplay += scope.toString(checkerMode);
         if(init != null)
         {
             toDisplay += ", ";
@@ -48,6 +46,8 @@ public class Let extends Expressions{
             if(checkerMode)
                 toDisplay += " : " + type.toString(checkerMode);
         }
+        toDisplay += ", ";
+        toDisplay += scope.toString(checkerMode);
         toDisplay += ")";
         if(checkerMode)
             toDisplay += " : " + type.toString(checkerMode);
