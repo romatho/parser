@@ -63,7 +63,7 @@ public class If extends Expressions {
             type = thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
             return type;
         }
-        
+
         if(condition.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR") || thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR") ||
                 elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR"))
             {
