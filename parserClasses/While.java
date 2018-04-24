@@ -37,12 +37,12 @@ public class While extends Expressions {
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair > > > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
+                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr)
     {
         if(type!=null)
             return  type;
-        String condType = condition.getType( classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode,c);
-        String bodyType = body.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode,c);
+        String condType = condition.getType( classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode,c, fieldExpr);
+        String bodyType = body.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode,c, fieldExpr);
         // check if there isn't already an error in the lower-level expressions
         if(condType.equals("ERROR") )
         {

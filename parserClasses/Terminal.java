@@ -32,7 +32,16 @@ public class Terminal extends Expressions{
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c) {
+                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr) {
+        // Check that we're not in a field init expression and that we're using another field of the class to init it
+        if(fieldExpr && classFieldType.get(classe).containsKey(value))
+        {
+            System.err.println(filename +":" + this.displayNode() +
+                    "semantic error: cannot use class fields in field initializers.");
+            c.toReturn = 1;
+            type = "ERROR";
+            return type;
+        }
 
         if(value.equals("self"))
         {

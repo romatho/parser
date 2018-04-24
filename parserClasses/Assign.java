@@ -36,12 +36,12 @@ public class Assign extends Expressions{
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                           HashMap<String, HashMap<String, String> > classMethodType,
-                          HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
+                          HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr)
     {
         if(type != null)
             return  type;
 
-        type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+        type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr);
         if(type.equals("ERROR"))
         {
             c.toReturn=1;

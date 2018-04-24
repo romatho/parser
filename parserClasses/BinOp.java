@@ -40,12 +40,13 @@ public class BinOp extends Expressions{
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
+                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr)
     {
         if(type!=null)
             return type;
-        String firstType = firstExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
-        String secondType = secondExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+
+        String firstType = firstExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr);
+        String secondType = secondExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr);
         type="ERROR";
         switch(op) {
             case "+":

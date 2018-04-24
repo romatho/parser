@@ -47,12 +47,12 @@ public class Call extends Expressions {
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
-                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
+                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr)
     {
         if(type != null)
             return type;
 
-        String objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+        String objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr);
 
         if(objectType.equals("ERROR"))
         {
@@ -99,13 +99,13 @@ public class Call extends Expressions {
         int i = 0;
         for(Expressions e : listExp)
         {
-            if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR"))
+            if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr).equals("ERROR"))
             {
                 c.toReturn=1;
                 type = "ERROR";
                 return type;
             }
-            String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+            String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr);
             Pair argument;
             if(objectType.equals("SELF"))
                 argument = classMethodFormalsType.get(classe).get(methodName).get(i);

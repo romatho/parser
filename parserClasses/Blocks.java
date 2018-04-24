@@ -32,15 +32,15 @@ public class Blocks extends Expressions{
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                           HashMap<String, HashMap<String, String> > classMethodType,
                           HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
-                          HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
+                          HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr)
     {
         if (type!=null)
             return type;
         for(int i=0; i<exprs.size()-1;i++)
         {
-            exprs.get(i).getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+            exprs.get(i).getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr);
         }
-        type= exprs.get(exprs.size()-1).getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+        type= exprs.get(exprs.size()-1).getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr);
         return type;
     }
 
