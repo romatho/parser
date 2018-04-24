@@ -618,21 +618,15 @@ public class Checker {
     {
         if(parent.equals("Object"))
             return true;
-        
+
         if(allowedClasses.containsKey(child) && allowedClasses.containsKey(parent))
-        {
             while(!child.equals("Object")) {
                 if (child.equals(parent))
                     return true;
                 else
-                {
-                    child =allowedClasses.get(child).getParentClasse();
-                    System.out.println(child);
-                }
+                    child = allowedClasses.get(child).getParentClasse();
             }
-            if (child.equals(parent))
-                return true;
-        }
+
         return false;
     }
 }
