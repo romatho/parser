@@ -15,7 +15,7 @@ public abstract class Node {
 
     public String displayNode()
     {
-        return new String(column + "," + line + "," );
+        return new String(column + ":" + line + ":" );
 
     }
 }

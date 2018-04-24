@@ -1,26 +1,4 @@
-<<<<<<< HEAD
 class MyClass {
     myField : unit <- while 0 do 42;
 }
 class Main { main() : int32 { 0 } }
-=======
-<<<<<<< Updated upstream
-class MyClass extends IO {
-    myMethod() : unit {
-        print("In myMethod()");
-        let x : Object <-
-            if (inputInt32 = 42) then new UndefType
-            else new Object in
-        ()
-    }
-}
-class Main {
-    main() : int32 { 0 }
-}
-=======
-class MyClass {
-    myField : int32 <- if true then 42;
-}
-class Main { main() : int32 { 0 } }
->>>>>>> Stashed changes
->>>>>>> f7bea702d33b3a8d998810ed572c52d4f4457903
