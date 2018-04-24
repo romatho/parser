@@ -59,13 +59,25 @@ public class Let extends Expressions{
                            HashMap<String,String> localVariables, String classe, String filename, String methode,Checker c)
     {
 
-        if(type.getType().equals("ERROR"))
+        String objectType = type.getType();
+        if(objectType.equals("ERROR"))
         {
             c.toReturn=1;
             retType = "ERROR";
             return "ERROR";
         }
 
+        // If the type specified for the variable doesn't correspond to a default type
+        // or a defined object type
+        if(!objectType.equals("bool") && !objectType.equals("int32") && !objectType.equals("string")
+                 && !objectType.equals("unit") && !classFieldType.containsKey(objectType))
+        {
+            System.err.println(filename +":" + this.displayNode() +
+                    "SEMANTIC error: use of undefined type " + objectType);
+            retType = "ERROR";
+            return "ERROR";
+        }
+        
         // The variable will be considered as a local variable in init and scope expressions
         localVariables.put(objectIdentifier,type.getType());
 
