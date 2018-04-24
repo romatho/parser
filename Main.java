@@ -82,7 +82,8 @@ public class Main {
 				Program program = (Program) parsed.value;
 //				System.out.println(program.toString());
 				c = new Checker(program,path);
-				System.out.println(program.toString(true));
+				if(c.toReturn!=1)
+					System.out.println(program.toString(true));
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.exit(c.toReturn);

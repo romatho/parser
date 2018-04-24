@@ -85,6 +85,11 @@ public class Let extends Expressions{
         // check if there is an error in the expression of the scope with the defined variable
         String ltype="OI";
         if (localVariables.get(objectIdentifier) == null) {
+            if(classFieldType.containsKey(objectIdentifier))
+            {
+                ltype = objectIdentifier;
+                return ltype;
+            }
                 if (classFieldType.get(classe).get(objectIdentifier) == null) {
                     ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
                     if(temp != null)

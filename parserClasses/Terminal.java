@@ -40,6 +40,11 @@ public class Terminal extends Expressions{
 
         else if (type.equals("OI")) {
             if (localVariables.get(value) == null) {
+                if(classFieldType.containsKey(value))
+                {
+                    type = value;
+                    return type;
+                }
                 if (classFieldType.get(classe).get(value) == null) {
                     ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
                     if(temp != null)

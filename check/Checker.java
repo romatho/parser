@@ -576,6 +576,7 @@ public class Checker {
                     fieldConvert.put(fieldEntry.getKey(), fieldEntry.getValue().getType());
                 classFieldType.put(classEntry.getKey(), fieldConvert);
             }
+            classFieldType.put("Object",new HashMap<>());
         }
     }
 
