@@ -69,8 +69,9 @@ public class Let extends Expressions{
 
         // If the type specified for the variable doesn't correspond to a default type
         // or a defined object type
-        if(!objectType.equals("bool") && !objectType.equals("int32") && !objectType.equals("string")
-                 && !objectType.equals("unit") && !classFieldType.containsKey(objectType))
+        if(!objectType.equals("bool") && !objectType.equals("int32") && !objectType.equals("string") &&
+                !objectType.equals("unit") && !classFieldType.containsKey(objectType) &&
+                 !classMethodFormalsType.containsKey(objectType))
         {
             System.err.println(filename +":" + this.displayNode() +
                     "SEMANTIC error: use of undefined type " + objectType);
