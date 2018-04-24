@@ -1,13 +1,10 @@
-class A {
-    select(i : int32, j : int32, b : bool) : int32 {
-        if b then i
-        else j
+class MyClass extends IO {
+    myMethod(n : int32) : unit {
+        while not (n <= 0) do {
+            printInt32(n);
+            print("\n");
+            n = n - 1
+        }
     }
-}
-class B {
-    getTheTruth() : bool { true }
-}
-class MyClass {
-    myField : int32 <- (new A).select(0, 42, (new B).getTheTruth());
 }
 class Main { main() : int32 { 0 } }

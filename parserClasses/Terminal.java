@@ -34,8 +34,7 @@ public class Terminal extends Expressions{
                            HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c) {
 
-        if (type.equals("bool") || type.equals("int32") ||
-                type.equals("string") || type.equals("unit"))
+        if (type!="SELF"&&type!="OI")
             return type;
 
         else if (type.equals("OI")) {
