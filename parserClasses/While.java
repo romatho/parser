@@ -42,7 +42,7 @@ public class While extends Expressions {
         String condType = condition.getType( classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode,c);
         String bodyType = body.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode,c);
         // check if there isn't already an error in the lower-level expressions
-        if(condType.equals("ERROR") || bodyType.equals("ERROR"))
+        if(condType.equals("ERROR") )
         {
             c.toReturn=1;
             type= "ERROR";
@@ -56,8 +56,7 @@ public class While extends Expressions {
             c.toReturn=1;
         }
 
-        type= bodyType;
-        c.toReturn=1;
+        type= "unit";
         return type;
     }
 }
