@@ -82,6 +82,19 @@ public class Call extends Expressions {
             return type;
         }
 
+        int nbCallArgs = listExp.size();
+        int nbDefArgs = classMethodFormalsType.get(objectType).get(methodName).size();
+        // check if the number of arguments given to the function call is the same as in its definition
+        if(nbCallArgs != nbDefArgs)
+        {
+            System.err.println(filename +":" + objectExp.displayNode() +
+                    "semantic error: method " + methodName + " of class " + objectType +
+                    " expects " + nbDefArgs + " arguments, but " + nbCallArgs + " were provided.");
+            c.toReturn = 1;
+            type = "ERROR";
+            return type;
+        }
+
         // check if the arguments given to the function have the same type as the formals
         int i = 0;
         for(Expressions e : listExp)
