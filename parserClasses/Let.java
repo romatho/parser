@@ -64,6 +64,9 @@ public class Let extends Expressions{
             return "ERROR";
         }
 
+        // The variable will be considered as a local variable in init and scope expressions
+        localVariables.put(objectIdentifier,type.getType());
+
         // if init exists, check if its type corresponds to the one defined for the object
         if(init != null)
         {
@@ -117,7 +120,7 @@ public class Let extends Expressions{
                 ltype = localVariables.get(objectIdentifier);
 
             }
-        localVariables.put(objectIdentifier,type.getType());
+
         String scopeType = scope.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode, c);
         localVariables.remove(objectIdentifier);
         if(scopeType.equals("ERROR"))

@@ -1,10 +1,4 @@
-class MyClass extends IO {
-    myMethod(n : int32) : unit {
-        while not (n <= 0) do {
-            printInt32(n);
-            print("\n");
-            n = n - 1
-        }
-    }
+class MyClass {
+    myMethod(i : int32, unused : string) : int32 { let x : int32 in x <- i }
 }
 class Main { main() : int32 { 0 } }
