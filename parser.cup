@@ -115,8 +115,6 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = new If(0, 0, exp1, exp2, exp3); :}
                 |IF expression:exp1 THEN expression:exp2
                 {:RESULT = new If(0, 0, exp1, exp2); :}
-                |IF expression:exp1 THEN LPAR RPAR
-                {:RESULT = new If(0, 0, exp1,new Terminal(0, 0, "()","unit") ); :}
                 |IF error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for if expression"); :}
 
@@ -187,7 +185,9 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {: RESULT = b; :}
 
                 |terminaison:ter
-                {:RESULT = ter; :};
+                {:RESULT = ter; :}
+                |LPAR RPAR
+                {: RESULT = new Terminal(0, 0, "()","unit"); :};
 
                 /*Terminaison*/
 
@@ -240,8 +240,7 @@ method::=       OBJECT_IDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON ty
 
 block::=        LBRACE expArray:ea expression:exp1 RBRACE
                 {: ea.add(exp1); RESULT = new Blocks(0,0,ea); :};
-                |error:e
-                {: parser.errorMessage(eleft, eright, "Wrong syntax for block definition"); :};
+
 
 argArray::=     argOthers:args expression:exp1
                 {:args.add(exp1); RESULT=args;:}
