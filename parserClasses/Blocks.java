@@ -22,7 +22,9 @@ public class Blocks extends Expressions{
     {
         if(exprs.size() == 1)
             return this.exprs.get(0).toString(checkerMode);
+        if(checkerMode)
         return this.exprs.toString(checkerMode)+" : "+this.type;
+        return this.exprs.toString(checkerMode);
 
     }
 
