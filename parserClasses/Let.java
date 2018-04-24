@@ -11,6 +11,7 @@ public class Let extends Expressions{
     private Types type;
     private Expressions scope;
     private Expressions init;
+    String retType = null;
 
 
     public Let(int pColumn, int pLine, String pObjectIdentifier, Types pType, Expressions pScope)
@@ -47,7 +48,7 @@ public class Let extends Expressions{
         toDisplay += scope.toString(checkerMode);
         toDisplay += ")";
         if(checkerMode)
-            toDisplay += " : " + type.toString(checkerMode);
+            toDisplay += " : " + retType;
         return toDisplay;
     }
 
@@ -61,6 +62,7 @@ public class Let extends Expressions{
         if(type.getType().equals("ERROR"))
         {
             c.toReturn=1;
+            retType = "ERROR";
             return "ERROR";
         }
 
@@ -74,6 +76,7 @@ public class Let extends Expressions{
             if(initType.equals("ERROR"))
             {
                 c.toReturn=1;
+                retType = "ERROR";
                 return "ERROR";
             }
             if(!initType.equals(type.getType()))
@@ -81,6 +84,7 @@ public class Let extends Expressions{
                 System.err.println(filename +":" + this.displayNode() +
                         "SEMANTIC error: expected same type for the variable and its initialisation");
                 c.toReturn=1;
+                retType = "ERROR";
                 return "ERROR";
             }
         }
@@ -91,6 +95,7 @@ public class Let extends Expressions{
             if(classFieldType.containsKey(objectIdentifier))
             {
                 ltype = objectIdentifier;
+                retType = ltype;
                 return ltype;
             }
                 if (classFieldType.get(classe).get(objectIdentifier) == null) {
@@ -108,6 +113,7 @@ public class Let extends Expressions{
                             System.err.println(filename +":" + this.displayNode() +
                                     "SEMANTIC error: Unknown variable " + objectIdentifier);
                             c.toReturn=1;
+                            retType = "ERROR";
                             return "ERROR";
                         }
                     }
@@ -126,10 +132,12 @@ public class Let extends Expressions{
         if(scopeType.equals("ERROR"))
         {
             c.toReturn=1;
+            retType = "ERROR";
             return "ERROR";
         }
 
-        return ltype;
+        retType = scopeType;
+        return retType;
     }
 }
 
