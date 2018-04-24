@@ -601,4 +601,15 @@ public class Checker {
             }
         }
     }
+    public Boolean childHasParent(String child, String parent)
+    {
+        if(allowedClasses.containsKey(child) && allowedClasses.containsKey(parent))
+            while(!child.equals("Object")) {
+                if (child.equals(parent))
+                    return true;
+                else
+                    child =allowedClasses.get(child).getParentClasse();
+            }
+        return false;
+    }
 }

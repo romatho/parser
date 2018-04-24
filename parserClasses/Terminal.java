@@ -34,6 +34,11 @@ public class Terminal extends Expressions{
                            HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c) {
 
+        if(value.equals("self"))
+        {
+            type= classe;
+            return type;
+        }
         if (type!="SELF"&&type!="OI")
             return type;
 
