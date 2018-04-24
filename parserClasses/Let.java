@@ -81,6 +81,9 @@ public class Let extends Expressions{
         }
 
         // The variable will be considered as a local variable in init and scope expressions
+        String temp=null;
+        if(localVariables.containsKey(objectIdentifier))
+            temp=localVariables.get(objectIdentifier);
         localVariables.put(objectIdentifier,type.getType());
 
         // if init exists, check if its type corresponds to the one defined for the object
@@ -113,16 +116,16 @@ public class Let extends Expressions{
                 return ltype;
             }
                 if (classFieldType.get(classe).get(objectIdentifier) == null) {
-                    ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
+                    ArrayList<Pair> temp2 = classMethodFormalsType.get(classe).get(methode);
                     if(temp != null)
                     {
                         int i =0;
-                        for ( i = 0; i < temp.size(); i++) {
-                            if (temp.get(i).getKey().equals(objectIdentifier)) {
-                                ltype = temp.get(i).getValue();
+                        for ( i = 0; i < temp2.size(); i++) {
+                            if (temp2.get(i).getKey().equals(objectIdentifier)) {
+                                ltype = temp2.get(i).getValue();
                             }
                         }
-                        if(i==temp.size())
+                        if(i==temp2.size())
                         {
                             System.err.println(filename +":" + this.displayNode() +
                                     "semantic error: Unknown variable " + objectIdentifier);
@@ -142,7 +145,10 @@ public class Let extends Expressions{
             }
 
         String scopeType = scope.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode, c);
-        localVariables.remove(objectIdentifier);
+        if(temp!=null)
+            localVariables.put(objectIdentifier,temp);
+        else
+            localVariables.remove(objectIdentifier);
         if(scopeType.equals("ERROR"))
         {
             c.toReturn=1;

@@ -43,7 +43,9 @@ public class Method extends Node{
                    HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType, String classe, String filename,Checker c)
     {
         if(!ReturnType.getType().equals(this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c)))
-        {
+
+            if(!c.childHasParent(this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c),ReturnType.getType()))
+            {
             System.err.println(filename +":" + this.displayNode() +
                     "semantic error: return type for " +Identifier  + " is "+ReturnType.getType()+" not "+this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c));
         c.toReturn=1;
