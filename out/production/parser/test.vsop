@@ -1,4 +1,4 @@
 class MyClass {
-    myField : unit <- while 0 do 42;
+    myField : bool <- x <- true;
 }
 class Main { main() : int32 { 0 } }

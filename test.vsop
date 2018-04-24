@@ -1,4 +1,8 @@
 class MyClass {
+<<<<<<< Updated upstream
     myField : unit <- while 0 do 42;
+=======
+    myField : bool <- x <- true;
+>>>>>>> Stashed changes
 }
 class Main { main() : int32 { 0 } }

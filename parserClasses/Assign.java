@@ -42,7 +42,6 @@ public class Assign extends Expressions{
             return  type;
 
         type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
-
         if(type.equals("ERROR"))
         {
             c.toReturn=1;
@@ -54,6 +53,7 @@ public class Assign extends Expressions{
         {
             if(classFieldType.get(classe).get(objectIdentifier) == null)
             {
+
                 ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
                 if(temp != null)
                 {
@@ -67,20 +67,38 @@ public class Assign extends Expressions{
                                 c.toReturn=1;
                                 return type;
                             }
+
+                        }
+                        if(i==temp.size())
+                        {
+                            System.err.println(filename +":" + this.displayNode() +
+                                    "SEMANTIC error: Unknown variable " + objectIdentifier);
+                            c.toReturn=1;
+                            return "ERROR";
                         }
                     }
 
+                }
+                System.err.println(filename +":" + this.displayNode() +
+                        "SEMANTIC error: " + objectIdentifier + " is undefined");
+                type = "ERROR";
+                c.toReturn=1;
+                return "ERROR";
+            }
+            else
+            {
+                if(classFieldType.get(classe).get(objectIdentifier)!=null){
+                    if(classFieldType.get(classe).get(objectIdentifier).equals(type))
+                        return type;
+                }
+                else{
                     System.err.println(filename +":" + this.displayNode() +
                             "SEMANTIC error: " + objectIdentifier + " is undefined");
                     type = "ERROR";
                     c.toReturn=1;
                     return "ERROR";
                 }
-            }
-            else
-            {
-                if(classFieldType.get(classe).get(objectIdentifier).equals(type))
-                    return type;
+
             }
         }
 
