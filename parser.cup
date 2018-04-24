@@ -90,10 +90,10 @@ classArray::=   classArray:ca class_:c {: ca.add(c); RESULT = ca; :}
 expArray::=     expArray:ea expression:exp1 SEMICOLON {: ea.add(exp1); RESULT = ea; :}
                 |                     {: RESULT = new ParserArray<Expressions>(); :};
 
-class_::=        CLASS TYPE_IDENTIFIER:name LBRACE classBody:bd  RBRACE
-                {: RESULT = new Classe(0, 0, name, bd );:}
-                |CLASS TYPE_IDENTIFIER:name EXTENDS TYPE_IDENTIFIER:parent LBRACE classBody:bd  RBRACE
-                {: RESULT = new Classe(0, 0, name, parent, bd);:}
+class_::=        CLASS:c TYPE_IDENTIFIER:name LBRACE classBody:bd  RBRACE
+                {: RESULT = new Classe(cleft, cright, name, bd );:}
+                |CLASS:c TYPE_IDENTIFIER:name EXTENDS TYPE_IDENTIFIER:parent LBRACE classBody:bd  RBRACE
+                {: RESULT = new Classe(cleft, cright, name, parent, bd);:}
                 |CLASS error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for class expression"); :};
 
@@ -111,10 +111,10 @@ formalArray::=  formalArray:fa formals:f  COMMA{:  fa.add(f); RESULT =fa; :}
 
 
                 /*If*/
-expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
-                {:RESULT = new If(0, 0, exp1, exp2, exp3); :}
-                |IF expression:exp1 THEN expression:exp2
-                {:RESULT = new If(0, 0, exp1, exp2); :}
+expression::=   IF:i expression:exp1 THEN expression:exp2 ELSE expression:exp3
+                {:RESULT = new If(ileft, iright, exp1, exp2, exp3); :}
+                |IF:i expression:exp1 THEN expression:exp2
+                {:RESULT = new If(ileft, iright, exp1, exp2); :}
                 |IF error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for if expression"); :}
 
@@ -123,60 +123,60 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
                 {:RESULT = exp1; :}
 
                 /*While*/
-                | WHILE expression:exp1 DO expression:exp2
-                {:RESULT = new While(0, 0, exp1, exp2); :}
+                | WHILE:w expression:exp1 DO expression:exp2
+                {:RESULT = new While(wleft, wright, exp1, exp2); :}
                 |WHILE expression:exp error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for while expression"); :}
 
                 /*Let*/
-                |LET OBJECT_IDENTIFIER:oi COLON types:ti ASSIGN expression:exp1 IN expression:exp2
-                {:RESULT = new Let(0, 0, oi, ti, exp2, exp1); :}
-                |LET OBJECT_IDENTIFIER:oi COLON types:ti IN expression:exp1
-                {:RESULT = new Let(0, 0, oi, ti, exp1); :}
+                |LET:l OBJECT_IDENTIFIER:oi COLON types:ti ASSIGN expression:exp1 IN expression:exp2
+                {:RESULT = new Let(lleft,lright, oi, ti, exp2, exp1); :}
+                |LET:l OBJECT_IDENTIFIER:oi COLON types:ti IN expression:exp1
+                {:RESULT = new Let(lleft,lright, oi, ti, exp1); :}
                 |LET error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for let expression"); :}
 
                 /*Assign*/
                 |OBJECT_IDENTIFIER:oi ASSIGN expression:exp1
-                {:RESULT = new Assign(0, 0, oi, exp1); :}
+                {:RESULT = new Assign(oileft, oiright, oi, exp1); :}
 
                 /*UnOp*/
-                |NOT expression:exp1
-                {:RESULT = new UnOp(0, 0, "not", exp1); :}
-                |MINUS expression:exp1
-                {:RESULT = new UnOp(0, 0, "-", exp1); :}
-                |ISNULL expression:exp1
-                {:RESULT = new UnOp(0, 0, "isnull", exp1); :}
+                |NOT:unop expression:exp1
+                {:RESULT = new UnOp(unopleft, unopright, "not", exp1); :}
+                |MINUS:unop expression:exp1
+                {:RESULT = new UnOp(unopleft, unopright, "-", exp1); :}
+                |ISNULL:unop expression:exp1
+                {:RESULT = new UnOp(unopleft, unopright, "isnull", exp1); :}
 
                 /*BinOp*/
-                |expression:exp1 EQUAL expression:exp2
-                {:RESULT = new BinOp(0, 0, "=", exp1, exp2); :}
-                |expression:exp1 LOWER expression:exp2
-                {:RESULT = new BinOp(0, 0, "<", exp1, exp2); :}
-                |expression:exp1 LOWER_EQUAL expression:exp2
-                {:RESULT = new BinOp(0, 0, "<=", exp1, exp2); :}
-                |expression:exp1 PLUS expression:exp2
-                {:RESULT = new BinOp(0, 0, "+", exp1, exp2); :}
-                |expression:exp1 MINUS expression:exp2
-                {:RESULT = new BinOp(0, 0, "-", exp1, exp2); :}
-                |expression:exp1 TIMES expression:exp2
-                {:RESULT = new BinOp(0, 0, "*", exp1, exp2); :}
-                |expression:exp1 POW expression:exp2
-                {:RESULT = new BinOp(0, 0, "^", exp1, exp2); :}
-                |expression:exp1 DIV expression:exp2
-                {:RESULT = new BinOp(0, 0, "/", exp1, exp2); :}
-                |expression:exp1 AND expression:exp2
-                {:RESULT = new BinOp(0, 0, "and", exp1, exp2); :}
+                |expression:exp1 EQUAL:binop expression:exp2
+                {:RESULT = new BinOp(binopleft, binopright, "=", exp1, exp2); :}
+                |expression:exp1 LOWER:binop expression:exp2
+                {:RESULT = new BinOp(binopleft, binopright, "<", exp1, exp2); :}
+                |expression:exp1 LOWER_EQUAL:binop expression:exp2
+                {:RESULT = new BinOp(binopleft, binopright, "<=", exp1, exp2); :}
+                |expression:exp1 PLUS:binop expression:exp2
+                {:RESULT = new BinOp(binopleft, binopright, "+", exp1, exp2); :}
+                |expression:exp1 MINUS:binop expression:exp2
+                {:RESULT = new BinOp(binopleft, binopright, "-", exp1, exp2); :}
+                |expression:exp1 TIMES:binop expression:exp2
+                {:RESULT = new BinOp(binopleft, binopright, "*", exp1, exp2); :}
+                |expression:exp1 POW:binop expression:exp2
+                {:RESULT = new BinOp(binopleft, binopright, "^", exp1, exp2); :}
+                |expression:exp1 DIV:binop expression:exp2
+                {:RESULT = new BinOp(binopleft, binopright, "/", exp1, exp2); :}
+                |expression:exp1 AND:binop expression:exp2
+                {:RESULT = new BinOp(binopleft, binopright, "and", exp1, exp2); :}
 
                 /*Call*/
                 |OBJECT_IDENTIFIER:oi LPAR argArray:aa RPAR
-                {:RESULT = new Call(0, 0, new Terminal(0, 0, "self","SELF"), oi, aa); :}
+                {:RESULT = new Call(oileft, oiright, new Terminal(oileft, oiright, "self","SELF"), oi, aa); :}
                 |expression:exp1 DOT OBJECT_IDENTIFIER:oi LPAR argArray:aa RPAR
-                {:RESULT = new Call(0, 0, exp1, oi, aa); :}
+                {:RESULT = new Call(exp1left, exp1right, exp1, oi, aa); :}
 
                 /*New*/
-                |NEW types:ti
-                {:RESULT = new New(0, 0, ti);:}
+                |NEW:n types:ti
+                {:RESULT = new New(nleft, nright, ti);:}
                 |NEW error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for new expression"); :}
 
@@ -186,60 +186,59 @@ expression::=   IF expression:exp1 THEN expression:exp2 ELSE expression:exp3
 
                 |terminaison:ter
                 {:RESULT = ter; :}
-                |LPAR RPAR
-                {: RESULT = new Terminal(0, 0, "()","unit"); :};
+                |LPAR:l RPAR
+                {: RESULT = new Terminal(lleft, lright, "()","unit"); :};
 
                 /*Terminaison*/
 
 terminaison::=  INTEGER_LITERAL:it
-                {: RESULT = new Terminal(0, 0, it,"int32"); :}
+                {: RESULT = new Terminal(itleft, itright, it,"int32"); :}
                 |STRING_LITERAL:sl
-                {: RESULT = new Terminal(0, 0, sl,"string"); :}
+                {: RESULT = new Terminal(slleft, slright, sl,"string"); :}
                 |OBJECT_IDENTIFIER:oi
-                {: RESULT = new Terminal(0, 0, oi,"OI"); :}
+                {: RESULT = new Terminal(oileft, oiright, oi,"OI"); :}
                 |boolean:b
                 {: RESULT = b; :};
 
-boolean::=      TRUE
-                {: RESULT = new Terminal(0, 0, "true","bool"); :}
-                |FALSE
-                {: RESULT = new Terminal(0, 0, "false","bool"); :};
-
+boolean::=      TRUE:b
+                {: RESULT = new Terminal(bleft, bright, "true","bool"); :}
+                |FALSE:b
+                {: RESULT = new Terminal(bleft, bright, "false","bool"); :};
 
 field::=        OBJECT_IDENTIFIER:oi COLON types:t SEMICOLON
-                {:  RESULT = new Field(0,0,oi,t,null); :}
+                {:  RESULT = new Field(oileft, oiright,oi,t,null); :}
                 |OBJECT_IDENTIFIER:oi COLON types:t ASSIGN expression:e SEMICOLON
-                {: RESULT = new Field(0,0,oi,t,e); :}
+                {: RESULT = new Field(oileft, oiright,oi,t,e); :}
                 |error:e SEMICOLON
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for Field"); :}
                 |OBJECT_IDENTIFIER:oi COLON types:t error:e
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for Field"); :};
 
 formals::=      OBJECT_IDENTIFIER:oi COLON types:t
-                {: RESULT = new Formals(0,0,oi,t); :};
+                {: RESULT = new Formals(oileft, oiright,oi,t); :};
 
 
 types::=        TYPE_IDENTIFIER:t
-                {: RESULT = new Types(0,0,t); :}
-                | INT32
-                {:  RESULT = new Types(0,0,"int32"); :}
-                | BOOL
-                {:  RESULT = new Types(0,0,"bool"); :}
-                | STRING
-                {: RESULT = new Types(0,0,"string"); :}
-                | UNIT
-                {:  RESULT = new Types(0,0,"unit"); :};
+                {: RESULT = new Types(tleft, tright,t); :}
+                | INT32:t
+                {:  RESULT = new Types(tleft, tright,"int32"); :}
+                | BOOL:t
+                {:  RESULT = new Types(tleft, tright,"bool"); :}
+                | STRING:t
+                {: RESULT = new Types(tleft, tright,"string"); :}
+                | UNIT:t
+                {:  RESULT = new Types(tleft, tright,"unit"); :};
 
 method::=       OBJECT_IDENTIFIER:oi LPAR formalArray:fa formals:f RPAR COLON types:t block:b
-                {:fa.add(f); RESULT = new Method(0, 0, oi, fa, t, b); :}
+                {:fa.add(f); RESULT = new Method(oileft, oiright, oi, fa, t, b); :}
                 |OBJECT_IDENTIFIER:oi LPAR  RPAR COLON types:t block:b
-                {: RESULT = new Method(0, 0, oi, new ParserArray<Formals>(), t, b); :}
+                {: RESULT = new Method(oileft, oiright, oi, new ParserArray<Formals>(), t, b); :}
                 |error:e block
                 {: parser.errorMessage(eleft, eright, "Wrong syntax for Method"); :};
 
 
 block::=        LBRACE expArray:ea expression:exp1 RBRACE
-                {: ea.add(exp1); RESULT = new Blocks(0,0,ea); :};
+                {: ea.add(exp1); RESULT = new Blocks(ealeft, earight,ea); :};
 
 
 argArray::=     argOthers:args expression:exp1

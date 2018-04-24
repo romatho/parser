@@ -40,12 +40,14 @@ public class Method extends Node{
 
     public void getType(HashMap<String, HashMap<String, String>> classFieldType,
                    HashMap<String, HashMap<String, String> > classMethodType,
-                   HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType, String classe, String filename,Checker c)
+                   HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType, String classe, String filename, Checker c, boolean fieldExpr)
     {
-        if(!ReturnType.getType().equals(this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c)))
-        {
+        if(!ReturnType.getType().equals(this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c, fieldExpr)))
+
+            if(!c.childHasParent(this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c, fieldExpr),ReturnType.getType()))
+            {
             System.err.println(filename +":" + this.displayNode() +
-                    "semantic error: return type for " +Identifier  + " is "+ReturnType.getType()+" not "+this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c));
+                    "semantic error: return type for " +Identifier  + " is "+ReturnType.getType()+" not "+this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c, fieldExpr));
         c.toReturn=1;
         }
     }

@@ -291,12 +291,13 @@ public class Checker {
                 }
             }
         }
-        else if(methodMap.containsKey("main"))
+        else if(methodMap.containsKey("main") && methodMap.get("main").getFormals().size() == 0)
         {
             methodMap.remove("main");
             formalMethodMap.remove("main");
             System.out.println(filename + ":" + classe.line + ":" + classe.column + ": semantic error: '" + classe.getName() + "'  has a main method but only Main class is allowed to have a main method");
         }
+
         allowedMethods.put(classe.getName(), methodMap);
         allowedFormals.put(classe.getName(), formalMethodMap);
     }
@@ -594,14 +595,14 @@ public class Checker {
                 for (HashMap.Entry<String, Method> entryMethod : allowedMethods.get(entryClass.getKey()).entrySet()) {
                     //check if the method is not a parent method : To avoid multiple 'getType' on the same method
                     if (allowedClasses.get(entryClass.getKey()).getBody().getMyMethods().contains(entryMethod.getValue())) {
-                        entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey(), this.filename, this);
+                        entryMethod.getValue().getType(classFieldType, classMethodType, classMethodFormalsType, entryClass.getKey(), this.filename, this, false);
                     }
                 }
                 for (HashMap.Entry<String, Field> entryField: allowedField.get(entryClass.getKey()).entrySet()) {
                     //check if the field is not a parent method : To avoid multiple 'getType' on the same method
                     if (allowedClasses.get(entryClass.getKey()).getBody().getMyFields().contains(entryField.getValue()) && entryField.getValue().getExpression() != null ) {
-                        entryField.getValue().getExpression().getType(classFieldType, classMethodType, classMethodFormalsType,  new HashMap<String,String>(), entryClass.getKey(), this.filename, null,this);
-                        if(!entryField.getValue().getType().equals(entryField.getValue().getExpression().getType(classFieldType, classMethodType, classMethodFormalsType,  new HashMap<String,String>(), entryClass.getKey(), this.filename, null,this)))
+                        entryField.getValue().getExpression().getType(classFieldType, classMethodType, classMethodFormalsType,  new HashMap<String,String>(), entryClass.getKey(), this.filename, null,this, true);
+                        if(!entryField.getValue().getType().equals(entryField.getValue().getExpression().getType(classFieldType, classMethodType, classMethodFormalsType,  new HashMap<String,String>(), entryClass.getKey(), this.filename, null,this, false)))
                         {
                             System.err.println(filename + ":" +entryField.getValue().getExpression().line + ":" + entryField.getValue().getExpression().column + ": semantic error: type expected not matched");
                             toReturn = 1;

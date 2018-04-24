@@ -34,6 +34,11 @@ public class Field  extends Expressions {
         return identifier;
     }
 
+    public String getType()
+    {
+        return type.getType();
+    }
+
     public String getType(HashMap<String, HashMap<String, String>> classFieldType,
                           HashMap<String, HashMap<String, String> > classMethodType,
                           HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,

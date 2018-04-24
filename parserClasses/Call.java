@@ -52,6 +52,15 @@ public class Call extends Expressions {
         if(type != null)
             return type;
 
+        if(fieldExpr && classMethodType.get(classe).containsKey(methodName))
+        {
+            System.err.println(filename +":" + objectExp.displayNode() +
+                    " cannot use self in field initializer.");
+            c.toReturn = 1;
+            type = "ERROR";
+            return type;
+        }
+
         String objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr);
 
         if(objectType.equals("ERROR"))
