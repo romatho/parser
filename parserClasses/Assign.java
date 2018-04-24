@@ -57,21 +57,16 @@ public class Assign extends Expressions{
                 for (i = 0; i < temp.size(); i++) {
                     if (temp.get(i).getKey().equals(objectIdentifier)) {
                         if (temp.get(i).getValue().equals(type)) {
-                            c.toReturn = 1;
+                            
                             return type;
                         }
 
                     }
-                    if (i == temp.size()) {
-                        System.err.println(filename + ":" + this.displayNode() +
-                                "semantic error: Unknown variable " + objectIdentifier);
-                        c.toReturn = 1;
-                        return "ERROR";
-                    }
+
                 }
 
-            } else {
-                if (classFieldType.get(classe).get(objectIdentifier) != null) {
+            }
+
                     if (classFieldType.get(classe).get(objectIdentifier) != null) {
                         if (classFieldType.get(classe).get(objectIdentifier).equals(type))
                             return type;
@@ -82,14 +77,9 @@ public class Assign extends Expressions{
                         c.toReturn = 1;
                         return "ERROR";
                     }
-                }
 
-                System.err.println(filename + ":" + this.displayNode() +
-                        "semantic error: " + objectIdentifier + " is undefined");
-                type = "ERROR";
-                c.toReturn = 1;
-                return "ERROR";
-            }
+
+
 
 
         }

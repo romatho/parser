@@ -125,14 +125,7 @@ public class Let extends Expressions{
                                 ltype = temp2.get(i).getValue();
                             }
                         }
-                        if(i==temp2.size())
-                        {
-                            System.err.println(filename +":" + this.displayNode() +
-                                    "semantic error: Unknown variable " + objectIdentifier);
-                            c.toReturn=1;
-                            retType = "ERROR";
-                            return "ERROR";
-                        }
+
                     }
                 }
                 else

@@ -53,52 +53,46 @@ public class Terminal extends Expressions{
 
         else if (type.equals("OI")) {
             if (localVariables.get(value) == null) {
-                if(classFieldType.containsKey(value))
-                {
-                    type = value;
-                    return type;
-                }
-                if (classFieldType.get(classe).get(value) == null) {
-                    ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
-                    if(temp != null)
-                    {
-                        int i = 0;
-                        for ( i = 0; i < temp.size(); i++) {
-                            if (temp.get(i).getKey().equals(value)) {
-                                type = temp.get(i).getValue();
-                                return type;
-                            }
-
+                ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
+                if (temp != null) {
+                    int i = 0;
+                    for (i = 0; i < temp.size(); i++) {
+                        if (temp.get(i).getKey().equals(value)) {
+                            type = temp.get(i).getValue();
+                            return type;
                         }
-                        if(i==temp.size())
-                        {
 
-                            System.err.println(filename +":" + this.displayNode() +
-                                    "semantic error: Unknown variable " + value);
-                            c.toReturn=1;
-                            return "ERROR";
-                        }
                     }
+
                 }
-                else
-                {
-                    type = classFieldType.get(classe).get(value);
-                    return type;
-                }
+                    if (classFieldType.containsKey(value)) {
+                        type = value;
+                        return type;
+                    }
+                    if (classFieldType.get(classe).get(value) != null)
+
+                    {
+                        type = classFieldType.get(classe).get(value);
+                        return type;
+                    }
+
+
+
             } else {
                 type = localVariables.get(value);
                 return type;
 
             }
-        }
 
+        }
         if(type.equals("SELF"))
         {
             type= classe;
             return type;
         }
         c.toReturn=1;
-        System.err.println(filename +":" + this.displayNode() + "semantic error: " + this.value + " is undefined");
+
+        System.err.println(filename +":" + this.displayNode() + "semantic error: " + this.value + " is undefined pute ");
         type="ERROR";
         return "ERROR";
     }
