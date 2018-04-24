@@ -176,6 +176,7 @@ public class Checker {
         {
             Map<String, Classe> toAdd = new HashMap<>();
             String it = entry.getKey();
+            Classe current = entry.getValue();
             /*
              * The loop stop if :
              *      The iterator is a undefined class (error)
@@ -201,7 +202,7 @@ public class Checker {
                     /*!it.equals("IO") &&*/
                     !it.equals("Object"))
             {
-                System.err.println(filename + ":0:0: semantic error: the parent class '" + it + "' is not defined");
+                System.err.println(filename + ":" + current.line + ":" + current.column + ": semantic error: the parent class '" + it + "' is not defined");
                 toReturn = 1;
             }
             else
