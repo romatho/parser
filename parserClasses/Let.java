@@ -75,9 +75,10 @@ public class Let extends Expressions{
             System.err.println(filename +":" + this.displayNode() +
                     "SEMANTIC error: use of undefined type " + objectType);
             retType = "ERROR";
+            c.toReturn = 1;
             return "ERROR";
         }
-        
+
         // The variable will be considered as a local variable in init and scope expressions
         localVariables.put(objectIdentifier,type.getType());
 
