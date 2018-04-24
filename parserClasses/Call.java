@@ -87,10 +87,10 @@ public class Call extends Expressions {
         // check if the number of arguments given to the function call is the same as in its definition
         if(nbCallArgs != nbDefArgs)
         {
+            c.toReturn = 1;
             System.err.println(filename +":" + objectExp.displayNode() +
                     "semantic error: method " + methodName + " of class " + objectType +
                     " expects " + nbDefArgs + " arguments, but " + nbCallArgs + " were provided.");
-            c.toReturn = 1;
             type = "ERROR";
             return type;
         }
