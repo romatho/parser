@@ -35,7 +35,9 @@ public class New extends Expressions {
                            HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
         if(classFieldType.containsKey(typeIdentifier.getType()))
+        {
             return typeIdentifier.getType();
+        }
         else
         {
             c.toReturn=1;
