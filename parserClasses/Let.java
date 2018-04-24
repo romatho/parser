@@ -74,7 +74,7 @@ public class Let extends Expressions{
                  !classMethodType.containsKey(objectType))
         {
             System.err.println(filename +":" + this.displayNode() +
-                    "SEMANTIC error: use of undefined type " + objectType);
+                    "semantic error: use of undefined type " + objectType);
             retType = "ERROR";
             c.toReturn = 1;
             return "ERROR";
@@ -96,7 +96,7 @@ public class Let extends Expressions{
             if(!initType.equals(type.getType()))
             {
                 System.err.println(filename +":" + this.displayNode() +
-                        "SEMANTIC error: expected same type for the variable and its initialisation");
+                        "semantic error: expected same type for the variable and its initialisation");
                 c.toReturn=1;
                 retType = "ERROR";
                 return "ERROR";
@@ -125,7 +125,7 @@ public class Let extends Expressions{
                         if(i==temp.size())
                         {
                             System.err.println(filename +":" + this.displayNode() +
-                                    "SEMANTIC error: Unknown variable " + objectIdentifier);
+                                    "semantic error: Unknown variable " + objectIdentifier);
                             c.toReturn=1;
                             retType = "ERROR";
                             return "ERROR";

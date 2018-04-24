@@ -1,8 +1,7 @@
+class Child extends Parent { }
+class Parent extends GrandParent { }
+class GrandParent { }
 class MyClass {
-<<<<<<< Updated upstream
-    myField : unit <- while 0 do 42;
-=======
-    myField : bool <- x <- true;
->>>>>>> Stashed changes
+    myField : GrandParent <- new Child;
 }
 class Main { main() : int32 { 0 } }

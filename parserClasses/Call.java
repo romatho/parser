@@ -65,7 +65,7 @@ public class Call extends Expressions {
                 objectType.equals("string") || objectType.equals("unit"))
         {
             System.err.println(filename +":" + objectExp.displayNode() +
-                    "SEMANTIC error: A variable of type " + objectType + " cannot have a method.");
+                    "semantic error: A variable of type " + objectType + " cannot have a method.");
             type = "ERROR";
             c.toReturn=1;
             return type;
@@ -76,7 +76,7 @@ public class Call extends Expressions {
 //        if(classMethodType.get(objectType).get(methodName) == null)
         {
             System.err.println(filename +":" + objectExp.displayNode() +
-                    "SEMANTIC error: An object of class " + objectType + " doesn't have a method " + methodName);
+                    "semantic error: An object of class " + objectType + " doesn't have a method " + methodName);
             c.toReturn=1;
             type = "ERROR";
             return type;
@@ -104,7 +104,7 @@ public class Call extends Expressions {
             {
                 if(!c.childHasParent(argType,argument.getValue())) {
                     System.err.println(filename + ":" + objectExp.displayNode() +
-                            "SEMANTIC error: The argument " + argument.getKey() + " must be of type " +
+                            "semantic error: The argument " + argument.getKey() + " must be of type " +
                             argument.getValue() + " and not " + argType);
                     c.toReturn = 1;
                     type = "ERROR";

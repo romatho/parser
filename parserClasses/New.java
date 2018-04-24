@@ -40,7 +40,7 @@ public class New extends Expressions {
         else
         {
             c.toReturn=1;
-            System.err.println(filename +":"+ this.displayNode()+"SEMANTIC error: "+ typeIdentifier.getType()+" is undefined" );
+            System.err.println(filename +":"+ this.displayNode()+"semantic error: "+ typeIdentifier.getType()+" is undefined" );
             return "ERROR";
         }
     }

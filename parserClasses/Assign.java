@@ -72,7 +72,7 @@ public class Assign extends Expressions{
                         if(i==temp.size())
                         {
                             System.err.println(filename +":" + this.displayNode() +
-                                    "SEMANTIC error: Unknown variable " + objectIdentifier);
+                                    "semantic error: Unknown variable " + objectIdentifier);
                             c.toReturn=1;
                             return "ERROR";
                         }
@@ -80,7 +80,7 @@ public class Assign extends Expressions{
 
                 }
                 System.err.println(filename +":" + this.displayNode() +
-                        "SEMANTIC error: " + objectIdentifier + " is undefined");
+                        "semantic error: " + objectIdentifier + " is undefined");
                 type = "ERROR";
                 c.toReturn=1;
                 return "ERROR";
@@ -93,7 +93,7 @@ public class Assign extends Expressions{
                 }
                 else{
                     System.err.println(filename +":" + this.displayNode() +
-                            "SEMANTIC error: " + objectIdentifier + " is undefined");
+                            "semantic error: " + objectIdentifier + " is undefined");
                     type = "ERROR";
                     c.toReturn=1;
                     return "ERROR";

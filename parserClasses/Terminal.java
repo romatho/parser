@@ -65,7 +65,7 @@ public class Terminal extends Expressions{
                         {
 
                             System.err.println(filename +":" + this.displayNode() +
-                                    "SEMANTIC error: Unknown variable " + value);
+                                    "semantic error: Unknown variable " + value);
                             c.toReturn=1;
                             return "ERROR";
                         }
@@ -89,7 +89,7 @@ public class Terminal extends Expressions{
             return type;
         }
         c.toReturn=1;
-        System.err.println(filename +":" + this.displayNode() + "SEMANTIC error: " + this.value + " is undefined");
+        System.err.println(filename +":" + this.displayNode() + "semantic error: " + this.value + " is undefined");
         type="ERROR";
         return "ERROR";
     }
