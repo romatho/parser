@@ -42,7 +42,6 @@ public class Assign extends Expressions{
             return  type;
 
         type = exp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
-        System.out.println(type);
         if(type.equals("ERROR"))
         {
             c.toReturn=1;
