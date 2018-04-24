@@ -36,6 +36,7 @@ public class New extends Expressions {
     {
         if(classFieldType.containsKey(typeIdentifier.getType()))
             return typeIdentifier.getType();
+
         else
         {
             c.toReturn=1;

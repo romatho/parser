@@ -1,9 +1,9 @@
-class A {
-    select(i : int32, j : int32, b : bool) : int32 {
-        0
-    }
+class MyClass {
+    myMethod(b : bool) : bool { isnull (new Object) = b }
 }
+class Main { main() : int32 { 0 } }
 
-class Main {
-    main(): int32 { 0 }
-}
+[Class(MyClass, Object, [],
+   [Method(myMethod, [b : bool], bool,
+      BinOp(=, UnOp(isnull, New(Object) : Object) : bool, b : bool) : bool)]),
+ Class(Main, Object, [], [Method(main, [], int32, 0 : int32)])]
