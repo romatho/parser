@@ -597,6 +597,11 @@ public class Checker {
                     //check if the field is not a parent method : To avoid multiple 'getType' on the same method
                     if (allowedClasses.get(entryClass.getKey()).getBody().getMyFields().contains(entryField.getValue()) && entryField.getValue().getExpression() != null ) {
                         entryField.getValue().getExpression().getType(classFieldType, classMethodType, classMethodFormalsType,  new HashMap<String,String>(), entryClass.getKey(), this.filename, null,this);
+                        if(!entryField.getValue().getType().equals(entryField.getValue().getExpression().getType(classFieldType, classMethodType, classMethodFormalsType,  new HashMap<String,String>(), entryClass.getKey(), this.filename, null,this)))
+                        {
+                            System.err.println(filename + ":" +entryField.getValue().getExpression().line + ":" + entryField.getValue().getExpression().column + ": semantic error: type expected not match");
+                            toReturn = 1;
+                        }
                     }
                 }
             }
