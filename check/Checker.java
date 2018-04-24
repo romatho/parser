@@ -3,7 +3,7 @@ package check;
 
 import java.util.Map;
 
-import javafx.util.Pair;
+
 import parserClasses.*;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class Checker {
 
     private HashMap<String, HashMap<String, String> > classFieldType;
     private HashMap<String, HashMap<String, String> > classMethodType;
-    private HashMap<String, HashMap<String, ArrayList< Pair<String, String> > > > classMethodFormalsType;
+    private HashMap<String, HashMap<String, ArrayList< Pair > > > classMethodFormalsType;
 //    private HashMap<String, HashMap<String, HashMap<String, String> > > classMethodeFormalsType;
 
     /*CONSTRUCTOR*/
@@ -438,14 +438,14 @@ public class Checker {
         System.out.println();
         System.out.println("***affichage hashtable method formal***");
         System.out.println();
-        for (HashMap.Entry<String, HashMap<String, ArrayList < Pair<String, String> > > > classEntry : classMethodFormalsType.entrySet()) {
+        for (HashMap.Entry<String, HashMap<String, ArrayList < Pair > > > classEntry : classMethodFormalsType.entrySet()) {
             System.out.print("nom classe : ");
             System.out.println(classEntry.getKey());
 
-            for (HashMap.Entry<String, ArrayList < Pair<String, String> > > methodEntry : classEntry.getValue().entrySet()) {
+            for (HashMap.Entry<String, ArrayList < Pair > > methodEntry : classEntry.getValue().entrySet()) {
                 System.out.print("\t nom methode : ");
                 System.out.println(methodEntry.getKey());
-                for (Pair <String, String > formalEntry : methodEntry.getValue()) {
+                for (Pair formalEntry : methodEntry.getValue()) {
                     System.out.print("\t \t ");
                     System.out.print("nom formal : ");
                     System.out.print(formalEntry.getKey());
@@ -543,13 +543,13 @@ public class Checker {
     {
         for(HashMap.Entry<String, Classe> classEntry: allowedClasses.entrySet()) {
             HashMap<String, String> methoConvert = new HashMap<>();
-            HashMap<String, ArrayList< Pair<String, String> > > formalConvert = new HashMap<>();
+            HashMap<String, ArrayList< Pair > > formalConvert = new HashMap<>();
             HashMap<String, HashMap<String, Formals>> allowedFormalsMethod = allowedFormals.get(classEntry.getKey());
             if(allowedMethods.containsKey(classEntry.getKey())){
                 for (HashMap.Entry<String, Method> methodEntry : allowedMethods.get(classEntry.getKey()).entrySet()) {
                     methoConvert.put(methodEntry.getKey(), methodEntry.getValue().getReturnType());
 
-                    ArrayList< Pair<String, String> > methodFormalConvert = new ArrayList<>();
+                    ArrayList< Pair > methodFormalConvert = new ArrayList<>();
                     if(methodEntry.getValue().getFormals().size() >0 )
                         for (Formals formal : methodEntry.getValue().getFormals())
                             methodFormalConvert.add(new Pair(formal.getIdentifier(), formal.getType()));

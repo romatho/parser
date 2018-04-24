@@ -1,0 +1,9 @@
+class A {
+    select(i : int32, j : int32, b : bool) : int32 {
+        0
+    }
+}
+
+class Main {
+    main(): int32 { 0 }
+}

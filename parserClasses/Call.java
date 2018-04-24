@@ -1,7 +1,7 @@
 package parserClasses;
 
-import javafx.util.Pair;
-import check.Checker;
+
+import check.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,17 +46,14 @@ public class Call extends Expressions {
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
-                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
+                           HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
 
-        System.out.println("Entered Call getType()");
         if(type != null)
             return type;
 
         String objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
-        System.out.println("objectType: " + objectType);
-        System.out.println("classe: " + classe);
 
         if(objectType.equals("ERROR"))
         {
@@ -74,7 +71,6 @@ public class Call extends Expressions {
             c.toReturn=1;
             return type;
         }
-        System.out.println("passed checks before SELF");
         // check if the class contains the specified method or not
         if((objectType.equals("SELF") && classMethodType.get(classe).get(methodName) == null) ||
                 ((!objectType.equals("SELF") && classMethodType.get(objectType).get(methodName) == null)))
@@ -86,14 +82,11 @@ public class Call extends Expressions {
             type = "ERROR";
             return type;
         }
-        System.out.println("Passsed the check if class contains method");
+
         // check if the arguments given to the function have the same type as the formals
         int i = 0;
-        if(listExp != null)
+        for(Expressions e : listExp)
         {
-            System.out.println("listExp != null");
-            for(Expressions e : listExp)
-            {
             /*System.out.println(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c));
             System.out.println("method: " + methodName);
             Iterator it = classMethodType.entrySet().iterator();
@@ -103,35 +96,32 @@ public class Call extends Expressions {
                 System.out.println(pair.getKey());
                 it.remove();
             }*/
-                if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR"))
-                {
-                    c.toReturn=1;
-                    type = "ERROR";
-                    return type;
-                }
-                String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
-                Pair<String, String> argument;
-                if(objectType.equals("SELF"))
-                    argument = classMethodFormalsType.get(classe).get(methodName).get(i);
-                else
-                    argument = classMethodFormalsType.get(objectType).get(methodName).get(i);
-
-
-                if(!argument.getValue().equals(argType))
-                {
-                    System.err.println(filename +":" + objectExp.displayNode() +
-                            "SEMANTIC error: The argument " + argument.getKey() + " must be of type " +
-                            argument.getValue() + " and not " + argType);
-                    c.toReturn=1;
-                    type = "ERROR";
-                    return type;
-                }
-                else
-                    type = argType;
+            if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR"))
+            {
+                c.toReturn=1;
+                type = "ERROR";
+                return type;
             }
-            return type;
+            String argType = e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
+            Pair argument;
+            if(objectType.equals("SELF"))
+                argument = classMethodFormalsType.get(classe).get(methodName).get(i);
+            else
+                argument = classMethodFormalsType.get(objectType).get(methodName).get(i);
+
+
+            if(!argument.getValue().equals(argType))
+            {
+                System.err.println(filename +":" + objectExp.displayNode() +
+                        "SEMANTIC error: The argument " + argument.getKey() + " must be of type " +
+                        argument.getValue() + " and not " + argType);
+                c.toReturn=1;        
+                type = "ERROR";
+                return type;
+            }
+            else
+                type = argType;
         }
-        type = "ERROR";
         return type;
     }
 }

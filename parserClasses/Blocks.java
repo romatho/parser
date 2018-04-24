@@ -1,7 +1,6 @@
 package parserClasses;
 
-import javafx.util.Pair;
-import check.Checker;
+import check.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,14 +22,14 @@ public class Blocks extends Expressions{
     {
         if(exprs.size() == 1)
             return this.exprs.get(0).toString(checkerMode);
-        return this.exprs.toString(checkerMode);
+        return this.exprs.toString(checkerMode)+" : "+this.type;
 
     }
 
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                           HashMap<String, HashMap<String, String> > classMethodType,
-                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
+                          HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                           HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
         if (type!=null)
