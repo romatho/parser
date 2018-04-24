@@ -1,4 +1,4 @@
 class MyClass {
-    myMethod(b : bool) : bool { isnull (new Object) = b }
+    myMethod(b : bool) : bool { isnull (new MyClass) = b }
 }
 class Main { main() : int32 { 0 } }

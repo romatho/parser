@@ -1,9 +1,4 @@
 class MyClass {
-    myMethod(b : bool) : bool { isnull (new Object) = b }
+    myMethod(b : bool) : bool { isnull (new MyClass) = b }
 }
 class Main { main() : int32 { 0 } }
-
-[Class(MyClass, Object, [],
-   [Method(myMethod, [b : bool], bool,
-      BinOp(=, UnOp(isnull, New(Object) : Object) : bool, b : bool) : bool)]),
- Class(Main, Object, [], [Method(main, [], int32, 0 : int32)])]
