@@ -1,12 +1,10 @@
-class Main extends IO {
-    main() : int32 {
-        print("Testing IO class methods\n");
-        print("Enter a boolean\n");
-        let b : bool <- inputBool() in printBool(b).print("\n");
-        print("Enter an integer\n");
-        let i : int32 <- inputInt32() in printInt32(i).print("\n");
-        print("Enter a string\n");
-        let s : string <- inputLine() in print(s).print("\n");
-        0
+class MyClass extends IO {
+    myMethod(n : int32) : unit {
+        while not (n <= 0) do {
+            printInt32(n);
+            print("\n");
+            n = n - 1
+        }
     }
 }
+class Main { main() : int32 { 0 } }

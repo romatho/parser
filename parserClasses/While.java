@@ -9,7 +9,7 @@ public class While extends Expressions {
 
     private Expressions condition;
     private Expressions body;
-    private String type =null;
+    private String type = null;
 
 
 
@@ -28,6 +28,8 @@ public class While extends Expressions {
         toDisplay += ", ";
         toDisplay += body.toString(checkerMode);
         toDisplay += ")";
+        if(checkerMode)
+            toDisplay += " : " + type;
         return toDisplay;
     }
 
