@@ -1,4 +1,4 @@
 class MyClass {
-    myMethod(i : int32, unused : string) : int32 { let x : int32 in x <- i }
+    myMethod(stupid : unit) : int32 { let i : int32 <- 42 in i }
 }
 class Main { main() : int32 { 0 } }

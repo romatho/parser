@@ -15,7 +15,7 @@ public class Formals extends Node {
     @Override
     public String toString(boolean checkerMode)
     {
-        return  identifier + ":" + type.toString(false) ;
+        return  identifier + " : " + type.toString(false) ;
     }
 
     public String getIdentifier() {
