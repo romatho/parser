@@ -42,7 +42,9 @@ public class Method extends Node{
                    HashMap<String, HashMap<String, String> > classMethodType,
                    HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType, String classe, String filename,Checker c)
     {
-        this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c);
+        if(!ReturnType.equals(this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c)))
+        System.err.println(filename +":" + this.displayNode() +
+                "semantic error: return type for " +Identifier  + " is "+ReturnType+" not "+this.block.getType(classFieldType, classMethodType, classMethodFormalsType, new HashMap<String,String>() , classe, filename, Identifier,c));
     }
 
     public String getReturnType() {
