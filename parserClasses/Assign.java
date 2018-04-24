@@ -49,58 +49,51 @@ public class Assign extends Expressions{
         }
 
         // check if the object identifier is defined somewhere and if it has the same type as the assigned expression
-        if(localVariables.get(objectIdentifier) == null)
-        {
-            if(classFieldType.get(classe).get(objectIdentifier) == null)
-            {
+        if(localVariables.get(objectIdentifier) == null) {
 
-                ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
-                if(temp != null)
-                {
-                    int i = 0;
-                    for (i = 0; i < temp.size(); i++)
-                    {
-                        if(temp.get(i).getKey().equals(objectIdentifier))
-                        {
-                            if(temp.get(i).getValue().equals(type))
-                            {
-                                c.toReturn=1;
-                                return type;
-                            }
+            ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
+            if (temp != null) {
+                int i = 0;
+                for (i = 0; i < temp.size(); i++) {
+                    if (temp.get(i).getKey().equals(objectIdentifier)) {
+                        if (temp.get(i).getValue().equals(type)) {
+                            c.toReturn = 1;
+                            return type;
+                        }
 
-                        }
-                        if(i==temp.size())
-                        {
-                            System.err.println(filename +":" + this.displayNode() +
-                                    "semantic error: Unknown variable " + objectIdentifier);
-                            c.toReturn=1;
-                            return "ERROR";
-                        }
                     }
-
+                    if (i == temp.size()) {
+                        System.err.println(filename + ":" + this.displayNode() +
+                                "semantic error: Unknown variable " + objectIdentifier);
+                        c.toReturn = 1;
+                        return "ERROR";
+                    }
                 }
-                System.err.println(filename +":" + this.displayNode() +
+
+            } else {
+                if (classFieldType.get(classe).get(objectIdentifier) != null) {
+                    if (classFieldType.get(classe).get(objectIdentifier) != null) {
+                        if (classFieldType.get(classe).get(objectIdentifier).equals(type))
+                            return type;
+                    } else {
+                        System.err.println(filename + ":" + this.displayNode() +
+                                "semantic error: " + objectIdentifier + " is undefined");
+                        type = "ERROR";
+                        c.toReturn = 1;
+                        return "ERROR";
+                    }
+                }
+
+                System.err.println(filename + ":" + this.displayNode() +
                         "semantic error: " + objectIdentifier + " is undefined");
                 type = "ERROR";
-                c.toReturn=1;
+                c.toReturn = 1;
                 return "ERROR";
             }
-            else
-            {
-                if(classFieldType.get(classe).get(objectIdentifier)!=null){
-                    if(classFieldType.get(classe).get(objectIdentifier).equals(type))
-                        return type;
-                }
-                else{
-                    System.err.println(filename +":" + this.displayNode() +
-                            "semantic error: " + objectIdentifier + " is undefined");
-                    type = "ERROR";
-                    c.toReturn=1;
-                    return "ERROR";
-                }
 
-            }
+
         }
+
 
         if(!localVariables.get(objectIdentifier).equals(type))
         {
