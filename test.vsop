@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 class MyClass extends IO {
     myMethod() : unit {
         print("In myMethod()");
@@ -10,3 +11,9 @@ class MyClass extends IO {
 class Main {
     main() : int32 { 0 }
 }
+=======
+class MyClass {
+    myField : int32 <- if true then 42;
+}
+class Main { main() : int32 { 0 } }
+>>>>>>> Stashed changes
