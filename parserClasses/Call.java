@@ -101,11 +101,15 @@ public class Call extends Expressions {
 
             if(!argument.getValue().equals(argType))
             {
-                System.err.println(filename +":" + objectExp.displayNode() +
-                        "SEMANTIC error: The argument " + argument.getKey() + " must be of type " +
-                        argument.getValue() + " and not " + argType);
-                c.toReturn=1;
-                type = "ERROR";
+                if(!c.childHasParent(argType,argument.getValue())) {
+                    System.err.println(filename + ":" + objectExp.displayNode() +
+                            "SEMANTIC error: The argument " + argument.getKey() + " must be of type " +
+                            argument.getValue() + " and not " + argType);
+                    c.toReturn = 1;
+                    type = "ERROR";
+                    return type;
+                }
+                type = argument.getValue();
                 return type;
             }
             ++i;
