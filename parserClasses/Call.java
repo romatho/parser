@@ -30,16 +30,14 @@ public class Call extends Expressions {
     {
 
         String toDisplay = "Call(";
-        toDisplay += objectExp.toString(false);
-        if(checkerMode)
-            toDisplay += " : " + type;
+        toDisplay += objectExp.toString(checkerMode);
         toDisplay += ", ";
         toDisplay += methodName;
         toDisplay += ", ";
         toDisplay += listExp.toString(checkerMode);
+        toDisplay += ")";
         if(checkerMode)
             toDisplay += " : " + type;
-        toDisplay += ")";
         return toDisplay;
     }
 
@@ -110,6 +108,7 @@ public class Call extends Expressions {
                 type = "ERROR";
                 return type;
             }
+            ++i;
         }
 
         // The method call is valid. Return the type defined for the method.
