@@ -291,12 +291,13 @@ public class Checker {
                 }
             }
         }
-        else if(methodMap.containsKey("main"))
+        else if(methodMap.containsKey("main") && methodMap.get("main").getFormals().size() == 0)
         {
             methodMap.remove("main");
             formalMethodMap.remove("main");
             System.out.println(filename + ":" + classe.line + ":" + classe.column + ": semantic error: '" + classe.getName() + "'  has a main method but only Main class is allowed to have a main method");
         }
+
         allowedMethods.put(classe.getName(), methodMap);
         allowedFormals.put(classe.getName(), formalMethodMap);
     }
