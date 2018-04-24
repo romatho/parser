@@ -616,13 +616,23 @@ public class Checker {
     }
     public Boolean childHasParent(String child, String parent)
     {
+        if(parent.equals("Object"))
+            return true;
+        
         if(allowedClasses.containsKey(child) && allowedClasses.containsKey(parent))
+        {
             while(!child.equals("Object")) {
                 if (child.equals(parent))
                     return true;
                 else
+                {
                     child =allowedClasses.get(child).getParentClasse();
+                    System.out.println(child);
+                }
             }
+            if (child.equals(parent))
+                return true;
+        }
         return false;
     }
 }
