@@ -69,6 +69,15 @@ public class UnOp extends Expressions{
                 type= "int32";
                 return type;
             case "isnull":
+                if(expType.equals("bool") || expType.equals("int32") ||
+                        expType.equals("string") || expType.equals("unit"))
+                {
+                    type = "ERROR";
+                    c.toReturn = 1;
+                    System.err.println(filename +":" + exp.displayNode() +
+                            "semantic error: this literal has type " + expType + ", but expected type was Object");
+                    return type;
+                }
                 type= "bool";
                 return type;
         }

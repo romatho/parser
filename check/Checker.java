@@ -599,7 +599,7 @@ public class Checker {
                         entryField.getValue().getExpression().getType(classFieldType, classMethodType, classMethodFormalsType,  new HashMap<String,String>(), entryClass.getKey(), this.filename, null,this);
                         if(!entryField.getValue().getType().equals(entryField.getValue().getExpression().getType(classFieldType, classMethodType, classMethodFormalsType,  new HashMap<String,String>(), entryClass.getKey(), this.filename, null,this)))
                         {
-                            System.err.println(filename + ":" +entryField.getValue().getExpression().line + ":" + entryField.getValue().getExpression().column + ": semantic error: type expected not match");
+                            System.err.println(filename + ":" +entryField.getValue().getExpression().line + ":" + entryField.getValue().getExpression().column + ": semantic error: type expected not matched");
                             toReturn = 1;
                         }
                     }
