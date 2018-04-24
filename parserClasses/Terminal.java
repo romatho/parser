@@ -54,6 +54,7 @@ public class Terminal extends Expressions{
                         }
                         if(i==temp.size())
                         {
+
                             System.err.println(filename +":" + this.displayNode() +
                                     "SEMANTIC error: Unknown variable " + value);
                             c.toReturn=1;
