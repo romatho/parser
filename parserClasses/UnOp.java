@@ -51,7 +51,7 @@ public class UnOp extends Expressions{
             case "not":
                 if(!expType.equals("bool"))
                 {
-                    System.out.println(filename +":" + exp.displayNode() +
+                    System.err.println(filename +":" + exp.displayNode() +
                             "SEMANTIC error: expected bool with operator 'not' not " + expType);
                     type= "ERROR";
                     c.toReturn=1;
@@ -61,7 +61,7 @@ public class UnOp extends Expressions{
             case "-":
                 if(!expType.equals("int32"))
                 {
-                    System.out.println(filename +":" + exp.displayNode() +
+                    System.err.println(filename +":" + exp.displayNode() +
                             "SEMANTIC error: expected int32 with operator '-' not " + expType);
                     c.toReturn=1;
                     type= "ERROR";

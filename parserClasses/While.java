@@ -52,7 +52,7 @@ public class While extends Expressions {
 
         if(!condType.equals("bool"))
         {
-            System.out.println(filename +":" + condition.displayNode() +
+            System.err.println(filename +":" + condition.displayNode() +
                     "SEMANTIC error: expected bool as type for the condition not " + condType);
             type= "ERROR";
             c.toReturn=1;
