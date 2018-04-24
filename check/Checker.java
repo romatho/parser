@@ -578,6 +578,10 @@ public class Checker {
                 classFieldType.put(classEntry.getKey(), fieldConvert);
             }
             classFieldType.put("Object",new HashMap<>());
+            classMethodType.put("Object",new HashMap<>());
+            classMethodFormalsType.put("Object",new HashMap<>());
+
+
         }
     }
 
