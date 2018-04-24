@@ -1,10 +1,9 @@
 package parserClasses;
 
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import check.Checker;
+import check.*;
 
 public class Let extends Expressions{
 
@@ -55,7 +54,7 @@ public class Let extends Expressions{
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
-                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
+                           HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode,Checker c)
     {
 
@@ -87,7 +86,7 @@ public class Let extends Expressions{
         String ltype="OI";
         if (localVariables.get(objectIdentifier) == null) {
                 if (classFieldType.get(classe).get(objectIdentifier) == null) {
-                    ArrayList<Pair<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
+                    ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
                     if(temp != null)
                     {
                         int i =0;

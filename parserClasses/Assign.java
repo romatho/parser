@@ -1,7 +1,7 @@
 package parserClasses;
 
-import javafx.util.Pair;
-import check.Checker;
+
+import check.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class Assign extends Expressions{
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                           HashMap<String, HashMap<String, String> > classMethodType,
-                          HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
+                          HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
         if(type != null)
             return  type;
@@ -54,7 +54,7 @@ public class Assign extends Expressions{
         {
             if(classFieldType.get(classe).get(objectIdentifier) == null)
             {
-                ArrayList<Pair<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
+                ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
                 if(temp != null)
                 {
                     int i = 0;

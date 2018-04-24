@@ -1,7 +1,7 @@
 package parserClasses;
 
-import javafx.util.Pair;
-import check.Checker;
+
+import check.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class Terminal extends Expressions{
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,
                            HashMap<String, HashMap<String, String> > classMethodType,
-                           HashMap<String, HashMap<String, ArrayList< Pair<String, String> >> > classMethodFormalsType,
+                           HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c) {
 
         if (type.equals("bool") || type.equals("int32") ||
@@ -41,7 +41,7 @@ public class Terminal extends Expressions{
         else if (type.equals("OI")) {
             if (localVariables.get(value) == null) {
                 if (classFieldType.get(classe).get(value) == null) {
-                    ArrayList<Pair<String, String>> temp = classMethodFormalsType.get(classe).get(methode);
+                    ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
                     if(temp != null)
                     {
                         int i = 0;
