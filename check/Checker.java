@@ -201,7 +201,7 @@ public class Checker {
                     /*!it.equals("IO") &&*/
                     !it.equals("Object"))
             {
-                System.err.println(filename + ":" + classesMap.get(it).line + ":" + classesMap.get(it).column + ": semantic error: the parent class '" + it + "' is not defined");
+                System.err.println(filename + ":0:0: semantic error: the parent class '" + it + "' is not defined");
                 toReturn = 1;
             }
             else
