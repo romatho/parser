@@ -65,6 +65,11 @@ public class If extends Expressions {
             type = "ERROR";
             return "ERROR";
         }
+        if(elseStatement==null)
+        {
+            type="unit";
+            return type;
+        }
         if(condition.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR") || thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR") ||
                 elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR"))
             {
@@ -74,11 +79,7 @@ public class If extends Expressions {
         }
 
 
-        if(elseStatement==null)
-        {
-            type = thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
-            return type;
-        }
+
         if(c.childHasParent(thenStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c),elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c))) {
             type = elseStatement.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c);
             return type;

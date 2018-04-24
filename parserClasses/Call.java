@@ -14,6 +14,7 @@ public class Call extends Expressions {
     private String methodName;
     private ParserArray<Expressions> listExp;
     private String type;
+    private String calltype;
 
     public Call(int pColumn, int pLine, Expressions pObjectExp, String pMethodName, ParserArray<Expressions> pListExp)
     {
@@ -22,6 +23,7 @@ public class Call extends Expressions {
         methodName = pMethodName;
         listExp = pListExp;
         type = null;
+        calltype=null;
     }
 
 
@@ -37,7 +39,7 @@ public class Call extends Expressions {
         toDisplay += listExp.toString(checkerMode);
         toDisplay += ")";
         if(checkerMode)
-            toDisplay += " : " + type;
+            toDisplay += " : " + calltype;
         return toDisplay;
     }
 
@@ -47,7 +49,6 @@ public class Call extends Expressions {
                            HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c)
     {
-
         if(type != null)
             return type;
 
@@ -110,13 +111,17 @@ public class Call extends Expressions {
                     return type;
                 }
                 type = argument.getValue();
+                calltype = classMethodType.get(objectType).get(methodName);
+
                 return type;
             }
             ++i;
         }
 
         // The method call is valid. Return the type defined for the method.
+        calltype = classMethodType.get(objectType).get(methodName);
         type = classMethodType.get(objectType).get(methodName);
+
         return type;
     }
 }
