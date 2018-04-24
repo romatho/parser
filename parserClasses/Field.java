@@ -20,8 +20,6 @@ public class Field  extends Node {
         else
         {
             String toDisplay = "Field(" + identifier + ", " + type.toString(checkerMode) +", "+ expr.toString(checkerMode)+")";
-            if(checkerMode)
-                toDisplay += " : " + type.getType();
             return toDisplay;
         }
     }

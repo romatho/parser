@@ -27,9 +27,9 @@ public class Assign extends Expressions{
         toDisplay += objectIdentifier;
         toDisplay += ", ";
         toDisplay += exp.toString(checkerMode);
+        toDisplay += ")";
         if(checkerMode)
             toDisplay += " : " + type;
-        toDisplay += ")";
         return toDisplay;
     }
 
