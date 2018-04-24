@@ -24,7 +24,7 @@ public class New extends Expressions {
         toDisplay += typeIdentifier.toString(checkerMode);
         toDisplay += ")";
         if(checkerMode)
-            toDisplay += " : " + typeIdentifier.toString(checkerMode);
+            toDisplay += " : " + typeIdentifier.getType();
         return toDisplay;
     }
 

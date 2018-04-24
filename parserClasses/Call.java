@@ -87,15 +87,6 @@ public class Call extends Expressions {
         int i = 0;
         for(Expressions e : listExp)
         {
-            /*System.out.println(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c));
-            System.out.println("method: " + methodName);
-            Iterator it = classMethodType.entrySet().iterator();
-            while(it.hasNext())
-            {
-                Map.Entry pair = (Map.Entry) it.next();
-                System.out.println(pair.getKey());
-                it.remove();
-            }*/
             if(e.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c).equals("ERROR"))
             {
                 c.toReturn=1;
@@ -115,13 +106,14 @@ public class Call extends Expressions {
                 System.err.println(filename +":" + objectExp.displayNode() +
                         "SEMANTIC error: The argument " + argument.getKey() + " must be of type " +
                         argument.getValue() + " and not " + argType);
-                c.toReturn=1;        
+                c.toReturn=1;
                 type = "ERROR";
                 return type;
             }
-            else
-                type = argType;
         }
+
+        // The method call is valid. Return the type defined for the method.
+        type = classMethodType.get(objectType).get(methodName);
         return type;
     }
 }
