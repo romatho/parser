@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class UnOp extends Expressions{
     private String firstElement;
     private Expressions exp;
-    private String type =null;
+    public String type =null;
 
     public UnOp(int pColumn, int pLine, String pFirstElement, Expressions pExp)
     {
@@ -33,7 +33,43 @@ public class UnOp extends Expressions{
 
     @Override
     public String toLlvm(Generator g) {
-        return null;
+        StringBuilder builder=new StringBuilder();
+        String exp=this.exp.toLlvm(g);
+        switch(firstElement)
+        {
+            case "not":
+                if (exp.equals("true"))
+                    this.value="false";
+                else if (exp.equals("false"))
+                    this.value="true";
+                else {
+                    // Otherwise compute it
+                    builder.append("    " + "%").append( g.counter).append(" = xor i1 ").append(exp).append(", true").append("\n");
+                    this.value="%" + g.counter++;
+                }
+                break;
+            case "-":
+                if (exp.contains("%")) {
+                    builder.append("  " + "%").append(g.counter).append(" = sub i32 0, ").append(exp).append("\n");
+                   this.value="%" + g.counter++;
+                }
+                // It is a int so just change the sign
+                else if (exp.contains("-"))
+                    this.value=exp.replaceFirst("-", "");
+                else
+                    this.value="-" + exp;
+                break;
+            case "isnull":
+                if (exp.equals("null"))
+                    // Directly give the value
+                    this.value="true";
+                else {
+                    // Otherwise compute it
+                    builder.append("    " + "%").append(g.counter).append(" = icmp eq ").append(g.typeConversion(this.exp.type.replace(" : ", ""))).append(" ").append(exp).append(", null\n");
+                    this.value="%" + g.counter++;
+                }
+        }
+        return builder.toString();
     }
 
     @Override

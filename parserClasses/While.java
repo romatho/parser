@@ -10,7 +10,7 @@ public class While extends Expressions {
 
     private Expressions condition;
     private Expressions body;
-    private String type = null;
+    public String type = null;
 
 
 

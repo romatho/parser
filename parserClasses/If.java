@@ -10,7 +10,7 @@ public class If extends Expressions {
     private Expressions condition;
     private Expressions thenStatement;
     private Expressions elseStatement;
-    private String type = null;
+    public String type = null;
 
 
     public If(int pColumn, int pLine, Expressions pCondition, Expressions pThen)

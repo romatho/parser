@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Terminal extends Expressions{
-    private String type;
+    public String type;
     private String value;
 
     public Terminal(int pColumn, int pLine, String pValue,String pType)

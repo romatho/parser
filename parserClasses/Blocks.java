@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class Blocks extends Expressions{
         private ParserArray<Expressions> exprs;
 
-        private String type =null;
+        public String type =null;
 
 
         public Blocks( int pColumn, int pLine, ParserArray<Expressions> exprs)

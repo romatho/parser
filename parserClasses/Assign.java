@@ -11,7 +11,7 @@ public class Assign extends Expressions{
 
     private String objectIdentifier;
     private Expressions exp;
-    private String type = null;
+    public String type = null;
 
 
     public Assign(int pColumn, int pLine, String pObjectIdentifier, Expressions pExp)

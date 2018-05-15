@@ -14,7 +14,7 @@ public class Call extends Expressions {
     private Expressions objectExp;
     private String methodName;
     private ParserArray<Expressions> listExp;
-    private String type;
+    public String type;
     private String calltype;
 
     public Call(int pColumn, int pLine, Expressions pObjectExp, String pMethodName, ParserArray<Expressions> pListExp)

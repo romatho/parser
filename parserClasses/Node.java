@@ -6,6 +6,7 @@ public abstract class Node {
 
     public int line;
     public int column;
+    public String value;
 
     Node(int pColumn, int pLine)
     {

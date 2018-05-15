@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Expressions extends Node {
+    public  String type;
     public Expressions(int pColumn, int pLine)
     {
         super(pColumn, pLine);

@@ -12,7 +12,7 @@ public class BinOp extends Expressions{
     private String op;
     private Expressions firstExp;
     private Expressions secondExp;
-    private String type =null;
+    public String type =null;
 
     public BinOp(int pColumn, int pLine, String pOp, Expressions pFirstExp, Expressions pSecondExp)
     {

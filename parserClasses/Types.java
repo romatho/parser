@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Types extends Node {
-    private String type;
+    public String type;
     public Types(int pColumn, int pLine, String type)
     {
         super(pColumn,pLine);
