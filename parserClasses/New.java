@@ -2,6 +2,7 @@ package parserClasses;
 
 
 import check.*;
+import llvm.Generator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,11 @@ public class New extends Expressions {
         if(checkerMode)
             toDisplay += " : " + typeIdentifier.getType();
         return toDisplay;
+    }
+
+    @Override
+    public String toLlvm(Generator g) {
+        return null;
     }
 
     @Override

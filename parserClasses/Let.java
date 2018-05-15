@@ -4,6 +4,7 @@ package parserClasses;
 import java.util.ArrayList;
 import java.util.HashMap;
 import check.*;
+import llvm.Generator;
 
 public class Let extends Expressions{
 
@@ -50,6 +51,11 @@ public class Let extends Expressions{
         if(checkerMode)
             toDisplay += " : " + retType;
         return toDisplay;
+    }
+
+    @Override
+    public String toLlvm(Generator g) {
+        return null;
     }
 
     @Override

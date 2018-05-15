@@ -1,5 +1,7 @@
 package parserClasses;
 
+import llvm.Generator;
+
 public class ClassBody extends  Node{
 
     private ParserArray<Field> myFields;
@@ -23,6 +25,11 @@ public class ClassBody extends  Node{
     public String toString(boolean checkerMode)
     {
         return myFields.toString(checkerMode)+ ", " + myMethods.toString(checkerMode);
+    }
+
+    @Override
+    public String toLlvm(Generator g) {
+        return null;
     }
 
 

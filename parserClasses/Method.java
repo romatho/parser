@@ -2,6 +2,7 @@ package parserClasses;
 
 
 import check.*;
+import llvm.Generator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,11 @@ public class Method extends Node{
     public String toString(boolean checkerMode) {
         return "Method(" + Identifier + ", " + formals.toString(checkerMode)
                 + ", " + ReturnType.toString(checkerMode) + ", " + block.toString(checkerMode) + ")";
+    }
+
+    @Override
+    public String toLlvm(Generator g) {
+        return null;
     }
 
     public String getIdentifier() {

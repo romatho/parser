@@ -2,6 +2,7 @@ package parserClasses;
 
 
 import check.*;
+import llvm.Generator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,11 @@ public class BinOp extends Expressions{
         if(checkerMode)
             toDisplay += " : " + type;
         return toDisplay;
+    }
+
+    @Override
+    public String toLlvm(Generator g) {
+        return null;
     }
 
     @Override

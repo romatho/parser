@@ -1,5 +1,7 @@
 package parserClasses;
 
+import llvm.Generator;
+
 public class Program extends Node {
 
     private ParserArray<Classe> myClasses;
@@ -15,6 +17,11 @@ public class Program extends Node {
     public String toString(boolean checkerMode)
     {
         return myClasses.toString(checkerMode);
+    }
+
+    @Override
+    public String toLlvm(Generator g) {
+        return null;
     }
 
     public ParserArray<Classe> getClasses()

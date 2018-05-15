@@ -1,5 +1,7 @@
 package parserClasses;
 
+import llvm.Generator;
+
 public abstract class Node {
 
     public int line;
@@ -12,6 +14,7 @@ public abstract class Node {
     }
 
     public abstract String toString(boolean checkerMode);
+    public abstract String toLlvm(Generator g);
 
     public String displayNode()
     {

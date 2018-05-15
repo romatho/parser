@@ -1,5 +1,7 @@
 package parserClasses;
 
+import llvm.Generator;
+
 public class Classe extends  Node{
 
     private String name;
@@ -26,6 +28,11 @@ public class Classe extends  Node{
     public String toString(boolean checkerMode)
     {
         return  "Class(" + name + ", " + parentClasse + ", " + body.toString(checkerMode) + ")";
+    }
+
+    @Override
+    public String toLlvm(Generator g) {
+        return null;
     }
 
 

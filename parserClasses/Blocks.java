@@ -1,6 +1,7 @@
 package parserClasses;
 
 import check.*;
+import llvm.Generator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,11 @@ public class Blocks extends Expressions{
         return this.exprs.toString(checkerMode)+" : "+this.type;
         return this.exprs.toString(checkerMode);
 
+    }
+
+    @Override
+    public String toLlvm(Generator g) {
+        return null;
     }
 
     @Override

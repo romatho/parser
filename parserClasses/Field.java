@@ -2,6 +2,7 @@ package parserClasses;
 
 import check.Checker;
 import check.Pair;
+import llvm.Generator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,11 @@ public class Field  extends Expressions {
             String toDisplay = "Field(" + identifier + ", " + type.toString(checkerMode) +", "+ expr.toString(checkerMode)+")";
             return toDisplay;
         }
+    }
+
+    @Override
+    public String toLlvm(Generator g) {
+        return null;
     }
 
     public String getIdentifier() {

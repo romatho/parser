@@ -2,6 +2,7 @@ package parserClasses;
 
 
 import check.*;
+import llvm.Generator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,5 +97,9 @@ public class Terminal extends Expressions{
         type="ERROR";
         return "ERROR";
     }
-
+    @Override
+    public String toLlvm(Generator g)
+    {
+       return value;
+    }
 }
