@@ -35,9 +35,33 @@ public class While extends Expressions {
     }
 
     @Override
-    public void toLlvm(Generator g) {
-        return null;
+    public void toLlvm(Generator g)
+    {
+        ++g.whileCounter;
+
+        g.builder.append("    ").append("br label %while").append(g.whileCounter).append("\n");
+        g.builder.append("while").append(g.whileCounter).append(":").append("\n");
+        //currentLabel = "%while" + g.whileCounter;
+        this.condition.toLlvm(g);
+
+
+
+        if (this.condition.value.equals("true")) {
+            this.body.toLlvm(g);
+            g.builder.append("    ").append("br label %while")
+                    .append(g.whileCounter).append("\n");
+        } else {
+            g.builder.append("    ").append("br i1 ").append(condition.value)
+                    .append(", label %while").append(g.whileCounter)
+                    .append(", label %end_while").append(g.whileCounter)
+                    .append("\n");
+        }
+
+
+        //currentLabel = "%end_while" + g.whileCounter;
+        g.builder.append("end_while").append(g.whileCounter).append(":").append("\n");
     }
+    
 
     @Override
     public String getType( HashMap<String, HashMap<String, String>> classFieldType,

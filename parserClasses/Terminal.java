@@ -107,7 +107,7 @@ public class Terminal extends Expressions{
                 g.builder.append("    " + "%").append(g.counter).append(" = load ").append(g.typeConversion(temp)).append("* ").append(g.vars.get(this.pvalue)).append("\n");
                this.value="%" + g.counter++;
             } else {
-                ArrayList fields =new ArrayList(Arrays.asList( g.c.classFieldType.keySet().toArray()));
+                ArrayList fields =Arrays.asList( g.c.classFieldType.keySet().toArray());
                 int pos=0;
                 for(Object elements:fields) {
                     if (elements.equals(this.pvalue))
