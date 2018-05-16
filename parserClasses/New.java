@@ -31,7 +31,9 @@ public class New extends Expressions {
 
     @Override
     public void toLlvm(Generator g) {
-        return null;
+        g.builder.append("    %").append(g.counter).append(" = call %class.")
+                .append(type).append("* @").append(type).append("-new()\n");
+        value = "%" + g.counter++;
     }
 
     @Override

@@ -54,6 +54,7 @@ public class Assign extends Expressions{
         }
         g.builder.append("    store ").append(g.typeConversion(type)).append(" ").append(exp).append(", ")
                 .append(g.typeConversion(type)).append("* ").append(as).append("\n");
+        value = exp;
     }
 
     @Override
