@@ -15,7 +15,7 @@ public abstract class Node {
     }
 
     public abstract String toString(boolean checkerMode);
-    public abstract String toLlvm(Generator g);
+    public abstract void toLlvm(Generator g);
 
     public String displayNode()
     {

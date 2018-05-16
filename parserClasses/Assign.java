@@ -3,7 +3,6 @@ package parserClasses;
 
 import check.*;
 import llvm.Generator;
-import sun.rmi.transport.ObjectTable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +36,8 @@ public class Assign extends Expressions{
 
     @Override
     public void toLlvm(Generator g) {
-        String exp = this.exp.toLlvm(g);
+        this.exp.toLlvm(g);
+        String exp = this.exp.value;
 
         if(type.equals("unit")) {
            return;
