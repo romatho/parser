@@ -1,5 +1,6 @@
 package llvm;
 
+import check.Checker;
 import parserClasses.Classe;
 import parserClasses.Formals;
 import parserClasses.Method;
@@ -9,6 +10,8 @@ import java.util.HashMap;
 public class Generator {
     public int counter;
     public int ifCounter;
+    public Checker c;
+
     public HashMap<String, String> vars;
     public StringBuilder builder;
 
@@ -50,7 +53,7 @@ public class Generator {
         return targetTriple;
     }
 
-    StringBuilder vTableToString(Classe current)
+    private StringBuilder vTableToString(Classe current)
     {
         String comma = "";
         StringBuilder classObject = new StringBuilder("%classe." + current.getName() + " = type{ %table." + current.getName() + "VTable}");
@@ -75,7 +78,16 @@ public class Generator {
         return classObject.append("\n" + vTableString.append( "\n" + vTableGlobalString));
     }
 
-
+    public void createLLVM()
+    {
+        builder = new StringBuilder();
+        builder.append(getTargetTriple());
+        builder.append(vTableToString(c.objectClass) + "\n");
+        builder.append(vTableToString(c.IOClass) + "\n");
+        for(Classe current: c.p.getClasses())
+            builder.append(vTableToString(current) + "\n");
+        //TODO : add toLLVM()
+    }
 
 
 }

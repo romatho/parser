@@ -25,7 +25,9 @@ public class Checker {
     //map allowed field with their name and their class name
     private HashMap<String, HashMap<String, Field> > allowedField;
     //the IO Classe
-    private Classe IOClass;
+    public Classe IOClass;
+    //the Object Classe
+    public Classe objectClass;
 
     private HashMap<String, HashMap<String, String> > classFieldType;
     private HashMap<String, HashMap<String, String> > classMethodType;
@@ -66,6 +68,14 @@ public class Checker {
         IOClass = new Classe(0, 0, "IO", "Object",  IoBodyClass);
     }
 
+    private void buildObjectClass()
+    {
+        ClassBody objectBodyClass = new ClassBody(0,0);
+        IOClass = new Classe(0, 0, "IO", null,  objectBodyClass);
+    }
+
+
+
     public Checker(Program program, String filename)
     {
         this.filename=filename;
@@ -80,6 +90,7 @@ public class Checker {
         classMethodFormalsType = new HashMap<>();
         buildIOClass();
         semanticCheck(program);
+        buildObjectClass();
         // System.out.println(program.toString(false));
         //System.out.println(program.toString(true));
 
