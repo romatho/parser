@@ -75,7 +75,7 @@ public class Generator {
             vTableString.append(toAdd);
             vTableGlobalString.append(toAdd + " @" + current.getName() + method.getIdentifier());
         }
-        return classObject.append("\n" + vTableString.append( "\n" + vTableGlobalString));
+        return classObject.append("\n" + vTableString.append( "\n" + vTableGlobalString +  "\n"));
     }
 
     public void createLLVM()
