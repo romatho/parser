@@ -28,4 +28,18 @@ public class Generator {
         }
         return "%class." + initType + "*";
     }
+
+
+    public String getTargetTriple()
+    {
+        String targetTriple = "target triple " + System.getProperty("os.arch");
+        String lowerOsName = System.getProperty("os.name").toLowerCase();
+        if (lowerOsName.contains("mac"))
+            targetTriple += "-apple-macosx";
+        else if (lowerOsName.contains("win"))
+            targetTriple += "-pc-windows";
+        else
+            targetTriple += "-pc-linux-gnu";
+        return targetTriple;
+    }
 }
