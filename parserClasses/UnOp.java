@@ -34,7 +34,8 @@ public class UnOp extends Expressions{
     @Override
     public void toLlvm(Generator g) {
         StringBuilder builder=new StringBuilder();
-        String exp=this.exp.toLlvm(g);
+        this.exp.toLlvm(g);
+        String exp=this.exp.value;
         switch(firstElement)
         {
             case "not":

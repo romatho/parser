@@ -39,7 +39,7 @@ public class BinOp extends Expressions{
 
     @Override
     public void toLlvm(Generator g) {
-        return null;
+
     }
 
     @Override
