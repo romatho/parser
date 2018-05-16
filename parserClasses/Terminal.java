@@ -2,28 +2,25 @@ package parserClasses;
 
 
 import check.*;
-import llvm.Generator;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import llvm.Generator
+import java.util.*;
 
 public class Terminal extends Expressions{
     public String type;
-    private String value;
+    private String pvalue;
+    private String classe;
 
     public Terminal(int pColumn, int pLine, String pValue,String pType)
     {
         super(pColumn, pLine);
-        value = pValue;
+        this.pvalue = pValue;
         type= pType;
     }
 
     @Override
     public String toString(boolean checkerMode)
     {
-        String toDisplay = value;
+        String toDisplay = pvalue;
         if(checkerMode)
             toDisplay += " : " + type;
         return toDisplay;
@@ -34,8 +31,9 @@ public class Terminal extends Expressions{
                            HashMap<String, HashMap<String, String> > classMethodType,
                            HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr) {
+       this.classe=classe;
         // Check that we're not in a field init expression and that we're using another field of the class to init it
-        if(fieldExpr && classFieldType.get(classe).containsKey(value))
+        if(fieldExpr && classFieldType.get(classe).containsKey(pvalue))
         {
             System.err.println(filename +":" + this.displayNode() +
                     "semantic error: cannot use class fields in field initializers.");
@@ -44,7 +42,7 @@ public class Terminal extends Expressions{
             return type;
         }
 
-        if(value.equals("self"))
+        if(pvalue.equals("self"))
         {
             type= classe;
             return type;
@@ -53,12 +51,12 @@ public class Terminal extends Expressions{
             return type;
 
         else if (type.equals("OI")) {
-            if (localVariables.get(value) == null) {
+            if (localVariables.get(pvalue) == null) {
                 ArrayList<Pair> temp = classMethodFormalsType.get(classe).get(methode);
                 if (temp != null) {
                     int i = 0;
                     for (i = 0; i < temp.size(); i++) {
-                        if (temp.get(i).getKey().equals(value)) {
+                        if (temp.get(i).getKey().equals(pvalue)) {
                             type = temp.get(i).getValue();
                             return type;
                         }
@@ -66,21 +64,21 @@ public class Terminal extends Expressions{
                     }
 
                 }
-                    if (classFieldType.containsKey(value)) {
-                        type = value;
+                    if (classFieldType.containsKey(pvalue)) {
+                        type = pvalue;
                         return type;
                     }
-                    if (classFieldType.get(classe).get(value) != null)
+                    if (classFieldType.get(classe).get(pvalue) != null)
 
                     {
-                        type = classFieldType.get(classe).get(value);
+                        type = classFieldType.get(classe).get(pvalue);
                         return type;
                     }
 
 
 
             } else {
-                type = localVariables.get(value);
+                type = localVariables.get(pvalue);
                 return type;
 
             }
@@ -93,13 +91,34 @@ public class Terminal extends Expressions{
         }
         c.toReturn=1;
 
-        System.err.println(filename +":" + this.displayNode() + "semantic error: " + this.value + " is undefined pute ");
+        System.err.println(filename +":" + this.displayNode() + "semantic error: " + this.pvalue + " is undefined pute ");
         type="ERROR";
         return "ERROR";
     }
     @Override
-    public void toLlvm(Generator g)
-    {
-       return value;
+    public void toLlvm(Generator g) {
+        if (this.type.equals("int32")||this.type.equals("bool")||this.type.equals("unit"))
+            this.value=this.pvalue;
+        if (!this.type.equals("int32")&&!this.type.equals("bool")&&!this.type.equals("string")&&!this.type.equals("unit")) {
+            String temp = this.type.replace(" : ", "");
+
+            if (g.vars.get(this.pvalue) != null) {
+                // If it is in the vartable just load its pvalue
+                g.builder.append("    " + "%").append(g.counter).append(" = load ").append(g.typeConversion(temp)).append("* ").append(g.vars.get(this.pvalue)).append("\n");
+               this.value="%" + g.counter++;
+            } else {
+                ArrayList fields =new ArrayList(Arrays.asList( g.c.classFieldType.keySet().toArray()));
+                int pos=0;
+                for(Object elements:fields) {
+                    if (elements.equals(this.pvalue))
+                        break;
+                    pos++;
+                }
+                g.vars.put(this.pvalue, "%" + g.counter);
+                g.builder.append("    " + "%").append(g.counter++).append(" = getelementptr inbounds ").append("%class.").append(this.classe).append("* %this, i32 0, i32 ").append(pos+1).append("\n");
+                g.builder.append("    " + "%").append(g.counter).append(" = load ").append(g.typeConversion(this.type)).append("* %").append(g.counter - 1).append("\n");
+                this.value="%" + g.counter++;
+            }
+        }
     }
 }
