@@ -32,7 +32,7 @@ public class Generator {
                 return "i1";
 
             default:
-                return "%class." + initType + "*";
+                return "%classe." + initType + "*";
         }
     }
 
@@ -62,7 +62,7 @@ public class Generator {
             StringBuilder toAdd = new StringBuilder();
             toAdd.append(comma + typeConversion(method.getReturnType() + " ("));
             //add the class itself as formal
-            toAdd.append("%class." + current.getName() + "*");
+            toAdd.append("%classe." + current.getName() + "*");
             //add formals
             for(Formals formal : method.getFormals())
                 toAdd.append(", " + typeConversion(formal.getType()));
