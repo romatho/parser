@@ -2,7 +2,7 @@ package parserClasses;
 
 
 import check.*;
-import llvm.Generator
+import llvm.Generator;
 import java.util.*;
 
 public class Terminal extends Expressions{

@@ -5,6 +5,7 @@ import check.*;
 import llvm.Generator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Assign extends Expressions{
@@ -12,6 +13,8 @@ public class Assign extends Expressions{
     private String objectIdentifier;
     private Expressions exp;
     public String type = null;
+    private String classe;
+    private HashMap<String, HashMap<String, String>> classFieldType;
 
 
     public Assign(int pColumn, int pLine, String pObjectIdentifier, Expressions pExp)
@@ -43,17 +46,23 @@ public class Assign extends Expressions{
            return;
         }
 
-        String as = g.vars.get(objectIdentifier);
-        if(as == null) {
-            ObjectTable obj = classTable.get(currentClass);
-
+        String var = g.vars.get(objectIdentifier);
+        // If it is not contained in the variables table, it must be a field of the class
+        if(var == null) {
+            ArrayList fields = new ArrayList(Arrays.asList(g.c.classFieldType.keySet().toArray()));
+            int pos = 0;
+            for(Object element : fields) {
+                if(element.equals(objectIdentifier))
+                    break;
+                pos++;
+            }
             g.vars.put(objectIdentifier, "%" + g.counter++);
-            g.builder.append("    %").append(g.counter).append(" = getelementptr inbounds %class.").append(currentClass)
-                    .append("* %this, i32 0, i32 ").append(obj.getIndexOfVar(objectIdentifier)).append("\n");
-            as = "%" + g.counter++;
+            g.builder.append("    %").append(g.counter).append(" = getelementptr inbounds %class.").append(classe)
+                    .append("* %this, i32 0, i32 ").append(pos).append("\n");
+            var = "%" + g.counter++;
         }
         g.builder.append("    store ").append(g.typeConversion(type)).append(" ").append(exp).append(", ")
-                .append(g.typeConversion(type)).append("* ").append(as).append("\n");
+                .append(g.typeConversion(type)).append("* ").append(var).append("\n");
         value = exp;
     }
 
@@ -62,6 +71,8 @@ public class Assign extends Expressions{
                           HashMap<String, HashMap<String, String> > classMethodType,
                           HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr)
     {
+        this.classe = classe;
+        this.classFieldType = classFieldType;
         if(type != null)
             return  type;
 
