@@ -14,7 +14,6 @@ public class Assign extends Expressions{
     private Expressions exp;
     public String type = null;
     private String classe;
-    private HashMap<String, HashMap<String, String>> classFieldType;
 
 
     public Assign(int pColumn, int pLine, String pObjectIdentifier, Expressions pExp)
@@ -72,7 +71,6 @@ public class Assign extends Expressions{
                           HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType, HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr)
     {
         this.classe = classe;
-        this.classFieldType = classFieldType;
         if(type != null)
             return  type;
 
