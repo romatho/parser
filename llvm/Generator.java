@@ -1,5 +1,9 @@
 package llvm;
 
+import parserClasses.Classe;
+import parserClasses.Formals;
+import parserClasses.Method;
+
 import java.util.HashMap;
 
 public class Generator {
@@ -26,8 +30,10 @@ public class Generator {
 
             case "unit":
                 return "i1";
+
+            default:
+                return "%class." + initType + "*";
         }
-        return "%class." + initType + "*";
     }
 
 
@@ -43,4 +49,24 @@ public class Generator {
             targetTriple += "-pc-linux-gnu";
         return targetTriple;
     }
+
+    StringBuilder vTableToString(Classe current)
+    {
+        String comma = "";
+        StringBuilder vTableString = new StringBuilder("%table." + current.getName() + "VTable = type { ");
+        for(Method method : current.getBody().getMyMethods())
+        {
+            vTableString.append(comma +typeConversion(method.getReturnType() + " ("));
+            //add the class itself as formal
+            vTableString.append("%class." + current.getName() + "*");
+            //add formals
+            for(Formals formal : method.getFormals())
+                vTableString.append(", " + typeConversion(formal.getType()));
+            vTableString.append(")*");
+            comma = ",";
+        }
+        return vTableString;
+    }
+
+
 }
