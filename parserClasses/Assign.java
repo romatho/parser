@@ -3,6 +3,7 @@ package parserClasses;
 
 import check.*;
 import llvm.Generator;
+import sun.rmi.transport.ObjectTable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,23 @@ public class Assign extends Expressions{
 
     @Override
     public void toLlvm(Generator g) {
-        return null;
+        String exp = this.exp.toLlvm(g);
+
+        if(type.equals("unit")) {
+           return;
+        }
+
+        String as = g.varTable.get(objectIdentifier);
+        if(as == null) {
+            ObjectTable obj = classTable.get(currentClass);
+
+            g.varTable.put(objectIdentifier, "%" + g.counter++);
+            g.builder.append("    %").append(g.counter).append(" = getelementptr inbounds %class.").append(currentClass)
+                    .append("* %this, i32 0, i32 ").append(obj.getIndexOfVar(objectIdentifier)).append("\n");
+            as = "%" + g.counter++;
+        }
+        g.builder.append("    store ").append(g.typeConversion(type)).append(" ").append(exp).append(", ")
+                .append(g.typeConversion(type)).append("* ").append(as).append("\n");
     }
 
     @Override
