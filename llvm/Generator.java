@@ -54,18 +54,24 @@ public class Generator {
     {
         String comma = "";
         StringBuilder vTableString = new StringBuilder("%table." + current.getName() + "VTable = type { ");
+        StringBuilder vTableGlobalString = new StringBuilder("@" + current.getName() + "VTableGlobal = type { ");
+
         for(Method method : current.getBody().getMyMethods())
         {
-            vTableString.append(comma +typeConversion(method.getReturnType() + " ("));
+            StringBuilder toAdd = new StringBuilder();
+            toAdd.append(comma + typeConversion(method.getReturnType() + " ("));
             //add the class itself as formal
-            vTableString.append("%class." + current.getName() + "*");
+            toAdd.append("%class." + current.getName() + "*");
             //add formals
             for(Formals formal : method.getFormals())
-                vTableString.append(", " + typeConversion(formal.getType()));
-            vTableString.append(")*");
+                toAdd.append(", " + typeConversion(formal.getType()));
+            toAdd.append(")*");
             comma = ",";
+
+            vTableString.append(toAdd);
+            vTableGlobalString.append(toAdd + " @" + current.getName() + method.getIdentifier());
         }
-        return vTableString;
+        return vTableString.append(vTableGlobalString);
     }
 
 
