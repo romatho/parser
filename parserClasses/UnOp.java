@@ -33,7 +33,6 @@ public class UnOp extends Expressions{
 
     @Override
     public void toLlvm(Generator g) {
-        StringBuilder builder=new StringBuilder();
         this.exp.toLlvm(g);
         String exp=this.exp.value;
         switch(firstElement)

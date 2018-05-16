@@ -43,7 +43,7 @@ public class Assign extends Expressions{
            return;
         }
 
-        String as = g.varTable.get(objectIdentifier);
+        String as = g.vars.get(objectIdentifier);
         if(as == null) {
             ObjectTable obj = classTable.get(currentClass);
 

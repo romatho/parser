@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Generator {
     public int counter;
-    public HashMap<String, String> varTable;
+    public HashMap<String, String> vars;
     public StringBuilder builder;
 
     /**
