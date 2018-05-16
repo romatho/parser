@@ -146,15 +146,15 @@ public class BinOp extends Expressions{
                     this.value="true";
                 } else {
                     
-                    g.g.ifCounter++;
+                    g.ifCounter++;
                     g.builder.append("    " + "br  i1 ").append(firstExp.value).append(", label %if_true").append(g.g.ifCounter).append(", label %if_false").append(g.g.ifCounter).append("\n");
-                    g.builder.append("if_true").append(g.g.ifCounter).append(":\n");
-                    currentLabel = "%if_true" + g.g.ifCounter;
-                    g.builder.append("    " + "br label %end_if").append(g.g.ifCounter).append("\n");
-                    g.builder.append("if_false").append(g.g.ifCounter).append(":\n");
-                    g.builder.append("    " + "br label %end_if").append(g.g.ifCounter).append("\n");
-                    g.builder.append("end_if").append(g.g.ifCounter).append(":\n");
-                    currentLabel = "%end_if" + g.g.ifCounter;
+                    g.builder.append("if_true").append(g.ifCounter).append(":\n");
+                    //currentLabel = "%if_true" + g.ifCounter;
+                    g.builder.append("    " + "br label %end_if").append(g.ifCounter).append("\n");
+                    g.builder.append("if_false").append(g.ifCounter).append(":\n");
+                    g.builder.append("    " + "br label %end_if").append(g.ifCounter).append("\n");
+                    g.builder.append("end_if").append(g.ifCounter).append(":\n");
+                    //currentLabel = "%end_if" + g.ifCounter;
                     g.builder.append("    " + "%").append(g.counter).append(" = phi i1 [").append(secondExp.value).append(", %if_true").append(g.g.ifCounter).append("], [").append(firstExp.value).append(", %if_false").append(g.g.ifCounter).append("]\n");
                     this.value="%" + String.valueOf(g.counter++);
                 }
@@ -177,7 +177,6 @@ public class BinOp extends Expressions{
                     } else if (typeR.equals("unit"))
                         this.value="false";
                     else {
-                        // If the type is bool or int32 make the comparaison with icmp eq
                         if (temp.equals("int32") || temp.equals("bool")) {
                             g.builder.append("    " + "%").append(g.counter).append(" = icmp eq ").append(g.typeConversion(temp)).append(" ").append(firstExp.value).append(", ").append(secondExp.value).append("\n");
                             this.value="%" + String.valueOf(g.counter++);
@@ -187,7 +186,6 @@ public class BinOp extends Expressions{
                             g.builder.append("    " + "%").append(g.counter).append(" = icmp eq i32 %").append(g.counter - 1).append(", 0\n");
                             this.value="%" + g.counter++;
                         } else {
-                            //otherwise (it is a class) cast the pointer into a int64 a compare it
                             g.builder.append("    " + "%").append(g.counter++).append(" = ptrtoint ").append(g.typeConversion(temp)).append(" ").append(firstExp.value).append(" to i64\n");
                             g.builder.append("    " + "%").append(g.counter++).append(" = ptrtoint ").append(g.typeConversion(typeR)).append(" ").append(secondExp.value).append(" to i64\n");
                             g.builder.append("    " + "%").append(g.counter).append(" = icmp eq i64 %").append(g.counter - 1).append(", %").append(g.counter - 2).append("\n");
