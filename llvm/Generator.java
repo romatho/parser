@@ -71,7 +71,7 @@ public class Generator {
             vTableString.append(toAdd);
             vTableGlobalString.append(toAdd + " @" + current.getName() + method.getIdentifier());
         }
-        return vTableString.append(vTableGlobalString);
+        return vTableString.append( "\n" +vTableGlobalString);
     }
 
 
