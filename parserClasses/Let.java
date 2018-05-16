@@ -55,7 +55,27 @@ public class Let extends Expressions{
 
     @Override
     public void toLlvm(Generator g) {
-        return null;
+        // Store the variables table previous to the let call, so we can return to it afterwards.
+        HashMap<String, String> prevVars = g.vars;
+        // Allocate memory
+        g.builder.append("    %").append(g.counter).append(" = alloca ").append(g.typeConversion(retType)).append("\n");
+
+        if(init != null) {
+            init.toLlvm(g);
+            value = init.value;
+
+            // If the type is unit, the value must be 0.
+            if(retType.equals("unit"))
+                value = "0";
+            // store the initial value
+            g.builder.append("    store ").append(g.typeConversion(retType)).append(" ").append(value).append(", ")
+                    .append(g.typeConversion(retType)).append("* %").append(g.counter).append("\n");
+        }
+        g.vars.put(objectIdentifier, "%" + g.counter++);
+
+        scope.toLlvm(g);
+        value = scope.value;
+        g.vars = prevVars;
     }
 
     @Override
