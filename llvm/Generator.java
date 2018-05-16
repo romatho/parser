@@ -78,12 +78,24 @@ public class Generator {
         return classObject.append("\n" + vTableString.append( "\n" + vTableGlobalString +  "\n"));
     }
 
+    //add the stdin from c
+    String addStdIn()
+    {
+        //TODO: ne focntionne peut etre pas
+        return "%file = type { i32, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, %marker*, %file*, i32, i32, i64, i16, i8, [1 x i8], i8*, i64, i8*, i8*, i8*, i8*, i64, i32, [20 x i8] }" +
+        "\n %marker = type { %marker*, %file*, i32 }";
+    }
+
+
     public void createLLVM()
     {
         builder = new StringBuilder();
+        //target triple for compilation with clang
         builder.append(getTargetTriple());
+        //vTable for Io and Object
         builder.append(vTableToString(c.objectClass) + "\n");
         builder.append(vTableToString(c.IOClass) + "\n");
+        //vTable for classes in the file
         for(Classe current: c.p.getClasses())
             builder.append(vTableToString(current) + "\n");
         //TODO : add toLLVM()
