@@ -4,10 +4,7 @@ package parserClasses;
 import check.*;
 import llvm.Generator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class Call extends Expressions {
 
@@ -16,6 +13,8 @@ public class Call extends Expressions {
     private ParserArray<Expressions> listExp;
     public String type;
     private String calltype;
+    private String objectType;
+    private String classe;
 
     public Call(int pColumn, int pLine, Expressions pObjectExp, String pMethodName, ParserArray<Expressions> pListExp)
     {
@@ -46,7 +45,77 @@ public class Call extends Expressions {
 
     @Override
     public void toLlvm(Generator g) {
-        return null;
+        String c0 = "%0";
+        StringBuilder params = new StringBuilder();
+
+        if(objectExp != null) {
+            objectExp.toLlvm(g);
+            c0 = objectExp.value;
+        }
+
+        ArrayList methods = new ArrayList(Arrays.asList(g.c.classMethodType.keySet().toArray()));
+        int methodPos = 0;
+        for(Object elem : methods) {
+            if(elem.equals(objectType))
+                break;
+            methodPos++;
+        }
+
+        ArrayList formals = new ArrayList(Arrays.asList(g.c.classMethodFormals.keySet().toArray()));
+        int formalPos = 0;
+        for(Object elem: formals) {
+            if(elem.equals(objectType))
+                break;
+            formalPos++;
+        }
+        if(listExp != null) {
+            for(Expressions exp : listExp) {
+                exp.toLlvm(g);
+
+                String str = exp.value;
+                if(exp.type.equals("unit"))
+                    str = "0";
+                else {
+                    //if (Llvm.builderString.containsKey(arg.getExprValue().replace("\"", ""))) {
+                    //    LlvmString llvmString = Llvm.builderString.get(arg.getExprValue().replace("\"", ""));
+                    //    strExpr = "getelementptr inbounds (" + llvmString.getSize() + "* " + llvmString.getIdentifier() + ", i32 0, i32 0)";
+                    //}
+                    if(g.strings.containsKey(exp)) {
+                        String string = g.strings.get(exp);
+                        str = "getelementptr inbounds (" + string.length() + "* " + llvmString.getIdentifier() + ", i32 0, i32 0)";
+                    }
+                }
+                params.append(", ").append(g.typeConversion(exp.type)).append(" ").append(str);
+            }
+        }
+
+        if(objectExp == null) {
+            c0 = "%" + g.counter++;
+            g.builder.append("    ").append(c0).append(" = load %class.").append(classe).append("** %0\n");
+        }
+        String convType;
+        if(!type.equals("unit"))
+            convType = g.typeConversion(type);
+        else
+            convType = "void";
+
+        g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %class.").append(objectType).append("* ").append(c0).append(", i32 0, i32 0\n");
+        g.builder.append("    %").append(g.counter++).append(" = load %struct.").append(objectType).append("_vtable** %").append(g.counter - 2).append("\n");
+        g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %struct.").append(objectType).append("_vtable* %").append(g.counter - 2).append(", i32 0, i32 ").append(methodPos).append("\n");
+
+        g.builder.append("    %").append(g.counter++).append(" = load ").append(convType).append(" ").append(objT.getListOfFields(fctIndex, objectType)).append("** %").append(counter - 2).append(Llvm.LF);
+        String callName = "%" + (g.counter - 1);
+
+        g.builder.append("    ");
+
+        if(!convType.equals("void")) {
+            g.builder.append("%").append(g.counter).append(" = ");
+            value = "%" + g.counter++;
+        }
+
+        g.builder.append("call ").append(convType).append(" ").append(callName).append(" (").append(g.typeConversion(objectType)).append(" ").append(c0);
+        g.builder.append(params);
+        g.builder.append(")").append("\n");
     }
 
     @Override
@@ -55,6 +124,7 @@ public class Call extends Expressions {
                            HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr)
     {
+        this.classe = classe;
         if(type != null)
             return type;
 
@@ -68,7 +138,7 @@ public class Call extends Expressions {
         }
 
         String objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr);
-
+        this.objectType = objectType;
         if(objectType.equals("ERROR"))
         {
             type = "ERROR";
