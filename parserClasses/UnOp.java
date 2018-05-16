@@ -32,7 +32,7 @@ public class UnOp extends Expressions{
     }
 
     @Override
-    public String toLlvm(Generator g) {
+    public void toLlvm(Generator g) {
         StringBuilder builder=new StringBuilder();
         String exp=this.exp.toLlvm(g);
         switch(firstElement)
@@ -44,13 +44,13 @@ public class UnOp extends Expressions{
                     this.value="true";
                 else {
                     // Otherwise compute it
-                    builder.append("    " + "%").append( g.counter).append(" = xor i1 ").append(exp).append(", true").append("\n");
+                    g.builder.append("    " + "%").append( g.counter).append(" = xor i1 ").append(exp).append(", true\n");
                     this.value="%" + g.counter++;
                 }
                 break;
             case "-":
                 if (exp.contains("%")) {
-                    builder.append("  " + "%").append(g.counter).append(" = sub i32 0, ").append(exp).append("\n");
+                    g.builder.append("    " + "%").append(g.counter).append(" = sub i32 0, ").append(exp).append("\n");
                    this.value="%" + g.counter++;
                 }
                 // It is a int so just change the sign
@@ -65,11 +65,11 @@ public class UnOp extends Expressions{
                     this.value="true";
                 else {
                     // Otherwise compute it
-                    builder.append("    " + "%").append(g.counter).append(" = icmp eq ").append(g.typeConversion(this.exp.type.replace(" : ", ""))).append(" ").append(exp).append(", null\n");
+                    g.builder.append("    " + "%").append(g.counter).append(" = icmp eq ").append(g.typeConversion(this.exp.type.replace(" : ", ""))).append(" ").append(exp).append(", null\n");
                     this.value="%" + g.counter++;
                 }
         }
-        return builder.toString();
+
     }
 
     @Override

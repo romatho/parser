@@ -98,7 +98,7 @@ public class Terminal extends Expressions{
         return "ERROR";
     }
     @Override
-    public String toLlvm(Generator g)
+    public void toLlvm(Generator g)
     {
        return value;
     }

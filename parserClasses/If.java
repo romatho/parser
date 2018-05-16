@@ -50,7 +50,7 @@ public class If extends Expressions {
     }
 
     @Override
-    public String toLlvm(Generator g) {
+    public void toLlvm(Generator g) {
         return null;
     }
 
