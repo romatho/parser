@@ -22,7 +22,7 @@ public class Formals extends Node {
 
     @Override
     public void toLlvm(Generator g) {
-        return null;
+
     }
 
     public String getIdentifier() {

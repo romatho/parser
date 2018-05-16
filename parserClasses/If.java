@@ -51,7 +51,23 @@ public class If extends Expressions {
 
     @Override
     public void toLlvm(Generator g) {
-        return null;
+        condition.toLlvm(g);
+        if(condition.type.equals("bool")) {
+            // If the condition evaluates to true, the value will be the one of the then statement
+            if(condition.value.equals("true")) {
+                thenStatement.toLlvm(g);
+                if(type.equals(thenStatement.type) || type.equals("unit"))
+                    value = thenStatement.value;
+            }
+            // Else, the value corresponds to the one of the else statement (if present)
+            else {
+                if(elseStatement != null) {
+                    elseStatement.toLlvm(g);
+                    if(type.equals(elseStatement.type) || type.equals("unit"))
+                        value = elseStatement.value;
+                }
+            }
+        }
     }
 
     @Override

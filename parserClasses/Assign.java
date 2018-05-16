@@ -47,7 +47,7 @@ public class Assign extends Expressions{
         if(as == null) {
             ObjectTable obj = classTable.get(currentClass);
 
-            g.varTable.put(objectIdentifier, "%" + g.counter++);
+            g.vars.put(objectIdentifier, "%" + g.counter++);
             g.builder.append("    %").append(g.counter).append(" = getelementptr inbounds %class.").append(currentClass)
                     .append("* %this, i32 0, i32 ").append(obj.getIndexOfVar(objectIdentifier)).append("\n");
             as = "%" + g.counter++;

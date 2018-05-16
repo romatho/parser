@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class Generator {
     public int counter;
+    public int ifCounter;
     public HashMap<String, String> vars;
     public StringBuilder builder;
 
