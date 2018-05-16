@@ -53,6 +53,7 @@ public class Generator {
     StringBuilder vTableToString(Classe current)
     {
         String comma = "";
+        StringBuilder classObject = new StringBuilder("%classe." + current.getName() + " = type{ %table." + current.getName() + "VTable}");
         StringBuilder vTableString = new StringBuilder("%table." + current.getName() + "VTable = type { ");
         StringBuilder vTableGlobalString = new StringBuilder("@" + current.getName() + "VTableGlobal = type { ");
 
@@ -71,7 +72,7 @@ public class Generator {
             vTableString.append(toAdd);
             vTableGlobalString.append(toAdd + " @" + current.getName() + method.getIdentifier());
         }
-        return vTableString.append( "\n" +vTableGlobalString);
+        return classObject.append("\n" + vTableString.append( "\n" + vTableGlobalString));
     }
 
 
