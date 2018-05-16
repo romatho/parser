@@ -14,6 +14,7 @@ public class Checker {
     /*FIELD*/
 
     private String filename;
+    public Program p;
     public int toReturn =0;
     //map allowed class with their name
     private HashMap<String, Classe> allowedClasses;
@@ -68,6 +69,7 @@ public class Checker {
     public Checker(Program program, String filename)
     {
         this.filename=filename;
+        p = program;
         toReturn = 0;
         allowedClasses = new HashMap<>();
         allowedMethods = new HashMap<>();
