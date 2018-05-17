@@ -27,11 +27,6 @@ public class Program extends Node {
     public void toLlvm(Generator g) {
         output = new StringBuilder();
 
-        // Main function
-        output.append("define i32 @main() {").append("\n");
-        output.append("    %1 = call %class.Main* @Main-new()\n");
-        output.append("    %2 = call i32 @Main-main(%class.Main* %1)\n");
-        output.append("    ret i32 %2\n}\n\n");
         g.methodsBuilder = new LinkedList<>();
         g.declarationsBuilder = new LinkedList<>();
         g.methodsBuilder.add(output);
