@@ -120,9 +120,10 @@ public class Terminal extends Expressions{
                 this.value="%" + g.counter++;
             }
         }
+
         if (this.type.equals("string") && g.strings != null)
         {
-            if (g.strings.containsKey(this.value)) {
+            if (!g.strings.containsKey(this.value)) {
                 StringHandler handler = new StringHandler();
 
                 if (g.stringCounter == 0) {
@@ -135,7 +136,6 @@ public class Terminal extends Expressions{
                 handler.size="[" + (this.formattedLlvmSize() + 1) + " x i8]";
                 g.strings.put(this.value, handler);
             }
-            // Load the string
             StringHandler handler = g.strings.get(this.value);
             this.value= "getelementptr inbounds (" + handler.size + "* " + handler.identifier + ", i32 0, i32 0)";
         }

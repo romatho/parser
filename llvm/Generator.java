@@ -32,9 +32,11 @@ public class Generator {
         ifCounter = 1;
         builder = new StringBuilder();
         output = new StringBuilder();
-        createLLVM();
         methodsBuilder = new LinkedList<>();
-        strings = new LinkedHashMap<>();
+        strings= new LinkedHashMap<>();
+        declarationsBuilder= new LinkedList<>();
+        methodsBuilder= new LinkedList<>();
+        createLLVM();
     }
 
 
