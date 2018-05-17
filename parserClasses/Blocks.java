@@ -35,11 +35,15 @@ public class Blocks extends Expressions{
         for(Expressions e : exprs)
             e.toLlvm(g);
 
-        Expressions exp = exprs.get(exprs.size()-1);
-        if(exp.type != null && exp.type.equals("unit"))
-            value = "0";
-        else
-            value = exp.value;
+        if(exprs.size()==0)
+            value="0";
+        else {
+            Expressions exp = exprs.get(exprs.size() - 1);
+            if (exp.type != null && exp.type.equals("unit"))
+                value = "0";
+            else
+                value = exp.value;
+        }
     }
 
     @Override
