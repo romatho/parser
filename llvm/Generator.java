@@ -6,14 +6,19 @@ import parserClasses.Formals;
 import parserClasses.Method;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Generator {
     public int counter;
-    public int ifCounter;
+    public int ifCounter=0;
+    public int stringCounter=0;
+    public int whileCounter=0;
     public Checker c;
 
     public HashMap<String, String> vars;
     public StringBuilder builder;
+    public StringBuilder stringBuilder;
+    public LinkedHashMap<String, stringHandler> strings;
 
     /**
      * Converts a VSOP type to a LLVM type

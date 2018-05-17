@@ -53,17 +53,15 @@ public class Call extends Expressions {
             c0 = objectExp.value;
         }
 
-        ArrayList methods = new ArrayList(Arrays.asList(g.c.classMethodType.keySet().toArray()));
         int methodPos = 0;
-        for(Object elem : methods) {
+        for(Object elem : g.c.classMethodType.keySet().toArray()) {
             if(elem.equals(objectType))
                 break;
             methodPos++;
         }
 
-        ArrayList formals = new ArrayList(Arrays.asList(g.c.classMethodFormals.keySet().toArray()));
         int formalPos = 0;
-        for(Object elem: formals) {
+        for(Object elem:g.c.classMethodFormalsType.keySet().toArray()) {
             if(elem.equals(objectType))
                 break;
             formalPos++;

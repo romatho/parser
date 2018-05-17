@@ -3,6 +3,8 @@ package parserClasses;
 
 import check.*;
 import llvm.Generator;
+import llvm.stringHandler;
+
 import java.util.*;
 
 public class Terminal extends Expressions{
@@ -119,5 +121,64 @@ public class Terminal extends Expressions{
                 this.value="%" + g.counter++;
             }
         }
+        if (this.type.equals("string"))
+        {
+            if (g.strings.containsKey(this.value)) {
+                stringHandler handler = new stringHandler();
+
+                if (g.stringCounter == 0) {
+                    handler.identifier="@.str";
+                    g.stringCounter++;
+                } else {
+                    handler.identifier="@.str" + g.stringCounter++;
+                }
+                handler.value= "c\"" + this.formattedLlvm() + "\\00\"";
+                handler.size="[" + (this.formattedLlvmSize() + 1) + " x i8]";
+                g.strings.put(this.value, handler);
+            }
+            // Load the string
+            stringHandler handler = g.strings.get(this.value);
+            this.value= "getelementptr inbounds (" + handler.size + "* " + handler.identifier + ", i32 0, i32 0)";
+        }
     }
+
+
+
+
+    private String formattedLlvm() {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < this.value.length(); ++i) {
+            int ascii = this.value.charAt(i);
+            if (ascii < 32) {
+                str.append("\\x").append(String.format("%02X", ascii));
+            } else if (ascii > 126) {
+                str.append("\\x").append(String.format("%02X", ascii));
+            } else {
+                str.append(this.value.charAt(i));
+            }
+        }
+
+        String tmp = str.toString().replace("\\x", "\\");
+        tmp = tmp.substring(1).substring(0, tmp.length() - 2);
+
+        tmp = tmp.replace("\\\\", "\\5C");
+        tmp = tmp.replace("\\\"", "\\22");
+        value=tmp;
+
+
+        return str.toString();
+    }
+
+
+    private int formattedLlvmSize() {
+        int length=0;
+        for (int i = 0; i < value.length(); i++) {
+            if (value.charAt(i) == '\\') {
+                i += 2;
+            }
+            length++;
+        }
+        return length;
+    }
+
 }
