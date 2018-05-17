@@ -214,14 +214,14 @@ public class Generator {
                 "\t%10 = load i8*, i8** %0\n" +
                 "\tret i8* %10\n" +
                 "}\n";
-
-        return toReturn.append(methodPrintf).append(methodPrintInt32)
+        toReturn.append(methodPrintf).append(methodPrintInt32)
                 .append(methodPrintBool)
                 .append(methodPrint)
                 .append(methodInputInt32)
                 .append(methodInputBool)
                 .append(methodInputLine)
                 .append(methodgetLineC);
+        return toReturn;
     }
 
     String generateEntrypoint()
@@ -265,7 +265,6 @@ public class Generator {
 
         c.p.toLlvm(this);
         output.append(c.p.output);
-
         //TODO : add toLLVM()
     }
 

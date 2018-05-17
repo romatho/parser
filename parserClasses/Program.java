@@ -25,11 +25,8 @@ public class Program extends Node {
 
     @Override
     public void toLlvm(Generator g) {
-        output = new StringBuilder();
-
         g.methodsBuilder = new LinkedList<>();
         g.declarationsBuilder = new LinkedList<>();
-        g.methodsBuilder.add(output);
 
         // Traverse the different classes (except IO as it has been hardcoded)
         for(Classe c : g.c.allowedClasses.values())
