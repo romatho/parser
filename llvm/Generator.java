@@ -25,7 +25,7 @@ public class Generator {
 
     public StringBuilder output;
 
-    Generator(Checker c)
+    public Generator(Checker c)
     {
         this.c = c;
         counter = 1;
@@ -33,6 +33,7 @@ public class Generator {
         builder = new StringBuilder();
         output = new StringBuilder();
         createLLVM();
+        methodsBuilder = new LinkedList<>();
     }
 
 

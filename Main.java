@@ -39,10 +39,8 @@ public class Main {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			Generator g;
-			if(c.toReturn == 0)
-				g = new Generator(c);
-			else
+			Generator g = new Generator(c);
+			if(c.toReturn != 0)
 				System.exit(1);
 
 			if(arg.length == 1)

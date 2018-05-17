@@ -71,7 +71,7 @@ public class Checker {
     private void buildObjectClass()
     {
         ClassBody objectBodyClass = new ClassBody(0,0);
-        IOClass = new Classe(0, 0, "IO", null,  objectBodyClass);
+        objectClass = new Classe(0, 0, "Object", null,  objectBodyClass);
     }
 
 
