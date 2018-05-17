@@ -114,7 +114,7 @@ public class Generator {
         StringBuilder toReturn = new StringBuilder();
 
         //printf
-        String methodPrintf = "declare i32 @printf(i8*, ...)\n\n";
+        String methodPrintf = "declare i32 @printf(i8*, ...)\n declare i32 @scanf(i8*, ...)\n";
 
         //printInt32 method
         String methodPrintInt32 = "define %classe.IO* @IOprintInt32(%classe.IO* %this, i32 %myInt32){\n" +
@@ -143,25 +143,79 @@ public class Generator {
                 "entry:\n" +
                 "\t%1 = call i32(i8*,...)* @printf(i8 %myString)\n" +
                 "\tret classe.IO* %this\n" +
-        "}\n";
+                "}\n";
 
 
         //
-        String methodInputInt32 = "";
+        String methodInputInt32 = "define i32 @IOinputInt32(%classe.IO* %this, i8 %myString){\n" +
+                "entry:\n" +
+                "\t%1 = alloca %classe.IO*" +
+                "\t%n = alloca i32" +
+                "\tstore %classe.IO* %this, %classe.IO** %1" +
+                "\t%2 = load %classe.IO** %1" +
+                "\t%3 = call i32 (i8*, ...)* @scanf(i8* getelemntptr inbounds ([3 x i8]* @formatInt, i32 0, i32 0), i32* %n)\n" +
+                "\t%unused= call i8* @llvmGetLine()" +
+                "\t%4= load i32* %n)" +
+                "\tret i32* %4" +
+                "}\n";
 
         //
-        String methodInputBool = "";
+        String methodInputBool = "define i1 @IOinputBool(%classe.IO* %this){\n"+
+                "entry:\n" +
+                "\t%1 alloc %classe.IO*\n" +
+                "\tstore %classe.IO* %this, %classe.IO** %1\n" +
+                "\t%2 = load %classe.IO** %1\n" +
+                "\t%3 = call i8* @llvmGetLine()\n" +
+                "\t%4 = call i32* strcmp(i8* %3, i8*getelementptr inbound ([6 x i8]* @truecmp, i32 0, i32 0))\n" +
+                "\t%5 = icmp eq i32 %4, 0\n" +
+                "\tbr i1 %5, label %then, label %else\n" +
+                "then:\n" +
+                "\tbr label %end\n" +
+                "else:\n" +
+                "\tbr label %end\n" +
+                "end:\n" +
+                "\t%6 = phi i1 [true, %then], [false, %else]\n" +
+                "\tret i1 %5"+
+                "}\n";
 
         //
-        String methodInputLine = "";
+        String methodInputLine = "define i8* @IOinputLine(){\n" +
+                "entry:\n" +
+                "\t%1 = call i8* @llvmGetLine()" +
+                "\tret i8* %1\n" +
+                "}\n";
 
+        String methodgetLineC = "define i* llvmGetLine(){" +
+                "entry:\n" +
+                "\t%1 = alloca i8*" +
+                "\t%line = alloca i8*" +
+                "\t%len = alloca i64" +
+                "\t%nread = alloca i64" +
+                "\tstore i8* null, i8** %line" +
+                "\tstore i64 0, i64* %len" +
+                "\tbr label %2" +
+                "\t%3 = load %struct._IO_FILE** @stdin" +
+                "\t%4 = call i64 @getline(i8** %line, i64* %len, %struct._IO_FILE* %3)" +
+                "\tstore i64 %4, i64* %nread" +
+                "\t%5 = icmp ne i64 %4, -1" +
+                "\tbr i1 %5, label %6, label %" +
+                "\t%7 = load i8** %line" +
+                "\tstore i8* %7, i8** %1" +
+                "\tbr label %10" +
+                "\t%9 = load i8** %line" +
+                "\tstore i8* %9, i8** %1" +
+                "\tbr label %10" +
+                "\t%11 = load i8** %1" +
+                "\tret i8* %11" +
+                "}";
 
         return toReturn.append(methodPrintInt32)
                 .append(methodPrintBool)
                 .append(methodPrint)
                 .append(methodInputInt32)
                 .append(methodInputBool)
-                .append(methodInputLine);
+                .append(methodInputLine)
+                .append(methodgetLineC);
     }
 
     String generateEntrypoint()
