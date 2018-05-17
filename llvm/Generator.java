@@ -264,7 +264,6 @@ public class Generator {
         output.append(generateEntrypoint());
 
         c.p.toLlvm(this);
-        output.append(c.p.output);
         //TODO : add toLLVM()
     }
 

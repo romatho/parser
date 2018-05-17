@@ -2,10 +2,7 @@ package parserClasses;
 
 import llvm.Generator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class Classe extends  Node{
 
@@ -41,7 +38,7 @@ public class Classe extends  Node{
 
         // Add the constructor to the methods of the class
         StringBuilder constructor = new StringBuilder();
-        constructor.append("define %class.").append(name).append("* @").append(name).append("-new() {\n");
+        constructor.append("\ndefine %class.").append(name).append("* @").append(name).append("-new() {\n");
         constructor.append("    %size = getelementptr %class.").append(name).append("* null, i32 1\n");
         constructor.append("    %sizeI = ptrtoint %class.").append(name).append("* %size to i64\n");
         constructor.append("    %1 = call noalias i8* @malloc(i64 %sizeI)\n");
@@ -63,7 +60,12 @@ public class Classe extends  Node{
         constructor.append("    %").append(g.counter).append(" = getelementptr inbounds %class.").append(name)
                 .append("* %this, i32 0, i32 0\n").append("    store %struct.").append(name).append("_vtable* @")
                 .append(name).append("_vtable_inst, %struct.").append(name).append("_vtable** %").append(g.counter++).append("\n");
-        
+        if(name.equals("Object"))
+        {
+            g.methodsBuilder.add(constructor);
+            g.output.append(g.methodsBuilder.getLast());
+            return;
+        }
         Collection<Field> fields = g.c.allowedField.get(name).values();
         String init = null;
         for(Field f : fields) {
@@ -95,13 +97,14 @@ public class Classe extends  Node{
         g.methodsBuilder.add(constructor);
         g.output.append(g.methodsBuilder.getLast());
         g.counter = 0;
+        if(!name.equals("IO")) {
+            Collection<Method> methods = g.c.allowedMethods.get(name).values();
+            methods.removeAll(g.c.allowedMethods.get(parentClasse).values());
+            for (Method m : methods) {
+                m.toLlvm(g);
+                g.output.append(g.methodsBuilder.getLast());
 
-        Collection<Method> methods = g.c.allowedMethods.get(name).values();
-        methods.removeAll(g.c.allowedMethods.get(parentClasse).values());
-        for(Method m : methods) {
-            m.toLlvm(g);
-            g.output.append(g.methodsBuilder.getLast());
-
+            }
         }
     }
 

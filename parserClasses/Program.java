@@ -29,8 +29,8 @@ public class Program extends Node {
         g.declarationsBuilder = new LinkedList<>();
 
         // Traverse the different classes (except IO as it has been hardcoded)
+        g.c.objectClass.toLlvm(g);
         for(Classe c : g.c.allowedClasses.values())
-            if(!c.getName().equals("IO"))
                 c.toLlvm(g);
     }
 

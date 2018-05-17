@@ -103,7 +103,21 @@ define i32 @main(){
 %1 = call %classe.Main* @Main-new()
 %2 = call i32 @Mainmain(%classe.Main* %1)
 ret i32 %2
-}define %class.Main* @Main-new() {
+}
+define %class.Object* @Object-new() {
+    %size = getelementptr %class.Object* null, i32 1
+    %sizeI = ptrtoint %class.Object* %size to i64
+    %1 = call noalias i8* @malloc(i64 %sizeI)
+    %self = bitcast i8* %1 to %class.Object*
+    call void @Object-new-init(%class.Object* %self)
+    ret %class.Object* %self
+}
+
+define void @Object-new-init(%class.Object* %this) {
+    %1 = getelementptr inbounds %class.Object* %this, i32 0, i32 0
+    store %struct.Object_vtable* @Object_vtable_inst, %struct.Object_vtable** %1
+
+define %class.Main* @Main-new() {
     %size = getelementptr %class.Main* null, i32 1
     %sizeI = ptrtoint %class.Main* %size to i64
     %1 = call noalias i8* @malloc(i64 %sizeI)
@@ -138,4 +152,18 @@ entry:
     %12 = call %classe.IO* %11 (%classe.Main* %7, null getelementptr inbounds ([2 x i8]* @.str, i32 0, i32 0))
     ret i32
 }
-null
+
+define %class.IO* @IO-new() {
+    %size = getelementptr %class.IO* null, i32 1
+    %sizeI = ptrtoint %class.IO* %size to i64
+    %1 = call noalias i8* @malloc(i64 %sizeI)
+    %self = bitcast i8* %1 to %class.IO*
+    call void @IO-new-init(%class.IO* %self)
+    ret %class.IO* %self
+}
+
+define void @IO-new-init(%class.IO* %this) {
+    %1 = getelementptr inbounds %class.IO* %this, i32 0, i32 0
+    store %struct.IO_vtable* @IO_vtable_inst, %struct.IO_vtable** %1
+    ret void
+}
