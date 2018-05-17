@@ -86,6 +86,63 @@ public class Generator {
         "\n %marker = type { %marker*, %file*, i32 }";
     }
 
+    StringBuilder automaticIOCreation()
+    {
+        // The implementaiton is done thankss to the definition of the class in the VSOP manual
+
+        StringBuilder toReturn = new StringBuilder();
+
+        //printf
+        String methodPrintf = "declare i32 @printf(i8*, ...)\n\n";
+
+        //printInt32 method
+        String methodPrintInt32 = "define %classe.IO* @IOPrintInt32(%classe.IO* %this, i32 %myInt32){\n" +
+                "entry:\n"+
+                "%1 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([3 x i8]* @formatInt , i32 0, i32 0), i32 %myInt32)" +
+                "\tret %class.IO* %this\n" +
+                "}\n";
+
+
+        //printBool method
+        String methodPrintBool = "define %classe.IO* @IOPrintBool(%classe.IO* %this, i1 %myBool){\n" +
+                "entry:\n"+
+                "\t%1 = icmp eq i1 %myBool, 0\n"+
+                "\tbr = i1 %1 label %labelFalse, label %labelTrue \n"+
+                "labelFalse:\n"+
+                "%2 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8]* @false , i32 0, i32 0))" +
+                "\tret %class.IO* %this" +
+                "labelTrue:\n"+
+                "%3 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8]* @true , i32 0, i32 0))\n" +
+                "\tret %class.IO* %this\n" +
+                "}\n";
+
+
+        //print method
+        String methodPrint = "define %classe.IO* @IOPrint(%classe.IO* %this, i8 %myString){\n" +
+                "entry:\n" +
+                "\t%1 = call i32(i8*,...)* @printf(i8 %myString)\n" +
+                "\tret classe.IO* %this\n" +
+        "}\n";
+
+
+        //
+        String methodInputInt32 = "";
+
+        //
+        String methodInputBool = "";
+
+        //
+        String methodInputLine = "";
+
+
+        return toReturn.append(methodPrintInt32)
+                .append(methodPrintBool)
+                .append(methodPrint)
+                .append(methodInputInt32)
+                .append(methodInputBool)
+                .append(methodInputLine);
+    }
+
 
     public void createLLVM()
     {
