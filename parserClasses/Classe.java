@@ -4,6 +4,7 @@ import llvm.Generator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class Classe extends  Node{
@@ -65,13 +66,12 @@ public class Classe extends  Node{
                 .append("* %this, i32 0, i32 0\n").append("    store %struct.").append(name).append("_vtable* @")
                 .append(name).append("_vtable_inst, %struct.").append(name).append("_vtable** %").append(g.counter++).append("\n");
 
-        HashMap<String, String> fields = g.c.classFieldType.get(name);
+        Collection<Field> fields = g.c.allowedField.get(name).values();
         String init = null;
         for(Field f : fields) {
             Expressions exp = f.getExpression();
-            ArrayList fieldsArray = Arrays.asList(g.c.classFieldType.keySet().toArray());
             int pos = 0;
-            for(Object element : fieldsArray) {
+            for(Object element : g.c.classFieldType.keySet().toArray()) {
                 if(element.equals(f))
                     break;
                 pos++;
@@ -95,7 +95,7 @@ public class Classe extends  Node{
         g.builder.append("    ret void\n}\n\n");
         g.counter = 0;
 
-        HashMap<String, String> methods = g.c.classMethodType.get(name);
+        Collection<Method> methods = g.c.allowedMethods.get(name).values();
         for(Method m : methods)
             m.toLlvm(g);
     }

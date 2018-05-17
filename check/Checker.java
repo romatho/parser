@@ -19,11 +19,11 @@ public class Checker {
     //map allowed class with their name
     public HashMap<String, Classe> allowedClasses;
     //map allowed method with their name and their class name
-    private HashMap<String, HashMap<String, Method> > allowedMethods;
+    public HashMap<String, HashMap<String, Method> > allowedMethods;
     //map allowed formals with their name , their associated name and their associated class name
     private HashMap<String, HashMap<String, HashMap<String, Formals> > > allowedFormals;
     //map allowed field with their name and their class name
-    private HashMap<String, HashMap<String, Field> > allowedField;
+    public HashMap<String, HashMap<String, Field> > allowedField;
     //the IO Classe
     public Classe IOClass;
     //the Object Classe

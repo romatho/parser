@@ -3,7 +3,7 @@ package parserClasses;
 
 import check.*;
 import llvm.Generator;
-import llvm.stringHandler;
+import llvm.StringHandler;
 
 import java.util.*;
 
@@ -124,7 +124,7 @@ public class Terminal extends Expressions{
         if (this.type.equals("string"))
         {
             if (g.strings.containsKey(this.value)) {
-                stringHandler handler = new stringHandler();
+                StringHandler handler = new StringHandler();
 
                 if (g.stringCounter == 0) {
                     handler.identifier="@.str";
@@ -137,7 +137,7 @@ public class Terminal extends Expressions{
                 g.strings.put(this.value, handler);
             }
             // Load the string
-            stringHandler handler = g.strings.get(this.value);
+            StringHandler handler = g.strings.get(this.value);
             this.value= "getelementptr inbounds (" + handler.size + "* " + handler.identifier + ", i32 0, i32 0)";
         }
     }

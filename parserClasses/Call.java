@@ -46,12 +46,12 @@ public class Call extends Expressions {
 
     @Override
     public void toLlvm(Generator g) {
-        String c0 = "%0";
+        String self = "%0";
         StringBuilder params = new StringBuilder();
 
         if(objectExp != null) {
             objectExp.toLlvm(g);
-            c0 = objectExp.value;
+            self = objectExp.value;
         }
 
         int methodPos = 0;
@@ -85,8 +85,8 @@ public class Call extends Expressions {
         }
 
         if(objectExp == null) {
-            c0 = "%" + g.counter++;
-            g.builder.append("    ").append(c0).append(" = load %class.").append(classe).append("** %0\n");
+            self = "%" + g.counter++;
+            g.builder.append("    ").append(self).append(" = load %class.").append(classe).append("** %0\n");
         }
         String convType;
         if(!type.equals("unit"))
@@ -94,11 +94,14 @@ public class Call extends Expressions {
         else
             convType = "void";
 
-        g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %class.").append(objectType).append("* ").append(c0).append(", i32 0, i32 0\n");
+        HashMap<String, Field> fields = g.c.allowedField.get(classe);
+        String fieldsString = fields.toString();
+
+        g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %class.").append(objectType).append("* ").append(self).append(", i32 0, i32 0\n");
         g.builder.append("    %").append(g.counter++).append(" = load %struct.").append(objectType).append("_vtable** %").append(g.counter - 2).append("\n");
         g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %struct.").append(objectType).append("_vtable* %").append(g.counter - 2).append(", i32 0, i32 ").append(methodPos).append("\n");
 
-        g.builder.append("    %").append(g.counter++).append(" = load ").append(convType).append(" ").append(objT.getListOfFields(fctIndex, objectType)).append("** %").append(counter - 2).append(Llvm.LF);
+        g.builder.append("    %").append(g.counter++).append(" = load ").append(convType).append(" ").append(fieldsString).append("** %").append(g.counter - 2).append("\n");
         String callName = "%" + (g.counter - 1);
 
         g.builder.append("    ");
@@ -108,7 +111,7 @@ public class Call extends Expressions {
             value = "%" + g.counter++;
         }
 
-        g.builder.append("call ").append(convType).append(" ").append(callName).append(" (").append(g.typeConversion(objectType)).append(" ").append(c0);
+        g.builder.append("call ").append(convType).append(" ").append(callName).append(" (").append(g.typeConversion(objectType)).append(" ").append(self);
         g.builder.append(params);
         g.builder.append(")").append("\n");
     }
