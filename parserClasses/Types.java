@@ -20,9 +20,7 @@ public class Types extends Node {
     }
 
     @Override
-    public void toLlvm(Generator g) {
-        return null;
-    }
+    public void toLlvm(Generator g) { }
 
 
     public String getType( ) {

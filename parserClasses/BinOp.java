@@ -64,7 +64,6 @@ public class BinOp extends Expressions{
                     this.value="%" + String.valueOf(g.counter++);
                 }
                 break;
-                break;
             case "<=":
                 if( (firstExp.type.equals("int32")||firstExp.type.equals("unit")||firstExp.type.equals("bool"))&&(secondExp.type.equals("int32")||secondExp.type.equals("unit")||secondExp.type.equals("bool")))
                 {
@@ -115,13 +114,13 @@ public class BinOp extends Expressions{
                     g.builder.append("    " + "br i1 %").append(g.counter - 1).append(", label %if_true").append(g.ifCounter -1).append(", label %end_if").append(g.ifCounter -1).append("\n");
                     g.builder.append("if_true").append(g.ifCounter -1).append(":\n");
                     g.builder.append("    " + "%").append(g.counter++).append(" = icmp sge i32 ").append(secondExp.value).append(", 0\n");
-                    g.builder.append("    " + "br i1 %").append(g.counter - 1).append(", label %if_true").append(ifCounter).append(", label %if_false").append(ifCounter).append("\n");
+                    g.builder.append("    " + "br i1 %").append(g.counter - 1).append(", label %if_true").append(g.ifCounter).append(", label %if_false").append(g.ifCounter).append("\n");
                     g.builder.append("if_true").append(g.ifCounter).append(":\n");
                     g.builder.append("    " + "%").append(g.counter++).append(" = alloca i32\n");
                     g.builder.append("    " + "store i32 ").append(secondExp.value).append(", i32* %").append(g.counter - 1).append("\n");
                     g.builder.append("    " + "%").append(g.counter++).append("= icmp ne i32 ").append(secondExp.value).append(", 0\n");
-                    g.builder.append("    " + "br i1 %").append(g.counter - 1).append(", label %loop").append(whileCounter).append(", label %end_if").append(g.ifCounter -1).append("\n");
-                    g.builder.append("loop").append(whileCounter).append(":\n");
+                    g.builder.append("    " + "br i1 %").append(g.counter - 1).append(", label %loop").append(g.whileCounter).append(", label %end_if").append(g.ifCounter -1).append("\n");
+                    g.builder.append("loop").append(g.whileCounter).append(":\n");
                     g.builder.append("    " + "%").append(g.counter++).append(" = load i32* %").append(g.counter - 3).append("\n");
                     g.builder.append("    " + "%").append(g.counter++).append(" = load i32* %").append(g.counter - 7).append("\n");
                     g.builder.append("    " + "%").append(g.counter++).append(" = mul i32 %").append(g.counter - 2).append(", ").append(firstExp.value).append("\n");
@@ -129,8 +128,8 @@ public class BinOp extends Expressions{
                     g.builder.append("    " + "%").append(g.counter++).append(" = sub i32 %").append(g.counter - 4).append(", 1\n");
                     g.builder.append("    " + "store i32 %").append(g.counter - 1).append(", i32* %").append(g.counter - 6).append("\n");
                     g.builder.append("    " + "%").append(g.counter++).append(" = icmp eq i32 %").append(g.counter - 2).append(", 0\n");
-                    g.builder.append("    " + "br i1 %").append(g.counter - 1).append(", label %end_if").append(g.ifCounter -1).append(", label %loop").append(whileCounter).append("\n");
-                    g.builder.append("if_false").append(ifCounter).append(":\n");
+                    g.builder.append("    " + "br i1 %").append(g.counter - 1).append(", label %end_if").append(g.ifCounter -1).append(", label %loop").append(g.whileCounter).append("\n");
+                    g.builder.append("if_false").append(g.ifCounter).append(":\n");
                     g.builder.append("    " + "store i32 0, i32* %").append(g.counter - 10).append("\n");
                     g.builder.append("    " + "br label %end_if").append(g.ifCounter -1).append("\n");
                     g.builder.append("end_if").append(g.ifCounter -1).append(":\n");
@@ -147,7 +146,7 @@ public class BinOp extends Expressions{
                 } else {
                     
                     g.ifCounter++;
-                    g.builder.append("    " + "br  i1 ").append(firstExp.value).append(", label %if_true").append(g.g.ifCounter).append(", label %if_false").append(g.g.ifCounter).append("\n");
+                    g.builder.append("    " + "br  i1 ").append(firstExp.value).append(", label %if_true").append(g.ifCounter).append(", label %if_false").append(g.ifCounter).append("\n");
                     g.builder.append("if_true").append(g.ifCounter).append(":\n");
                     //currentLabel = "%if_true" + g.ifCounter;
                     g.builder.append("    " + "br label %end_if").append(g.ifCounter).append("\n");
@@ -155,7 +154,7 @@ public class BinOp extends Expressions{
                     g.builder.append("    " + "br label %end_if").append(g.ifCounter).append("\n");
                     g.builder.append("end_if").append(g.ifCounter).append(":\n");
                     //currentLabel = "%end_if" + g.ifCounter;
-                    g.builder.append("    " + "%").append(g.counter).append(" = phi i1 [").append(secondExp.value).append(", %if_true").append(g.g.ifCounter).append("], [").append(firstExp.value).append(", %if_false").append(g.g.ifCounter).append("]\n");
+                    g.builder.append("    " + "%").append(g.counter).append(" = phi i1 [").append(secondExp.value).append(", %if_true").append(g.ifCounter).append("], [").append(firstExp.value).append(", %if_false").append(g.ifCounter).append("]\n");
                     this.value="%" + String.valueOf(g.counter++);
                 }
                 break;
