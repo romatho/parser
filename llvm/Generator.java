@@ -158,11 +158,11 @@ public class Generator {
                 "\t%0 = alloca %classe.IO*\n" +
                 "\t%n = alloca i32\n" +
                 "\tstore %classe.IO* %this, %classe.IO** %0\n" +
-                "\t%1 = load %classe.IO** %0\n" +
-                "\t%2 = call i32 (i8*, ...)* @scanf(i8* getelemntptr inbounds ([3 x i8]* @formatInt, i32 0, i32 0), i32* %n)\n" +
+                "\t%1 = load %classe.IO*, %classe.IO** %0\n" +
+                "\t%2 = call i32 (i8*, ...) @scanf(i8* getelementptr inbounds ([3 x i8],[3 x i8]* @formatInt, i32 0, i32 0), i32* %n)\n" +
                 "\t%unused= call i8* @llvmGetLine()\n" +
-                "\t%3= load i32* %n)\n" +
-                "\tret i32* %4\n" +
+                "\t%3= load i32* %n\n" +
+                "\tret i32 %3\n" +
                 "}\n";
 
         //
@@ -172,7 +172,7 @@ public class Generator {
                 "\tstore %classe.IO* %this, %classe.IO** %1\n" +
                 "\t%1 = load %classe.IO** %0\n" +
                 "\t%2 = call i8* @llvmGetLine()\n" +
-                "\t%3 = call i32* strcmp(i8* %2, i8*getelementptr inbound ([6 x i8]* @truecmp, i32 0, i32 0))\n" +
+                "\t%3 = call i32* strcmp(i8* %2, i8*getelementptr inbounds ([6 x i8]* @truecmp, i32 0, i32 0))\n" +
                 "\t%4 = icmp eq i32 %3, 0\n" +
                 "\tbr i1 %4, label %then, label %else\n" +
                 "then:\n" +
