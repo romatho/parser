@@ -1,4 +1,5 @@
 import java_cup.runtime.*;
+import llvm.Generator;
 import parserClasses.Program;
 import parserClasses.*;
 import check.Checker;
@@ -10,6 +11,48 @@ import java.io.FileReader;
 public class Main {
 	static public void main(String arg[])
 	{
+		if((arg.length == 1) ||
+			(arg.length == 2 && arg[0].equals("-llvm")))
+		{
+			final String path;
+			if(arg.length == 1)
+				path = arg[0];
+			else
+				path = arg[1];
+
+			parser p = null;
+			try {
+				p = new parser(new Lexer(new FileReader(path), path), path);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			Symbol parsed = null;
+			Checker c = null;
+			try {
+				parsed = p.parse();
+				Program program = (Program) parsed.value;
+//				System.out.println(program.toString());
+				if(p.toReturn ==0)
+					c = new Checker(program, path);
+				else
+					System.exit(1);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Generator g;
+			if(c.toReturn == 0)
+				g = new Generator(c);
+			else
+				System.exit(1);
+
+			if(arg.length == 1)
+				//print in file
+			else
+				System.out.println(g.output);
+
+			System.exit(0);
+		}
+
 		if(arg.length != 2) {
 			System.err.println("Usage 1: vsopc -lex <SOURCE-FILE> or  vsopc -parse <SOURCE-FILE> " +
 								"or vspoc -check <SOURCE-FILE>");
