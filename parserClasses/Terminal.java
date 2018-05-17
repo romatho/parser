@@ -120,7 +120,7 @@ public class Terminal extends Expressions{
                 this.value="%" + g.counter++;
             }
         }
-        if (this.type.equals("string"))
+        if (this.type.equals("string") && g.strings != null)
         {
             if (g.strings.containsKey(this.value)) {
                 StringHandler handler = new StringHandler();

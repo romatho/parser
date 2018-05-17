@@ -75,7 +75,7 @@ public class Call extends Expressions {
                 if(exp.type != null && exp.type.equals("unit"))
                     str = "0";
                 else {
-                    if(g.strings.containsKey(exp)) {
+                    if(g.strings != null && g.strings.containsKey(exp)) {
                         StringHandler string = g.strings.get(exp);
                         str = "getelementptr inbounds (" + string.size + "* " + string.identifier + ", i32 0, i32 0)";
                     }
