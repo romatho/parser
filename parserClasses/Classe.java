@@ -96,8 +96,10 @@ public class Classe extends  Node{
         g.counter = 0;
 
         Collection<Method> methods = g.c.allowedMethods.get(name).values();
-        for(Method m : methods)
+        for(Method m : methods) {
             m.toLlvm(g);
+            g.output.append(g.methodsBuilder.getLast());
+        }
     }
 
 
