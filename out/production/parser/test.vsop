@@ -1,7 +1,6 @@
-class Child extends Parent { }
-class Parent extends GrandParent { }
-class GrandParent { }
-class MyClass {
-    myMethod() : Object { new Child }
+class Main extends IO {
+    main() : int32 {
+        print("Hello, world!\n");
+        0
+    }
 }
-class Main { main() : int32 { 0 } }

@@ -43,6 +43,8 @@ public class Generator {
      * @return the corresponding LLVM type in a string
      */
     public String typeConversion(String initType) {
+        if(initType == null)
+            return null;
         switch(initType) {
             case "bool":
                 return "i1";
@@ -64,7 +66,7 @@ public class Generator {
 
     public String getTargetTriple()
     {
-        String targetTriple = "target triple " + System.getProperty("os.arch");
+        String targetTriple = "target triple = \"" + System.getProperty("os.arch");
         String lowerOsName = System.getProperty("os.name").toLowerCase();
         if (lowerOsName.contains("mac"))
             targetTriple += "-apple-macosx";
@@ -72,7 +74,7 @@ public class Generator {
             targetTriple += "-pc-windows";
         else
             targetTriple += "-pc-linux-gnu";
-        return targetTriple;
+        return targetTriple + "\"\n";
     }
 
     private StringBuilder vTableToString(Classe current)
@@ -97,7 +99,7 @@ public class Generator {
             vTableString.append(toAdd);
             vTableGlobalString.append(toAdd + " @" + current.getName() + method.getIdentifier());
         }
-        return classObject.append("\n" + vTableString.append( "\n" + vTableGlobalString +  "\n"));
+        return classObject.append("\n" + vTableString.append( "}\n" + vTableGlobalString +  "}\n"));
     }
 
     //add the stdin from c

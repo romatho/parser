@@ -5,8 +5,7 @@ import parserClasses.*;
 import check.Checker;
 //import lex.MySymb;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class Main {
 	static public void main(String arg[])
@@ -43,8 +42,37 @@ public class Main {
 			if(c.toReturn != 0)
 				System.exit(1);
 
-			if(arg.length == 1)
-				System.out.println("écriture dans le fichier");//print in file
+			if(arg.length == 1) {
+				String exec = arg[0].substring(0, arg[0].lastIndexOf('.'));
+				String outFile = exec + ".ll";
+
+                try {
+                    // Create a .ll file
+                    PrintWriter fileWriter = new PrintWriter(outFile, "UTF-8");
+                    fileWriter.print(g.output);
+                    fileWriter.close();
+                    // Create an executable
+                    String[] cmd = new String[]{"clang", outFile, "-o", exec};
+                    Process proc = Runtime.getRuntime().exec(cmd);
+                    //TODO: Remove (only for debug purposes)
+                    BufferedReader streamError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+
+                    String error;
+                    while ((error = streamError.readLine()) != null) {
+                        System.err.println(error);
+                    }
+
+                    proc.waitFor();
+                } catch (FileNotFoundException e) {
+                    System.err.println("Unable to write into file " + outFile);
+                } catch (UnsupportedEncodingException e) {
+                    System.err.println("Unable to write into file " + outFile + "\nUnsupported encoding.");
+                } catch (IOException e) {
+                    System.err.println("Unable to create executable.");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 			else
 				System.out.println(g.output);
 
