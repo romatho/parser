@@ -82,12 +82,12 @@ public class Generator {
         String comma = "";
         StringBuilder classObject = new StringBuilder("%classe." + current.getName() + " = type{ %table." + current.getName() + "VTable}");
         StringBuilder vTableString = new StringBuilder("%table." + current.getName() + "VTable = type { ");
-        StringBuilder vTableGlobalString = new StringBuilder("@" + current.getName() + "VTableGlobal = type { ");
+        StringBuilder vTableGlobalString = new StringBuilder("@" + current.getName() + "VTableGlobal = internal global %table." + current.getName() + "VTable { ");
 
         for(Method method : current.getBody().getMyMethods())
         {
             StringBuilder toAdd = new StringBuilder();
-            toAdd.append(comma + typeConversion(method.getReturnType() + " ("));
+            toAdd.append(comma + typeConversion(method.getReturnType()) + " (");
             //add the class itself as formal
             toAdd.append("%classe." + current.getName() + "*");
             //add formals
@@ -122,7 +122,7 @@ public class Generator {
         //printInt32 method
         String methodPrintInt32 = "define %classe.IO* @IOprintInt32(%classe.IO* %this, i32 %myInt32){\n" +
                 "entry:\n"+
-                "%1 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([3 x i8]* @formatInt , i32 0, i32 0), i32 %myInt32)" +
+                "%1 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @formatInt , i32 0, i32 0), i32 %myInt32)\n" +
                 "\tret %class.IO* %this\n" +
                 "}\n";
 
@@ -133,10 +133,10 @@ public class Generator {
                 "\t%1 = icmp eq i1 %myBool, 0\n"+
                 "\tbr = i1 %1 label %labelFalse, label %labelTrue \n"+
                 "labelFalse:\n"+
-                "%2 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8]* @false , i32 0, i32 0))" +
+                "%2 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @false , i32 0, i32 0))\n" +
                 "\tret %class.IO* %this" +
                 "labelTrue:\n"+
-                "%3 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8]* @true , i32 0, i32 0))\n" +
+                "%3 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @true , i32 0, i32 0))\n" +
                 "\tret %class.IO* %this\n" +
                 "}\n";
 
@@ -230,6 +230,16 @@ public class Generator {
                 "}";
     }
 
+    private String addConstant() {
+        return "@true = constant [5 x i8] c\"true\\00\"\n" +
+                "@false = constant [6 x i8] c\"false\\00\"\n" +
+                "@formatInt = constant [3 x i8] c\"%d\\00\"\n" +
+                "@formatString = constant [3 x i8] c\"%s\\00\"\n" +
+                "@stdin = external global %file*\n" +
+                "@truecmp = constant [6 x i8] c\"true\\0A\\00\"\n" +
+                "@.strempty = constant [1 x i8] c\"\\00\"\n";
+    }
+
     public void createLLVM()
     {
         output = new StringBuilder();
@@ -242,6 +252,8 @@ public class Generator {
         for(Classe current : c.p.getClasses())
             output.append(vTableToString(current) + "\n");
         //create constant
+        output.append(addStdIn() + "\n");
+        output.append(addConstant() + "\n");
 
         //generate the method for IO class
         output.append(automaticIOCreation() + "\n");
