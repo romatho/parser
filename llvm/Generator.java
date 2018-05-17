@@ -122,7 +122,7 @@ public class Generator {
         //printInt32 method
         String methodPrintInt32 = "define %classe.IO* @IOprintInt32(%classe.IO* %this, i32 %myInt32){\n" +
                 "entry:\n"+
-                "%1 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @formatInt , i32 0, i32 0), i32 %myInt32)\n" +
+                "%0 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @formatInt , i32 0, i32 0), i32 %myInt32)\n" +
                 "\tret %class.IO* %this\n" +
                 "}\n";
 
@@ -130,13 +130,13 @@ public class Generator {
         //printBool method
         String methodPrintBool = "define %classe.IO* @IOprintBool(%classe.IO* %this, i1 %myBool){\n" +
                 "entry:\n"+
-                "\t%1 = icmp eq i1 %myBool, 0\n"+
+                "\t%0 = icmp eq i1 %myBool, 0\n"+
                 "\tbr = i1 %1 label %labelFalse, label %labelTrue \n"+
                 "labelFalse:\n"+
-                "%2 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @false , i32 0, i32 0))\n" +
+                "\t%1 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @false , i32 0, i32 0))\n" +
                 "\tret %class.IO* %this" +
                 "labelTrue:\n"+
-                "%3 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @true , i32 0, i32 0))\n" +
+                "%2 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @true , i32 0, i32 0))\n" +
                 "\tret %class.IO* %this\n" +
                 "}\n";
 
@@ -144,7 +144,7 @@ public class Generator {
         //print method
         String methodPrint = "define %classe.IO* @IOprint(%classe.IO* %this, i8 %myString){\n" +
                 "entry:\n" +
-                "\t%1 = call i32(i8*,...)* @printf(i8 %myString)\n" +
+                "\t%0 = call i32(i8*,...)* @printf(i8 %myString)\n" +
                 "\tret classe.IO* %this\n" +
                 "}\n";
 
@@ -152,58 +152,58 @@ public class Generator {
         //
         String methodInputInt32 = "define i32 @IOinputInt32(%classe.IO* %this, i8 %myString){\n" +
                 "entry:\n" +
-                "\t%1 = alloca %classe.IO*" +
+                "\t%0 = alloca %classe.IO*" +
                 "\t%n = alloca i32" +
                 "\tstore %classe.IO* %this, %classe.IO** %1" +
-                "\t%2 = load %classe.IO** %1" +
-                "\t%3 = call i32 (i8*, ...)* @scanf(i8* getelemntptr inbounds ([3 x i8]* @formatInt, i32 0, i32 0), i32* %n)\n" +
+                "\t%1 = load %classe.IO** %1" +
+                "\t%2 = call i32 (i8*, ...)* @scanf(i8* getelemntptr inbounds ([3 x i8]* @formatInt, i32 0, i32 0), i32* %n)\n" +
                 "\t%unused= call i8* @llvmGetLine()" +
-                "\t%4= load i32* %n)" +
+                "\t%3= load i32* %n)" +
                 "\tret i32* %4" +
                 "}\n";
 
         //
         String methodInputBool = "define i1 @IOinputBool(%classe.IO* %this){\n"+
                 "entry:\n" +
-                "\t%1 alloc %classe.IO*\n" +
+                "\t%0 alloc %classe.IO*\n" +
                 "\tstore %classe.IO* %this, %classe.IO** %1\n" +
-                "\t%2 = load %classe.IO** %1\n" +
-                "\t%3 = call i8* @llvmGetLine()\n" +
-                "\t%4 = call i32* strcmp(i8* %3, i8*getelementptr inbound ([6 x i8]* @truecmp, i32 0, i32 0))\n" +
-                "\t%5 = icmp eq i32 %4, 0\n" +
-                "\tbr i1 %5, label %then, label %else\n" +
+                "\t%1 = load %classe.IO** %0\n" +
+                "\t%2 = call i8* @llvmGetLine()\n" +
+                "\t%3 = call i32* strcmp(i8* %2, i8*getelementptr inbound ([6 x i8]* @truecmp, i32 0, i32 0))\n" +
+                "\t%4 = icmp eq i32 %3, 0\n" +
+                "\tbr i1 %4, label %then, label %else\n" +
                 "then:\n" +
                 "\tbr label %end\n" +
                 "else:\n" +
                 "\tbr label %end\n" +
                 "end:\n" +
                 "\t%6 = phi i1 [true, %then], [false, %else]\n" +
-                "\tret i1 %5"+
+                "\tret i1 %4"+
                 "}\n";
 
         //
         String methodInputLine = "define i8* @IOinputLine(){\n" +
                 "entry:\n" +
-                "\t%1 = call i8* @llvmGetLine()" +
-                "\tret i8* %1\n" +
+                "\t%0 = call i8* @llvmGetLine()" +
+                "\tret i8* %0\n" +
                 "}\n";
 
         String methodgetLineC = "define i* llvmGetLine(){" +
                 "entry:\n" +
-                "\t%1 = alloca i8*" +
+                "\t%0 = alloca i8*" +
                 "\t%line = alloca i8*" +
                 "\t%len = alloca i64" +
                 "\t%nread = alloca i64" +
                 "\tstore i8* null, i8** %line" +
                 "\tstore i64 0, i64* %len" +
-                "\tbr label %2" +
-                "\t%3 = load %struct._IO_FILE** @stdin" +
-                "\t%4 = call i64 @getline(i8** %line, i64* %len, %struct._IO_FILE* %3)" +
-                "\tstore i64 %4, i64* %nread" +
-                "\t%5 = icmp ne i64 %4, -1" +
-                "\tbr i1 %5, label %6, label %" +
+                "\tbr label %1" +
+                "\t%2 = load %struct._IO_FILE** @stdin" +
+                "\t%3 = call i64 @getline(i8** %line, i64* %len, %struct._IO_FILE* %2)" +
+                "\tstore i64 %3, i64* %nread" +
+                "\t%5 = icmp ne i64 %3, -1" +
+                "\tbr i1 %4, label %5, label %6" +
                 "\t%7 = load i8** %line" +
-                "\tstore i8* %7, i8** %1" +
+                "\tstore i8* %7, i8** %0" +
                 "\tbr label %10" +
                 "\t%9 = load i8** %line" +
                 "\tstore i8* %9, i8** %1" +
