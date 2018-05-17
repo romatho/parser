@@ -137,7 +137,7 @@ public class Generator {
                 "\tbr = i1 %1 label %labelFalse, label %labelTrue \n"+
                 "labelFalse:\n"+
                 "\t%1 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @false , i32 0, i32 0))\n" +
-                "\tret %class.IO* %this" +
+                "\tret %classe.IO* %this\n" +
                 "labelTrue:\n"+
                 "%2 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @true , i32 0, i32 0))\n" +
                 "\tret %classe.IO* %this\n" +
