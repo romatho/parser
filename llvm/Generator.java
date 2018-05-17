@@ -191,29 +191,29 @@ public class Generator {
                 "\tret i8* %0\n" +
                 "}\n";
 
-        String methodgetLineC = "define i* llvmGetLine(){" +
+        String methodgetLineC = "define i* llvmGetLine(){\n" +
                 "entry:\n" +
-                "\t%0 = alloca i8*" +
-                "\t%line = alloca i8*" +
-                "\t%len = alloca i64" +
-                "\t%nread = alloca i64" +
-                "\tstore i8* null, i8** %line" +
-                "\tstore i64 0, i64* %len" +
-                "\tbr label %1" +
-                "\t%2 = load %struct._IO_FILE** @stdin" +
-                "\t%3 = call i64 @getline(i8** %line, i64* %len, %struct._IO_FILE* %2)" +
-                "\tstore i64 %3, i64* %nread" +
-                "\t%5 = icmp ne i64 %3, -1" +
-                "\tbr i1 %4, label %5, label %6" +
-                "\t%7 = load i8** %line" +
-                "\tstore i8* %7, i8** %0" +
-                "\tbr label %10" +
-                "\t%9 = load i8** %line" +
-                "\tstore i8* %9, i8** %1" +
-                "\tbr label %10" +
-                "\t%11 = load i8** %1" +
-                "\tret i8* %11" +
-                "}";
+                "\t%0 = alloca i8*\n" +
+                "\t%line = alloca i8*\n" +
+                "\t%len = alloca i64\n" +
+                "\t%nread = alloca i64\n" +
+                "\tstore i8* null, i8** %line\n" +
+                "\tstore i64 0, i64* %len\n" +
+                "\tbr label %1\n" +
+                "\t%2 = load %struct._IO_FILE** @stdin\n" +
+                "\t%3 = call i64 @getline(i8** %line, i64* %len, %struct._IO_FILE* %2)\n" +
+                "\tstore i64 %3, i64* %nread\n" +
+                "\t%5 = icmp ne i64 %3, -1\n" +
+                "\tbr i1 %4, label %5, label %6\n" +
+                "\t%7 = load i8** %line\n" +
+                "\tstore i8* %7, i8** %0\n" +
+                "\tbr label %10\n" +
+                "\t%9 = load i8** %line\n" +
+                "\tstore i8* %9, i8** %1\n" +
+                "\tbr label %10\n" +
+                "\t%11 = load i8** %1\n" +
+                "\tret i8* %11\n" +
+                "}\n";
 
         return toReturn.append(methodPrintf).append(methodPrintInt32)
                 .append(methodPrintBool)
