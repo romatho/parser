@@ -29,7 +29,7 @@ public class ClassBody extends  Node{
 
     @Override
     public void toLlvm(Generator g) {
-        return null;
+
     }
 
 
