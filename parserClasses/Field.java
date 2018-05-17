@@ -11,6 +11,7 @@ public class Field  extends Expressions {
     private String identifier;
     private Types type;
     private Expressions expr;
+    public String retType;
 
 
     public Field(int pColumn, int pLine, String identifier, Types type,Expressions expr) {
@@ -33,7 +34,7 @@ public class Field  extends Expressions {
 
     @Override
     public void toLlvm(Generator g) {
-        return null;
+
     }
 
     public String getIdentifier() {
@@ -50,10 +51,13 @@ public class Field  extends Expressions {
                           HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                           HashMap<String,String> localVariables, String classe, String filename,
                           String methode, Checker c, boolean fieldExpr) {
-        if(expr == null)
+        if(expr == null) {
+            retType = type.getType();
             return type.getType();
+        }
 
-        return expr.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode, c, true);
+        retType = expr.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe, filename, methode, c, true);
+        return retType;
     }
 
     public Expressions getExpression() {

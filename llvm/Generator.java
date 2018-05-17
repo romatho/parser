@@ -6,6 +6,7 @@ import parserClasses.Formals;
 import parserClasses.Method;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Generator {
     public int counter;
@@ -14,6 +15,8 @@ public class Generator {
 
     public HashMap<String, String> vars;
     public StringBuilder builder;
+    public LinkedList<StringBuilder> declarationsBuilder;
+    public LinkedList<StringBuilder> methodsBuilder;
 
     /**
      * Converts a VSOP type to a LLVM type
