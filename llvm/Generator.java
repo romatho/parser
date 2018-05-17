@@ -19,7 +19,7 @@ public class Generator {
     public HashMap<String, String> vars;
     public StringBuilder builder;
     public StringBuilder stringBuilder;
-    public LinkedHashMap<String, stringHandler> strings;
+    public LinkedHashMap<String, StringHandler> strings;
     public LinkedList<StringBuilder> declarationsBuilder;
     public LinkedList<StringBuilder> methodsBuilder;
 

@@ -3,6 +3,7 @@ package parserClasses;
 
 import check.*;
 import llvm.Generator;
+import llvm.StringHandler;
 
 import java.util.*;
 
@@ -74,13 +75,9 @@ public class Call extends Expressions {
                 if(exp.type.equals("unit"))
                     str = "0";
                 else {
-                    //if (Llvm.builderString.containsKey(arg.getExprValue().replace("\"", ""))) {
-                    //    LlvmString llvmString = Llvm.builderString.get(arg.getExprValue().replace("\"", ""));
-                    //    strExpr = "getelementptr inbounds (" + llvmString.getSize() + "* " + llvmString.getIdentifier() + ", i32 0, i32 0)";
-                    //}
                     if(g.strings.containsKey(exp)) {
-                        String string = g.strings.get(exp);
-                        str = "getelementptr inbounds (" + string.length() + "* " + llvmString.getIdentifier() + ", i32 0, i32 0)";
+                        StringHandler string = g.strings.get(exp);
+                        str = "getelementptr inbounds (" + string.size + "* " + string.identifier + ", i32 0, i32 0)";
                     }
                 }
                 params.append(", ").append(g.typeConversion(exp.type)).append(" ").append(str);
