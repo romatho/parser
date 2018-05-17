@@ -7,6 +7,7 @@ import parserClasses.Method;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 public class Generator {
     public int counter;
@@ -19,6 +20,21 @@ public class Generator {
     public StringBuilder builder;
     public StringBuilder stringBuilder;
     public LinkedHashMap<String, stringHandler> strings;
+    public LinkedList<StringBuilder> declarationsBuilder;
+    public LinkedList<StringBuilder> methodsBuilder;
+
+    public StringBuilder output;
+
+    Generator(Checker c)
+    {
+        this.c = c;
+        counter = 1;
+        ifCounter = 1;
+        builder = new StringBuilder();
+        output = new StringBuilder();
+        createLLVM();
+    }
+
 
     /**
      * Converts a VSOP type to a LLVM type
@@ -101,7 +117,7 @@ public class Generator {
         String methodPrintf = "declare i32 @printf(i8*, ...)\n\n";
 
         //printInt32 method
-        String methodPrintInt32 = "define %classe.IO* @IOPrintInt32(%classe.IO* %this, i32 %myInt32){\n" +
+        String methodPrintInt32 = "define %classe.IO* @IOprintInt32(%classe.IO* %this, i32 %myInt32){\n" +
                 "entry:\n"+
                 "%1 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([3 x i8]* @formatInt , i32 0, i32 0), i32 %myInt32)" +
                 "\tret %class.IO* %this\n" +
@@ -109,7 +125,7 @@ public class Generator {
 
 
         //printBool method
-        String methodPrintBool = "define %classe.IO* @IOPrintBool(%classe.IO* %this, i1 %myBool){\n" +
+        String methodPrintBool = "define %classe.IO* @IOprintBool(%classe.IO* %this, i1 %myBool){\n" +
                 "entry:\n"+
                 "\t%1 = icmp eq i1 %myBool, 0\n"+
                 "\tbr = i1 %1 label %labelFalse, label %labelTrue \n"+
@@ -123,7 +139,7 @@ public class Generator {
 
 
         //print method
-        String methodPrint = "define %classe.IO* @IOPrint(%classe.IO* %this, i8 %myString){\n" +
+        String methodPrint = "define %classe.IO* @IOprint(%classe.IO* %this, i8 %myString){\n" +
                 "entry:\n" +
                 "\t%1 = call i32(i8*,...)* @printf(i8 %myString)\n" +
                 "\tret classe.IO* %this\n" +
@@ -148,18 +164,36 @@ public class Generator {
                 .append(methodInputLine);
     }
 
+    String generateEntrypoint()
+    {
+        return "define i32 @main(){\n" +
+                "%1 = call %classe.Main* @Main-new()\n" +
+                "%2 = call i32 @Mainmain(%classe.Main* %1)\n" +
+                "ret i32 %2 \n" +
+                "}";
+    }
 
     public void createLLVM()
     {
-        builder = new StringBuilder();
+        output = new StringBuilder();
         //target triple for compilation with clang
-        builder.append(getTargetTriple());
-        //vTable for Io and Object
-        builder.append(vTableToString(c.objectClass) + "\n");
-        builder.append(vTableToString(c.IOClass) + "\n");
-        //vTable for classes in the file
-        for(Classe current: c.p.getClasses())
-            builder.append(vTableToString(current) + "\n");
+        output.append(getTargetTriple());
+        //vTable for IO and Object
+        output.append(vTableToString(c.objectClass) + "\n");
+        output.append(vTableToString(c.IOClass) + "\n");
+        //vTable for IO and Object
+        for(Classe current : c.p.getClasses())
+            output.append(vTableToString(current) + "\n");
+        //create constant
+
+        //generate the method for IO class
+        output.append(automaticIOCreation() + "\n");
+        //add entry point
+        output.append(generateEntrypoint());
+
+        c.p.toLlvm(this);
+        output.append(c.p.output);
+
         //TODO : add toLLVM()
     }
 

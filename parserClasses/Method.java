@@ -51,7 +51,7 @@ public class Method extends Node{
 
         builder.append("define ");
         builder.append(rtype);
-        builder.append(" @").append(classe).append("-");
+        builder.append(" @").append(classe);
         builder.append(this.Identifier);
 
         builder.append("(").append(g.typeConversion(classe)).append(" %this");
