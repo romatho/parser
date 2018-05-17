@@ -34,6 +34,7 @@ public class Generator {
         output = new StringBuilder();
         createLLVM();
         methodsBuilder = new LinkedList<>();
+        strings = new LinkedHashMap<>();
     }
 
 

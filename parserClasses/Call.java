@@ -72,7 +72,7 @@ public class Call extends Expressions {
                 exp.toLlvm(g);
 
                 String str = exp.value;
-                if(exp.type.equals("unit"))
+                if(exp.type != null && exp.type.equals("unit"))
                     str = "0";
                 else {
                     if(g.strings.containsKey(exp)) {

@@ -1,6 +1,7 @@
 class Main extends IO {
     main() : int32 {
-        print("Hello, world!\n");
+        printBool(true);
+        print("\n");
         0
     }
 }
