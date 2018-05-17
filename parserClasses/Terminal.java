@@ -99,8 +99,7 @@ public class Terminal extends Expressions{
     }
     @Override
     public void toLlvm(Generator g) {
-        if (this.type.equals("int32")||this.type.equals("bool")||this.type.equals("unit"))
-            this.value=this.pvalue;
+        this.value=this.pvalue;
         if (!this.type.equals("int32")&&!this.type.equals("bool")&&!this.type.equals("string")&&!this.type.equals("unit")) {
             String temp = this.type.replace(" : ", "");
 
