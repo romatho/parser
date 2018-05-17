@@ -36,9 +36,10 @@ public class Program extends Node {
         g.declarationsBuilder = new LinkedList<>();
         g.methodsBuilder.add(output);
 
-        // Traverse the different classes
+        // Traverse the different classes (except IO as it has been hardcoded)
         for(Classe c : g.c.allowedClasses.values())
-            c.toLlvm(g);
+            if(!c.getName().equals("IO"))
+                c.toLlvm(g);
     }
 
     public ParserArray<Classe> getClasses()
