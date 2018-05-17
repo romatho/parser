@@ -32,9 +32,7 @@ public class Program extends Node {
         g.methodsBuilder.add(output);
 
         // Traverse the different classes
-        g.c.objectClass.toLlvm(g);
-        g.c.IOClass.toLlvm(g);
-        for(Classe c : g.c.classFieldType.keySet())
+        for(Classe c : g.c.allowedClasses.values())
             c.toLlvm(g);
     }
 

@@ -17,7 +17,7 @@ public class Checker {
     public Program p;
     public int toReturn =0;
     //map allowed class with their name
-    private HashMap<String, Classe> allowedClasses;
+    public HashMap<String, Classe> allowedClasses;
     //map allowed method with their name and their class name
     private HashMap<String, HashMap<String, Method> > allowedMethods;
     //map allowed formals with their name , their associated name and their associated class name
