@@ -126,7 +126,7 @@ public class Generator {
         String methodPrintInt32 = "define %classe.IO* @IOprintInt32(%classe.IO* %this, i32 %myInt32){\n" +
                 "entry:\n"+
                 "%0 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @formatInt , i32 0, i32 0), i32 %myInt32)\n" +
-                "\tret %class.IO* %this\n" +
+                "\tret %classe.IO* %this\n" +
                 "}\n";
 
 
@@ -140,7 +140,7 @@ public class Generator {
                 "\tret %class.IO* %this" +
                 "labelTrue:\n"+
                 "%2 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @true , i32 0, i32 0))\n" +
-                "\tret %class.IO* %this\n" +
+                "\tret %classe.IO* %this\n" +
                 "}\n";
 
 
