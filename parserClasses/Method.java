@@ -110,7 +110,7 @@ public class Method extends Node{
 
         builder.append(g.builder).append("}\n");
 
-        g.builderMethods.add(builder);
+        g.methodsBuilder.add(builder);
     }
 
     public String getIdentifier() {
