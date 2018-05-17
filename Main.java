@@ -46,7 +46,7 @@ public class Main {
 				System.exit(1);
 
 			if(arg.length == 1)
-				//print in file
+				System.out.println("écriture dans le fichier");//print in file
 			else
 				System.out.println(g.output);
 
