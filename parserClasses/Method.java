@@ -52,6 +52,7 @@ public class Method extends Node{
         builder.append("define ");
         builder.append(rtype);
         builder.append(" @").append(classe);
+        builder.append("-");
         builder.append(this.Identifier);
 
         builder.append("(").append(g.typeConversion(classe)).append(" %this");
@@ -93,7 +94,7 @@ public class Method extends Node{
 
             String value;
 
-            if (this.getReturnType().equals("unit")) {
+            if (!this.getReturnType().equals("unit")) {
                 if (this.getReturnType().equals(this.block.type.replace(" : ", "")))
                     value = this.block.value;
                 else {

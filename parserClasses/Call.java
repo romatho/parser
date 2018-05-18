@@ -54,7 +54,7 @@ public class Call extends Expressions {
             self = objectExp.value;
         }
 
-        int methodPos = 0;
+        int methodPos = -2;
         for(Object elem : g.c.classMethodType.keySet().toArray()) {
             if(elem.equals(objectType))
                 break;
@@ -86,7 +86,7 @@ public class Call extends Expressions {
 
         if(objectExp == null) {
             self = "%" + g.counter++;
-            g.builder.append("    ").append(self).append(" = load %class.").append(classe).append("** %0\n");
+            g.builder.append("    ").append(self).append(" = load %classe.").append(classe).append(",%classe.").append(classe).append("** %0\n");
         }
         String convType;
         if(!type.equals("unit"))
@@ -97,9 +97,9 @@ public class Call extends Expressions {
         HashMap<String, Field> fields = g.c.allowedField.get(classe);
         String fieldsString = fields.toString();
 
-        g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %classe.").append(objectType).append("* ").append(self).append(", i32 0, i32 0\n");
-        g.builder.append("    %").append(g.counter++).append(" = load %table.").append(objectType).append("VTable** %").append(g.counter - 2).append("\n");
-        g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %table.").append(objectType).append("VTable* %").append(g.counter - 2).append(", i32 0, i32 ").append(methodPos).append("\n");
+        g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %classe.").append(objectType).append(",%classe.").append(objectType).append("* ").append(self).append(", i32 0, i32 0\n");
+        g.builder.append("    %").append(g.counter++).append(" = load %table.").append(objectType).append("VTable*, %table.").append(objectType).append("VTable** %").append(g.counter - 2).append("\n");
+        g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %table.").append(objectType).append("VTable, %table.").append(objectType).append("VTable* %").append(g.counter - 2).append(", i32 0, i32 ").append(methodPos).append("\n");
 
         g.builder.append("    %").append(g.counter++).append(" = load ").append(convType).append(" ").append(fieldsString).append("** %").append(g.counter - 2).append("\n");
         String callName = "%" + (g.counter - 1);

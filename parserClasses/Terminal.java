@@ -105,7 +105,7 @@ public class Terminal extends Expressions{
 
             if (g.vars.get(this.pvalue) != null) {
                 // If it is in the vartable just load its pvalue
-                g.builder.append("    " + "%").append(g.counter).append(" = load ").append(g.typeConversion(temp)).append("* ").append(g.vars.get(this.pvalue)).append("\n");
+                g.builder.append("    " + "%").append(g.counter).append(" = load ").append(g.typeConversion(temp)).append(",").append(g.typeConversion(temp)).append("* ").append(g.vars.get(this.pvalue)).append("\n");
                this.value="%" + g.counter++;
             } else {
                 int pos=0;
@@ -115,8 +115,8 @@ public class Terminal extends Expressions{
                     pos++;
                 }
                 g.vars.put(this.pvalue, "%" + g.counter);
-                g.builder.append("    " + "%").append(g.counter++).append(" = getelementptr inbounds ").append("%class.").append(this.classe).append("* %this, i32 0, i32 ").append(pos+1).append("\n");
-                g.builder.append("    " + "%").append(g.counter).append(" = load ").append(g.typeConversion(this.type)).append("* %").append(g.counter - 1).append("\n");
+                g.builder.append("    " + "%").append(g.counter++).append(" = getelementptr inbounds ").append("%classe.").append(this.classe).append(",%classe.").append(this.classe).append("* %this, i32 0, i32 ").append(pos+1).append("\n");
+                g.builder.append("    " + "%").append(g.counter).append(" = load ").append(g.typeConversion(this.type)).append(",").append(g.typeConversion(this.type)).append("* %").append(g.counter - 1).append("\n");
                 this.value="%" + g.counter++;
             }
         }

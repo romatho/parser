@@ -121,8 +121,8 @@ public class BinOp extends Expressions{
                     g.builder.append("    " + "%").append(g.counter++).append("= icmp ne i32 ").append(secondExp.value).append(", 0\n");
                     g.builder.append("    " + "br i1 %").append(g.counter - 1).append(", label %loop").append(g.whileCounter).append(", label %end_if").append(g.ifCounter -1).append("\n");
                     g.builder.append("loop").append(g.whileCounter).append(":\n");
-                    g.builder.append("    " + "%").append(g.counter++).append(" = load i32* %").append(g.counter - 3).append("\n");
-                    g.builder.append("    " + "%").append(g.counter++).append(" = load i32* %").append(g.counter - 7).append("\n");
+                    g.builder.append("    " + "%").append(g.counter++).append(" = load i32, i32* %").append(g.counter - 3).append("\n");
+                    g.builder.append("    " + "%").append(g.counter++).append(" = load i32, i32* %").append(g.counter - 7).append("\n");
                     g.builder.append("    " + "%").append(g.counter++).append(" = mul i32 %").append(g.counter - 2).append(", ").append(firstExp.value).append("\n");
                     g.builder.append("    " + "store i32 %").append(g.counter - 1).append(", i32* %").append(g.counter - 8).append("\n");
                     g.builder.append("    " + "%").append(g.counter++).append(" = sub i32 %").append(g.counter - 4).append(", 1\n");
@@ -133,7 +133,7 @@ public class BinOp extends Expressions{
                     g.builder.append("    " + "store i32 0, i32* %").append(g.counter - 10).append("\n");
                     g.builder.append("    " + "br label %end_if").append(g.ifCounter -1).append("\n");
                     g.builder.append("end_if").append(g.ifCounter -1).append(":\n");
-                    g.builder.append("    " + "%").append(g.counter).append(" = load i32* %").append(g.counter - 10).append("\n");
+                    g.builder.append("    " + "%").append(g.counter).append(" = load i32, i32* %").append(g.counter - 10).append("\n");
                    this.value="%" + g.counter++;
                     //currentLabel = "%end if" + g.ifCounter -1;
                 }
