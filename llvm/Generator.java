@@ -113,11 +113,28 @@ public class Generator {
                 //add formals
                 for (Formals formal : method.getValue().getFormals())
                     toAdd.append(", " + typeConversion(formal.getType()));
-                toAdd.append(")*");
-                comma = ",";
+                toAdd.append(")*"); //bitcast
+                StringBuilder toAddGlobal = new StringBuilder();
+                StringBuilder toAddGlobal2 = new StringBuilder();
+                if(!AncestorOwnerMethod(current, method.getKey()).equals(current.getName()))
+                {
+                    toAddGlobal2.append(" to " + toAdd + ")");
+                    toAddGlobal.append("bitcast (" + typeConversion(method.getValue().getReturnType()) + " (" + typeConversion(method.getValue().getReturnType()) );
+                    for (Formals formal : method.getValue().getFormals())
+                        toAddGlobal.append(", " + typeConversion(formal.getType()));
+                    toAddGlobal.append(")*");
+                    comma = ",";
+                    vTableString.append(toAdd);
+                    vTableGlobalString.append(toAdd).append(toAddGlobal).append(" @" + AncestorOwnerMethod(current, method.getKey()) + "-" + method.getValue().getIdentifier());
+                    vTableGlobalString.append(toAddGlobal2);
+                }
 
-                vTableString.append(toAdd);
-                vTableGlobalString.append(toAdd + " @" + current.getName() + "-" + method.getValue().getIdentifier());
+                else{
+                    comma = ",";
+                    vTableString.append(toAdd);
+                    vTableGlobalString.append(toAdd).append(toAddGlobal).append(" @" + current.getName() + "-" + method.getValue().getIdentifier());
+                    vTableGlobalString.append(toAddGlobal2);
+                }
             }
         }
         return classObject.append("\n" + vTableString.append( "}\n" + vTableGlobalString +  "}\n"));
@@ -126,7 +143,6 @@ public class Generator {
     //add the stdin from c
     String addStdIn()
     {
-        //TODO: ne focntionne peut etre pas
         return "%file = type { i32, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, %marker*, %file*, i32, i32, i64, i16, i8, [1 x i8], i8*, i64, i8*, i8*, i8*, i8*, i64, i32, [20 x i8] }" +
                 "\n %marker = type { %marker*, %file*, i32 }";
     }
@@ -287,5 +303,15 @@ public class Generator {
         //TODO : add toLLVM()
     }
 
+
+    public String AncestorOwnerMethod(Classe child, String methodName)
+    {
+       if(this.c.allowedMethods
+               .get(child.getName())
+               .containsKey(methodName) &&
+           !child.getParentClasse().equals("Object"))
+           return AncestorOwnerMethod(this.c.allowedClasses.get(child.getParentClasse()), methodName );
+       return child.getName();
+    }
 
 }
