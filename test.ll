@@ -174,4 +174,4 @@ define void @IO-new-init(%classe.IO* %this) {
     ret void
 }
 
-\0a=@str1 = constant [2 x i8] c""\x0a"\00"
+@str1 = constant [2 x i8] c""\x0a"\00"

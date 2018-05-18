@@ -305,7 +305,7 @@ public class Generator {
 
         c.p.toLlvm(this);
         for(HashMap.Entry<String,StringHandler> string:strings.entrySet())
-            output.append(string).append("\n");
+            output.append(string.getValue().toString()).append("\n");
         //TODO : add toLLVM()
     }
 
