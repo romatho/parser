@@ -86,21 +86,39 @@ public class Generator {
         StringBuilder classObject = new StringBuilder("%classe." + current.getName() + " = type{ %table." + current.getName() + "VTable*}");
         StringBuilder vTableString = new StringBuilder("%table." + current.getName() + "VTable = type { ");
         StringBuilder vTableGlobalString = new StringBuilder("@" + current.getName() + "VTableGlobal = internal global %table." + current.getName() + "VTable { ");
-
-        for(Method method : current.getBody().getMyMethods())
+        if(current.getName().equals("Object"))
         {
-            StringBuilder toAdd = new StringBuilder();
-            toAdd.append(comma + typeConversion(method.getReturnType()) + " (");
-            //add the class itself as formal
-            toAdd.append("%classe." + current.getName() + "*");
-            //add formals
-            for(Formals formal : method.getFormals())
-                toAdd.append(", " + typeConversion(formal.getType()));
-            toAdd.append(")*");
-            comma = ",";
+            for(Method method : current.getBody().getMyMethods())
+            {
+                StringBuilder toAdd = new StringBuilder();
+                toAdd.append(comma + typeConversion(method.getReturnType()) + " (");
+                //add the class itself as formal
+                toAdd.append("%classe." + current.getName() + "*");
+                //add formals
+                for(Formals formal : method.getFormals())
+                    toAdd.append(", " + typeConversion(formal.getType()));
+                toAdd.append(")*");
+                comma = ",";
 
-            vTableString.append(toAdd);
-            vTableGlobalString.append(toAdd + " @" + current.getName()+"-" + method.getIdentifier());
+                vTableString.append(toAdd);
+                vTableGlobalString.append(toAdd + " @" + current.getName()+"-" + method.getIdentifier());
+            }
+        }
+        else {
+            for (HashMap.Entry<String, Method> method : this.c.allowedMethods.get(current.getName()).entrySet()) {
+                StringBuilder toAdd = new StringBuilder();
+                toAdd.append(comma + typeConversion(method.getValue().getReturnType()) + " (");
+                //add the class itself as formal
+                toAdd.append("%classe." + current.getName() + "*");
+                //add formals
+                for (Formals formal : method.getValue().getFormals())
+                    toAdd.append(", " + typeConversion(formal.getType()));
+                toAdd.append(")*");
+                comma = ",";
+
+                vTableString.append(toAdd);
+                vTableGlobalString.append(toAdd + " @" + current.getName() + "-" + method.getValue().getIdentifier());
+            }
         }
         return classObject.append("\n" + vTableString.append( "}\n" + vTableGlobalString +  "}\n"));
     }

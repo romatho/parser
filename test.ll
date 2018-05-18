@@ -4,12 +4,12 @@ target triple = "x86_64-apple-macosx"
 @ObjectVTableGlobal = internal global %table.ObjectVTable { }
 
 %classe.IO = type{ %table.IOVTable*}
-%table.IOVTable = type { %classe.IO* (%classe.IO*, i8*)*,%classe.IO* (%classe.IO*, i1)*,%classe.IO* (%classe.IO*, i32)*,i8* (%classe.IO*)*,i1 (%classe.IO*)*,i32 (%classe.IO*)*}
-@IOVTableGlobal = internal global %table.IOVTable { %classe.IO* (%classe.IO*, i8*)* @IO-print,%classe.IO* (%classe.IO*, i1)* @IO-printBool,%classe.IO* (%classe.IO*, i32)* @IO-printInt32,i8* (%classe.IO*)* @IO-inputLine,i1 (%classe.IO*)* @IO-inputBool,i32 (%classe.IO*)* @IO-inputInt32}
+%table.IOVTable = type { %classe.IO* (%classe.IO*, i8*)*,i1 (%classe.IO*)*,i8* (%classe.IO*)*,i32 (%classe.IO*)*,%classe.IO* (%classe.IO*, i1)*,%classe.IO* (%classe.IO*, i32)*}
+@IOVTableGlobal = internal global %table.IOVTable { %classe.IO* (%classe.IO*, i8*)* @IO-print,i1 (%classe.IO*)* @IO-inputBool,i8* (%classe.IO*)* @IO-inputLine,i32 (%classe.IO*)* @IO-inputInt32,%classe.IO* (%classe.IO*, i1)* @IO-printBool,%classe.IO* (%classe.IO*, i32)* @IO-printInt32}
 
 %classe.Main = type{ %table.MainVTable*}
-%table.MainVTable = type { i32 (%classe.Main*)*}
-@MainVTableGlobal = internal global %table.MainVTable { i32 (%classe.Main*)* @Main-main}
+%table.MainVTable = type { %classe.IO* (%classe.Main*, i8*)*,i1 (%classe.Main*)*,i8* (%classe.Main*)*,i32 (%classe.Main*)*,i32 (%classe.Main*)*,%classe.IO* (%classe.Main*, i1)*,%classe.IO* (%classe.Main*, i32)*}
+@MainVTableGlobal = internal global %table.MainVTable { %classe.IO* (%classe.Main*, i8*)* @Main-print,i1 (%classe.Main*)* @Main-inputBool,i8* (%classe.Main*)* @Main-inputLine,i32 (%classe.Main*)* @Main-main,i32 (%classe.Main*)* @Main-inputInt32,%classe.IO* (%classe.Main*, i1)* @Main-printBool,%classe.IO* (%classe.Main*, i32)* @Main-printInt32}
 
 %file = type { i32, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, %marker*, %file*, i32, i32, i64, i16, i8, [1 x i8], i8*, i64, i8*, i8*, i8*, i8*, i64, i32, [20 x i8] }
  %marker = type { %marker*, %file*, i32 }
@@ -147,15 +147,15 @@ entry:
     %1 = load %classe.Main*,%classe.Main** %0
     %2 = getelementptr inbounds %classe.Main,%classe.Main* %1, i32 0, i32 0
     %3 = load %table.MainVTable*, %table.MainVTable** %2
-    %4 = getelementptr inbounds %table.MainVTable, %table.MainVTable* %3, i32 0, i32 0
-    %5 = load %classe.IO*, {}** %4
-    %6 = call %classe.IO* %5 (%classe.Main* %1, null true)
+    %4 = getelementptr inbounds %table.MainVTable, %table.MainVTable* %3, i32 0, i32 2
+    %5 = load %classe.IO*(%classe.Main* ,i1)*,%classe.IO*(%classe.Main* ,i1)** %4
+    %6 = call %classe.IO* %5 (%classe.Main* %1, i1 true)
     %7 = load %classe.Main*,%classe.Main** %0
     %8 = getelementptr inbounds %classe.Main,%classe.Main* %7, i32 0, i32 0
     %9 = load %table.MainVTable*, %table.MainVTable** %8
-    %10 = getelementptr inbounds %table.MainVTable, %table.MainVTable* %9, i32 0, i32 0
-    %11 = load %classe.IO*, {}** %10
-    %12 = call %classe.IO* %11 (%classe.Main* %7, null getelementptr inbounds ([2 x i8]* @.str, i32 0, i32 0))
+    %10 = getelementptr inbounds %table.MainVTable, %table.MainVTable* %9, i32 0, i32 2
+    %11 = load %classe.IO*(%classe.Main* ,i8*)*,%classe.IO*(%classe.Main* ,i8*)** %10
+    %12 = call %classe.IO* %11 (%classe.Main* %7, i8* getelementptr inbounds ([2 x i8]* @.str, i32 0, i32 0))
     ret i32 0
 }
 

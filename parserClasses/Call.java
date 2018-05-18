@@ -54,7 +54,7 @@ public class Call extends Expressions {
             self = objectExp.value;
         }
 
-        int methodPos = -2;
+        int methodPos = 0;
         for(Object elem : g.c.classMethodType.keySet().toArray()) {
             if(elem.equals(objectType))
                 break;
@@ -80,7 +80,6 @@ public class Call extends Expressions {
                         str = "getelementptr inbounds (" + string.size + "* " + string.identifier + ", i32 0, i32 0)";
                     }
                 }
-                params.append(", ").append(g.typeConversion(exp.type)).append(" ").append(str);
             }
         }
 
@@ -94,14 +93,22 @@ public class Call extends Expressions {
         else
             convType = "void";
 
-        HashMap<String, Field> fields = g.c.allowedField.get(classe);
-        String fieldsString = fields.toString();
 
+        String fieldsString=" ";
+        ArrayList<Pair> temp=g.c.classMethodFormalsType.get(classe).get(methodName);
+        for( int i=0;i<temp.size();i++)
+        {
+            fieldsString+=",";
+            fieldsString+=g.typeConversion(temp.get(i).getValue());
+            params.append(", ").append(g.typeConversion(temp.get(i).getValue())).append(" ").append(listExp.get(i).value);
+
+
+        }
         g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %classe.").append(objectType).append(",%classe.").append(objectType).append("* ").append(self).append(", i32 0, i32 0\n");
         g.builder.append("    %").append(g.counter++).append(" = load %table.").append(objectType).append("VTable*, %table.").append(objectType).append("VTable** %").append(g.counter - 2).append("\n");
         g.builder.append("    %").append(g.counter++).append(" = getelementptr inbounds %table.").append(objectType).append("VTable, %table.").append(objectType).append("VTable* %").append(g.counter - 2).append(", i32 0, i32 ").append(methodPos).append("\n");
 
-        g.builder.append("    %").append(g.counter++).append(" = load ").append(convType).append(" ").append(fieldsString).append("** %").append(g.counter - 2).append("\n");
+        g.builder.append("    %").append(g.counter++).append(" = load ").append(convType).append("(").append("%classe.").append(objectType).append("*").append(fieldsString).append(")*").append(",").append(convType).append("(").append("%classe.").append(objectType).append("*").append(fieldsString).append(")").append("** %").append(g.counter - 2).append("\n");
         String callName = "%" + (g.counter - 1);
 
         g.builder.append("    ");

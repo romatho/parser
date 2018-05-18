@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class Field  extends Expressions {
     private String identifier;
-    private Types type;
+    public Types type;
     private Expressions expr;
     public String retType;
 
