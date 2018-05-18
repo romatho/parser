@@ -38,26 +38,26 @@ public class Classe extends  Node{
 
         // Add the constructor to the methods of the class
         StringBuilder constructor = new StringBuilder();
-        constructor.append("\ndefine %class.").append(name).append("* @").append(name).append("-new() {\n");
-        constructor.append("    %size = getelementptr %class.").append(name).append("* null, i32 1\n");
-        constructor.append("    %sizeI = ptrtoint %class.").append(name).append("* %size to i64\n");
+        constructor.append("\ndefine %classe.").append(name).append("* @").append(name).append("-new() {\n");
+        constructor.append("    %size = getelementptr %classe.").append(name).append(", %classe.").append(name).append("* null, i32 1\n");
+        constructor.append("    %sizeI = ptrtoint %classe.").append(name).append("* %size to i64\n");
         constructor.append("    %1 = call noalias i8* @malloc(i64 %sizeI)\n");
-        constructor.append("    %self = bitcast i8* %1 to %class.").append(name).append("*\n");
-        constructor.append("    call void @").append(name).append("-new-init(%class.").append(name).append("* %self)\n");
-        constructor.append("    ret %class.").append(name).append("* %self\n}\n\n");
+        constructor.append("    %self = bitcast i8* %1 to %classe.").append(name).append("*\n");
+        constructor.append("    call void @").append(name).append("-new-init(%classe.").append(name).append("* %self)\n");
+        constructor.append("    ret %classe.").append(name).append("* %self\n}\n\n");
         // Add the initializer
-        constructor.append("define void @").append(name).append("-new-init(%class.").append(name).append("* %this) {\n");
+        constructor.append("define void @").append(name).append("-new-init(%classe.").append(name).append("* %this) {\n");
         g.counter = 1;
 
         //The class extends another class (not Object)
         if(parentClasse != null && !parentClasse.equals("Object")) {
-            constructor.append("    %").append(g.counter).append(" = bitcast ").append("%class.").append(name)
-                    .append("* %this to %class.").append(parentClasse).append("*\n").append("    call void @")
-                    .append(parentClasse).append("-new-init(%class.").append(parentClasse).append("* %")
+            constructor.append("    %").append(g.counter).append(" = bitcast ").append("%classe.").append(name)
+                    .append("* %this to %classe.").append(parentClasse).append("*\n").append("    call void @")
+                    .append(parentClasse).append("-new-init(%classe.").append(parentClasse).append("* %")
                     .append(g.counter++).append(")\n");
         }
 
-        constructor.append("    %").append(g.counter).append(" = getelementptr inbounds %class.").append(name)
+        constructor.append("    %").append(g.counter).append(" = getelementptr inbounds%classe.").append(name).append(", %classe.").append(name)
                 .append("* %this, i32 0, i32 0\n").append("    store %struct.").append(name).append("_vtable* @")
                 .append(name).append("_vtable_inst, %struct.").append(name).append("_vtable** %").append(g.counter++).append("\n");
         if(name.equals("Object"))
@@ -86,7 +86,7 @@ public class Classe extends  Node{
                 }
             }
 
-            constructor.append("    %").append(g.counter).append(" = getelementptr inbounds %class.").append(name)
+            constructor.append("    %").append(g.counter).append(" = getelementptr inbounds %classe.").append(name)
                     .append("* %this, i32 0, i32 ").append(pos).append("\n").append("    store ")
                     .append(f.retType).append(" ").append(init).append(", ").append(f.retType).append("* %")
                     .append(g.counter++).append("\n");

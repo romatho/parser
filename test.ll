@@ -104,32 +104,32 @@ define i32 @main(){
 %2 = call i32 @Mainmain(%classe.Main* %1)
 ret i32 %2
 }
-define %class.Object* @Object-new() {
-    %size = getelementptr %class.Object* null, i32 1
-    %sizeI = ptrtoint %class.Object* %size to i64
+define %classe.Object* @Object-new() {
+    %size = getelementptr %classe.Object, %classe.Object* null, i32 1
+    %sizeI = ptrtoint %classe.Object* %size to i64
     %1 = call noalias i8* @malloc(i64 %sizeI)
-    %self = bitcast i8* %1 to %class.Object*
-    call void @Object-new-init(%class.Object* %self)
-    ret %class.Object* %self
+    %self = bitcast i8* %1 to %classe.Object*
+    call void @Object-new-init(%classe.Object* %self)
+    ret %classe.Object* %self
 }
 
-define void @Object-new-init(%class.Object* %this) {
-    %1 = getelementptr inbounds %class.Object* %this, i32 0, i32 0
+define void @Object-new-init(%classe.Object* %this) {
+    %1 = getelementptr inbounds%classe.Object, %classe.Object* %this, i32 0, i32 0
     store %struct.Object_vtable* @Object_vtable_inst, %struct.Object_vtable** %1
 
-define %class.Main* @Main-new() {
-    %size = getelementptr %class.Main* null, i32 1
-    %sizeI = ptrtoint %class.Main* %size to i64
+define %classe.Main* @Main-new() {
+    %size = getelementptr %classe.Main, %classe.Main* null, i32 1
+    %sizeI = ptrtoint %classe.Main* %size to i64
     %1 = call noalias i8* @malloc(i64 %sizeI)
-    %self = bitcast i8* %1 to %class.Main*
-    call void @Main-new-init(%class.Main* %self)
-    ret %class.Main* %self
+    %self = bitcast i8* %1 to %classe.Main*
+    call void @Main-new-init(%classe.Main* %self)
+    ret %classe.Main* %self
 }
 
-define void @Main-new-init(%class.Main* %this) {
-    %1 = bitcast %class.Main* %this to %class.IO*
-    call void @IO-new-init(%class.IO* %1)
-    %2 = getelementptr inbounds %class.Main* %this, i32 0, i32 0
+define void @Main-new-init(%classe.Main* %this) {
+    %1 = bitcast %classe.Main* %this to %classe.IO*
+    call void @IO-new-init(%classe.IO* %1)
+    %2 = getelementptr inbounds%classe.Main, %classe.Main* %this, i32 0, i32 0
     store %struct.Main_vtable* @Main_vtable_inst, %struct.Main_vtable** %2
     ret void
 }
@@ -153,17 +153,17 @@ entry:
     ret i32
 }
 
-define %class.IO* @IO-new() {
-    %size = getelementptr %class.IO* null, i32 1
-    %sizeI = ptrtoint %class.IO* %size to i64
+define %classe.IO* @IO-new() {
+    %size = getelementptr %classe.IO, %classe.IO* null, i32 1
+    %sizeI = ptrtoint %classe.IO* %size to i64
     %1 = call noalias i8* @malloc(i64 %sizeI)
-    %self = bitcast i8* %1 to %class.IO*
-    call void @IO-new-init(%class.IO* %self)
-    ret %class.IO* %self
+    %self = bitcast i8* %1 to %classe.IO*
+    call void @IO-new-init(%classe.IO* %self)
+    ret %classe.IO* %self
 }
 
-define void @IO-new-init(%class.IO* %this) {
-    %1 = getelementptr inbounds %class.IO* %this, i32 0, i32 0
+define void @IO-new-init(%classe.IO* %this) {
+    %1 = getelementptr inbounds%classe.IO, %classe.IO* %this, i32 0, i32 0
     store %struct.IO_vtable* @IO_vtable_inst, %struct.IO_vtable** %1
     ret void
 }
