@@ -91,8 +91,6 @@ public class Checker {
         buildIOClass();
         semanticCheck(program);
         buildObjectClass();
-        // System.out.println(program.toString(false));
-        //System.out.println(program.toString(true));
 
     }
 
@@ -126,15 +124,9 @@ public class Checker {
             checkMethod(current.getValue());
             checkField(current.getValue());
         }
-        //displayHash();
         addInheritance();
         convertHashmap();
-        //displayHash();
-        //displayStringHash();
-        //System.out.println(program.toString(false));
-        //displayStringHash();
         getType(program);
-        //System.out.println(program.toString(true));
     }
 
     /*
@@ -249,7 +241,6 @@ public class Checker {
         {
             if (methodMap.containsKey(current.getIdentifier()))
             {
-                //erreur redéfinition d'une méthode
                 System.err.println(filename + ":" + current.line + ":" + current.column + ": semantic error: re-definition of class '" + current.getIdentifier() + "'");
                 toReturn = 1;
             }
@@ -378,103 +369,10 @@ public class Checker {
         allowedField.put(classe.getName(), fieldMap);
     }
 
-
-    public void displayHash() {
-        System.out.println();
-        System.out.println("***affichage hashtable Classe***");
-        System.out.println();
-        for (HashMap.Entry<String, Classe> entry : allowedClasses.entrySet()) {
-            System.out.print(" nom classe : ");
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue().toString(false));
-        }
-        System.out.println();
-        System.out.println("***affichage hashtable Method***");
-        System.out.println();
-        for (HashMap.Entry<String, HashMap<String, Method> > entry : allowedMethods.entrySet()) {
-            System.out.print("nom classe : ");
-            System.out.println(entry.getKey());
-            for (HashMap.Entry<String, Method> entrySec : entry.getValue().entrySet()) {
-                System.out.print("nom methode : ");
-                System.out.print(entrySec.getKey());
-                System.out.print(" valeur methode : ");
-                System.out.println(entrySec.getValue().toString(false));
-            }
-        }
-        System.out.println();
-        System.out.println("***affichage hashtable Field***");
-        System.out.println();
-        for (HashMap.Entry<String, HashMap<String, Field> > entry : allowedField.entrySet()) {
-            System.out.print("nom classe : ");
-            System.out.println(entry.getKey());
-            for (HashMap.Entry<String, Field> entrySec : entry.getValue().entrySet()) {
-                System.out.print("nom field : ");
-                System.out.print(entrySec.getKey());
-                System.out.print(" valeur field : ");
-                System.out.println(entrySec.getValue().toString(false));
-            }
-        }
-    }
-
-    public void displayStringHash() {
-
-        System.out.println();
-        System.out.println("***display String Hash Debut***");
-        System.out.println("***affichage hashtable field***");
-        System.out.println();
-        for (HashMap.Entry<String, HashMap<String, String> > classEntry : classFieldType.entrySet()) {
-            System.out.print("nom classe : ");
-            System.out.println(classEntry.getKey());
-            if(classFieldType.containsKey(classEntry.getKey()))
-                for(HashMap.Entry<String, String> fieldEntry : classFieldType.get(classEntry.getKey()).entrySet())
-                {
-                    System.out.print("\t nom field : ");
-                    System.out.print(fieldEntry.getKey());
-                    System.out.println(" return type: " + fieldEntry.getValue());
-                }
-
-        }
-
-        System.out.println();
-        System.out.println("***affichage hashtable method***");
-        System.out.println();
-        for (HashMap.Entry<String, HashMap<String, String> > classEntry : classMethodType.entrySet()) {
-            System.out.print("nom classe : ");
-            System.out.println(classEntry.getKey());
-            for(HashMap.Entry<String, String> methodEntry : classMethodType.get(classEntry.getKey()).entrySet())
-            {
-                System.out.print("\t nom method : ");
-                System.out.print(methodEntry.getKey());
-                System.out.println(" return type: " + methodEntry.getValue());
-            }
-
-        }
-
-        System.out.println();
-        System.out.println("***affichage hashtable method formal***");
-        System.out.println();
-        for (HashMap.Entry<String, HashMap<String, ArrayList < Pair > > > classEntry : classMethodFormalsType.entrySet()) {
-            System.out.print("nom classe : ");
-            System.out.println(classEntry.getKey());
-
-            for (HashMap.Entry<String, ArrayList < Pair > > methodEntry : classEntry.getValue().entrySet()) {
-                System.out.print("\t nom methode : ");
-                System.out.println(methodEntry.getKey());
-                for (Pair formalEntry : methodEntry.getValue()) {
-                    System.out.print("\t \t ");
-                    System.out.print("nom formal : ");
-                    System.out.print(formalEntry.getKey());
-                    System.out.print(" return type: ");
-                    System.out.println(formalEntry.getValue());
-                }
-            }
-        }
-        System.out.println("***display String Hash Fin***");
-    }
-
-
-
-
+    /*
+     * This method is used when the checker generates the differnt hashmap and needs to add the fields and methods of
+     * the parent of the current method.
+     */
 
     public void addInheritance()
     {
@@ -537,6 +435,9 @@ public class Checker {
         }
     }
 
+    /*
+     * Check if two methods have the same prototype
+     */
     private Boolean checkMethodPrototypeEquality(Method a, Method b)
     {
         if(a.getReturnType().equals(b.getReturnType()) &&
@@ -553,7 +454,7 @@ public class Checker {
     }
 
 
-    //convert hashmap of object into hashmap of String
+    //convert hashmap of object into hashmap of String for the last pass
     private void convertHashmap()
     {
         for(HashMap.Entry<String, Classe> classEntry: allowedClasses.entrySet()) {
@@ -570,20 +471,10 @@ public class Checker {
                             methodFormalConvert.add(new Pair(formal.getIdentifier(), formal.getType()));
                     formalConvert.put(methodEntry.getKey(), methodFormalConvert);
 
-
-                    /*
-                    HashMap<String, String> methodeFormalConvert = new HashMap<>();
-                    if(allowedFormalsMethod.containsKey(methodEntry.getKey())){
-                        for (HashMap.Entry<String, Formals> formalEntry : allowedFormalsMethod.get(methodEntry.getKey()).entrySet())
-                            methodeFormalConvert.put(formalEntry.getKey(), formalEntry.getValue().getType());
-                        formalConvert.put(methodEntry.getKey(), methodeFormalConvert);
-                    }*/
-
                 }
                 classMethodType.put(classEntry.getKey(), methoConvert);
                 classMethodFormalsType.put(classEntry.getKey(), formalConvert);
             }
-            /**/
             HashMap<String, String> fieldConvert = new HashMap<>();
             if(allowedField.containsKey(classEntry.getKey()))
             {
@@ -627,6 +518,8 @@ public class Checker {
             }
         }
     }
+
+
     public Boolean childHasParent(String child, String parent)
     {
         if(parent.equals("Object"))
@@ -642,4 +535,101 @@ public class Checker {
 
         return false;
     }
+
+
+    /* The two last methods are not used in the checker but were used during the debugging step */
+    public void displayHash() {
+        System.out.println();
+        System.out.println("***affichage hashtable Classe***");
+        System.out.println();
+        for (HashMap.Entry<String, Classe> entry : allowedClasses.entrySet()) {
+            System.out.print(" nom classe : ");
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue().toString(false));
+        }
+        System.out.println();
+        System.out.println("***affichage hashtable Method***");
+        System.out.println();
+        for (HashMap.Entry<String, HashMap<String, Method> > entry : allowedMethods.entrySet()) {
+            System.out.print("nom classe : ");
+            System.out.println(entry.getKey());
+            for (HashMap.Entry<String, Method> entrySec : entry.getValue().entrySet()) {
+                System.out.print("nom methode : ");
+                System.out.print(entrySec.getKey());
+                System.out.print(" valeur methode : ");
+                System.out.println(entrySec.getValue().toString(false));
+            }
+        }
+        System.out.println();
+        System.out.println("***affichage hashtable Field***");
+        System.out.println();
+        for (HashMap.Entry<String, HashMap<String, Field> > entry : allowedField.entrySet()) {
+            System.out.print("nom classe : ");
+            System.out.println(entry.getKey());
+            for (HashMap.Entry<String, Field> entrySec : entry.getValue().entrySet()) {
+                System.out.print("nom field : ");
+                System.out.print(entrySec.getKey());
+                System.out.print(" valeur field : ");
+                System.out.println(entrySec.getValue().toString(false));
+            }
+        }
+    }
+
+    /* The last methods is not used in the checker but was used during the debugging step */
+    public void displayStringHash() {
+
+        System.out.println();
+        System.out.println("***display String Hash Debut***");
+        System.out.println("***affichage hashtable field***");
+        System.out.println();
+        for (HashMap.Entry<String, HashMap<String, String> > classEntry : classFieldType.entrySet()) {
+            System.out.print("nom classe : ");
+            System.out.println(classEntry.getKey());
+            if(classFieldType.containsKey(classEntry.getKey()))
+                for(HashMap.Entry<String, String> fieldEntry : classFieldType.get(classEntry.getKey()).entrySet())
+                {
+                    System.out.print("\t nom field : ");
+                    System.out.print(fieldEntry.getKey());
+                    System.out.println(" return type: " + fieldEntry.getValue());
+                }
+
+        }
+
+        System.out.println();
+        System.out.println("***affichage hashtable method***");
+        System.out.println();
+        for (HashMap.Entry<String, HashMap<String, String> > classEntry : classMethodType.entrySet()) {
+            System.out.print("nom classe : ");
+            System.out.println(classEntry.getKey());
+            for(HashMap.Entry<String, String> methodEntry : classMethodType.get(classEntry.getKey()).entrySet())
+            {
+                System.out.print("\t nom method : ");
+                System.out.print(methodEntry.getKey());
+                System.out.println(" return type: " + methodEntry.getValue());
+            }
+
+        }
+
+        System.out.println();
+        System.out.println("***affichage hashtable method formal***");
+        System.out.println();
+        for (HashMap.Entry<String, HashMap<String, ArrayList < Pair > > > classEntry : classMethodFormalsType.entrySet()) {
+            System.out.print("nom classe : ");
+            System.out.println(classEntry.getKey());
+
+            for (HashMap.Entry<String, ArrayList < Pair > > methodEntry : classEntry.getValue().entrySet()) {
+                System.out.print("\t nom methode : ");
+                System.out.println(methodEntry.getKey());
+                for (Pair formalEntry : methodEntry.getValue()) {
+                    System.out.print("\t \t ");
+                    System.out.print("nom formal : ");
+                    System.out.print(formalEntry.getKey());
+                    System.out.print(" return type: ");
+                    System.out.println(formalEntry.getValue());
+                }
+            }
+        }
+        System.out.println("***display String Hash Fin***");
+    }
+
 }
