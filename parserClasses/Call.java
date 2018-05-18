@@ -62,13 +62,7 @@ public class Call extends Expressions {
                 break;
             methodPos++;
         }
-        System.out.println(methodName);
-        int formalPos = 0;
-        for(Object elem:g.c.classMethodFormalsType.keySet().toArray()) {
-            if(elem.equals(objectType))
-                break;
-            formalPos++;
-        }
+
         if(listExp != null) {
             for(Expressions exp : listExp) {
                 exp.toLlvm(g);

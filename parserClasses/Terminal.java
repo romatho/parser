@@ -165,7 +165,7 @@ public class Terminal extends Expressions{
         value=tmp;
 
 
-        return str.toString();
+        return tmp;
     }
 
 

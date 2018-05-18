@@ -56,7 +56,7 @@ public class Assign extends Expressions{
                 pos++;
             }
             g.vars.put(objectIdentifier, "%" + g.counter++);
-            g.builder.append("    %").append(g.counter).append(" = getelementptr inbounds %class.").append(classe)
+            g.builder.append("    %").append(g.counter).append(" = getelementptr inbounds %class.").append(classe).append(",%class.")
                     .append("* %this, i32 0, i32 ").append(pos).append("\n");
             var = "%" + g.counter++;
         }
