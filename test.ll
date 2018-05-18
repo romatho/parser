@@ -1,4 +1,4 @@
-target triple = "x86_64-pc-windows"
+target triple = "x86_64-apple-macosx"
 %classe.Object = type{ %table.ObjectVTable*}
 %table.ObjectVTable = type { }
 @ObjectVTableGlobal = internal global %table.ObjectVTable { }
@@ -9,7 +9,7 @@ target triple = "x86_64-pc-windows"
 
 %classe.Main = type{ %table.MainVTable*}
 %table.MainVTable = type { %classe.IO* (%classe.Main*, i8*)*,i1 (%classe.Main*)*,i8* (%classe.Main*)*,i32 (%classe.Main*)*,i32 (%classe.Main*)*,%classe.IO* (%classe.Main*, i1)*,%classe.IO* (%classe.Main*, i32)*}
-@MainVTableGlobal = internal global %table.MainVTable { %classe.IO* (%classe.Main*, i8*)*bitcast (%classe.IO* (%classe.IO*, i8*)* @IO-print to %classe.IO* (%classe.Main*, i8*)*),i1 (%classe.Main*)*bitcast (i1 (i1)* @IO-inputBool to ,i1 (%classe.Main*)*),i8* (%classe.Main*)*bitcast (i8* (i8*)* @IO-inputLine to ,i8* (%classe.Main*)*),i32 (%classe.Main*)*bitcast (i32 (i32)* @IO-main to ,i32 (%classe.Main*)*),i32 (%classe.Main*)*bitcast (i32 (i32)* @IO-inputInt32 to ,i32 (%classe.Main*)*),%classe.IO* (%classe.Main*, i1)*bitcast (%classe.IO* (%classe.IO*, i1)* @IO-printBool to ,%classe.IO* (%classe.Main*, i1)*),%classe.IO* (%classe.Main*, i32)*bitcast (%classe.IO* (%classe.IO*, i32)* @IO-printInt32 to ,%classe.IO* (%classe.Main*, i32)*)}
+@MainVTableGlobal = internal global %table.MainVTable { %classe.IO* (%classe.Main*, i8*)*bitcast (%classe.IO* (%classe.IO*, i8*)* @IO-print to  %classe.IO* (%classe.Main*, i8*)*),i1 (%classe.Main*)*bitcast (i1 (%classe.IO*)* @IO-inputBool to  i1 (%classe.Main*)*),i8* (%classe.Main*)*bitcast (i8* (%classe.IO*)* @IO-inputLine to  i8* (%classe.Main*)*),i32 (%classe.Main*)* @Main-main,i32 (%classe.Main*)*bitcast (i32 (%classe.IO*)* @IO-inputInt32 to  i32 (%classe.Main*)*),%classe.IO* (%classe.Main*, i1)*bitcast (%classe.IO* (%classe.IO*, i1)* @IO-printBool to  %classe.IO* (%classe.Main*, i1)*),%classe.IO* (%classe.Main*, i32)*bitcast (%classe.IO* (%classe.IO*, i32)* @IO-printInt32 to  %classe.IO* (%classe.Main*, i32)*)}
 
 %file = type { i32, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, i8*, %marker*, %file*, i32, i32, i64, i16, i8, [1 x i8], i8*, i64, i8*, i8*, i8*, i8*, i64, i32, [20 x i8] }
  %marker = type { %marker*, %file*, i32 }
@@ -147,15 +147,15 @@ entry:
     %1 = load %classe.Main*,%classe.Main** %0
     %2 = getelementptr inbounds %classe.Main,%classe.Main* %1, i32 0, i32 0
     %3 = load %table.MainVTable*, %table.MainVTable** %2
-    %4 = getelementptr inbounds %table.MainVTable, %table.MainVTable* %3, i32 0, i32 2
+    %4 = getelementptr inbounds %table.MainVTable, %table.MainVTable* %3, i32 0, i32 5
     %5 = load %classe.IO*(%classe.Main* ,i1)*,%classe.IO*(%classe.Main* ,i1)** %4
     %6 = call %classe.IO* %5 (%classe.Main* %1, i1 true)
     %7 = load %classe.Main*,%classe.Main** %0
     %8 = getelementptr inbounds %classe.Main,%classe.Main* %7, i32 0, i32 0
     %9 = load %table.MainVTable*, %table.MainVTable** %8
-    %10 = getelementptr inbounds %table.MainVTable, %table.MainVTable* %9, i32 0, i32 2
+    %10 = getelementptr inbounds %table.MainVTable, %table.MainVTable* %9, i32 0, i32 0
     %11 = load %classe.IO*(%classe.Main* ,i8*)*,%classe.IO*(%classe.Main* ,i8*)** %10
-    %12 = call %classe.IO* %11 (%classe.Main* %7, i8* getelementptr inbounds ([2 x i8]* @.str, i32 0, i32 0))
+    %12 = call %classe.IO* %11 (%classe.Main* %7, i8* getelementptr inbounds ([2 x i8],[2 x i8]* @str1, i32 0, i32 0))
     ret i32 0
 }
 
@@ -174,3 +174,4 @@ define void @IO-new-init(%classe.IO* %this) {
     ret void
 }
 
+\0a=@str1 = constant [2 x i8] c""\x0a"\00"

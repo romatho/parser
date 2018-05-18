@@ -12,14 +12,14 @@ import java.util.LinkedList;
 public class Generator {
     public int counter;
     public int ifCounter=0;
-    public int stringCounter=0;
+    public int stringCounter=1;
     public int whileCounter=0;
     public Checker c;
 
     public HashMap<String, String> vars;
     public StringBuilder builder;
     public StringBuilder stringBuilder;
-    public LinkedHashMap<String, StringHandler> strings;
+    public HashMap<String, StringHandler> strings;
     public LinkedList<StringBuilder> declarationsBuilder;
     public LinkedList<StringBuilder> methodsBuilder;
 
@@ -82,12 +82,13 @@ public class Generator {
 
     private StringBuilder vTableToString(Classe current)
     {
-        String comma = "";
+
         StringBuilder classObject = new StringBuilder("%classe." + current.getName() + " = type{ %table." + current.getName() + "VTable*}");
         StringBuilder vTableString = new StringBuilder("%table." + current.getName() + "VTable = type { ");
         StringBuilder vTableGlobalString = new StringBuilder("@" + current.getName() + "VTableGlobal = internal global %table." + current.getName() + "VTable { ");
         if(current.getName().equals("Object"))
         {
+            String comma = "";
             for(Method method : current.getBody().getMyMethods())
             {
                 StringBuilder toAdd = new StringBuilder();
@@ -105,7 +106,10 @@ public class Generator {
             }
         }
         else {
+            String comma = "";
+
             for (HashMap.Entry<String, Method> method : this.c.allowedMethods.get(current.getName()).entrySet()) {
+
                 StringBuilder toAdd = new StringBuilder();
                 toAdd.append(comma + typeConversion(method.getValue().getReturnType()) + " (");
                 //add the class itself as formal
@@ -118,8 +122,8 @@ public class Generator {
                 StringBuilder toAddGlobal2 = new StringBuilder();
                 if(!AncestorOwnerMethod(current, method.getKey()).equals(current.getName()))
                 {
-                    toAddGlobal2.append(" to " + toAdd + ")");
-                    toAddGlobal.append("bitcast (" + typeConversion(method.getValue().getReturnType()) + " (" + typeConversion(method.getValue().getReturnType()) );
+                    toAddGlobal2.append(" to " + toAdd.toString().replaceFirst(comma," ") + ")");
+                    toAddGlobal.append("bitcast (" + typeConversion(method.getValue().getReturnType()) + " (%classe." +  AncestorOwnerMethod(current, method.getKey())+"*");
                     for (Formals formal : method.getValue().getFormals())
                         toAddGlobal.append(", " + typeConversion(formal.getType()));
                     toAddGlobal.append(")*");
@@ -300,16 +304,19 @@ public class Generator {
         output.append(generateEntrypoint());
 
         c.p.toLlvm(this);
+        for(HashMap.Entry<String,StringHandler> string:strings.entrySet())
+            output.append(string).append("\n");
         //TODO : add toLLVM()
     }
 
 
     public String AncestorOwnerMethod(Classe child, String methodName)
     {
+        if(child.getParentClasse().equals("Object"))
+            return child.getName();
        if(this.c.allowedMethods
-               .get(child.getName())
-               .containsKey(methodName) &&
-           !child.getParentClasse().equals("Object"))
+               .get(child.getParentClasse())
+               .containsKey(methodName))
            return AncestorOwnerMethod(this.c.allowedClasses.get(child.getParentClasse()), methodName );
        return child.getName();
     }

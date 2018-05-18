@@ -127,17 +127,17 @@ public class Terminal extends Expressions{
                 StringHandler handler = new StringHandler();
 
                 if (g.stringCounter == 0) {
-                    handler.identifier="@.str";
+                    handler.identifier="@str";
                     g.stringCounter++;
                 } else {
-                    handler.identifier="@.str" + g.stringCounter++;
+                    handler.identifier="@str" + g.stringCounter++;
                 }
                 handler.value= "c\"" + this.formattedLlvm() + "\\00\"";
                 handler.size="[" + (this.formattedLlvmSize() + 1) + " x i8]";
                 g.strings.put(this.value, handler);
             }
             StringHandler handler = g.strings.get(this.value);
-            this.value= "getelementptr inbounds (" + handler.size + "* " + handler.identifier + ", i32 0, i32 0)";
+            this.value= "getelementptr inbounds ("+handler.size+"," + handler.size + "* " + handler.identifier + ", i32 0, i32 0)";
         }
     }
 

@@ -55,12 +55,14 @@ public class Call extends Expressions {
         }
 
         int methodPos = 0;
-        for(Object elem : g.c.classMethodType.keySet().toArray()) {
-            if(elem.equals(objectType))
+
+
+        for(HashMap.Entry<String, String> method : g.c.classMethodType.get(objectType).entrySet()) {
+            if(method.getKey().equals(methodName))
                 break;
             methodPos++;
         }
-
+        System.out.println(methodName);
         int formalPos = 0;
         for(Object elem:g.c.classMethodFormalsType.keySet().toArray()) {
             if(elem.equals(objectType))
@@ -119,6 +121,7 @@ public class Call extends Expressions {
         }
 
         g.builder.append("call ").append(convType).append(" ").append(callName).append(" (").append(g.typeConversion(objectType)).append(" ").append(self);
+
         g.builder.append(params);
         g.builder.append(")").append("\n");
     }
@@ -129,6 +132,7 @@ public class Call extends Expressions {
                            HashMap<String, HashMap<String, ArrayList< Pair >> > classMethodFormalsType,
                            HashMap<String,String> localVariables, String classe, String filename, String methode, Checker c, boolean fieldExpr)
     {
+        objectType = objectExp.getType(classFieldType, classMethodType, classMethodFormalsType, localVariables, classe,filename, methode, c, fieldExpr);
         this.classe = classe;
         if(type != null)
             return type;
