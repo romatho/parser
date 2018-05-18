@@ -83,7 +83,7 @@ public class Generator {
     private StringBuilder vTableToString(Classe current)
     {
         String comma = "";
-        StringBuilder classObject = new StringBuilder("%classe." + current.getName() + " = type{ %table." + current.getName() + "VTable}");
+        StringBuilder classObject = new StringBuilder("%classe." + current.getName() + " = type{ %table." + current.getName() + "VTable*}");
         StringBuilder vTableString = new StringBuilder("%table." + current.getName() + "VTable = type { ");
         StringBuilder vTableGlobalString = new StringBuilder("@" + current.getName() + "VTableGlobal = internal global %table." + current.getName() + "VTable { ");
 
@@ -125,7 +125,7 @@ public class Generator {
         //printInt32 method
         String methodPrintInt32 = "define %classe.IO* @IOprintInt32(%classe.IO* %this, i32 %myInt32){\n" +
                 "entry:\n"+
-                "%0 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @formatInt , i32 0, i32 0), i32 %myInt32)\n" +
+                "%0 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ( [3 x i8]* @formatInt , i32 0, i32 0), i32 %myInt32)\n" +
                 "\tret %classe.IO* %this\n" +
                 "}\n";
 
@@ -136,10 +136,10 @@ public class Generator {
                 "\t%0 = icmp eq i1 %myBool, 0\n"+
                 "\tbr i1 %0, label %labelFalse, label %labelTrue \n"+
                 "labelFalse:\n"+
-                "\t%1 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([6 x i8], [6 x i8]* @false , i32 0, i32 0))\n" +
+                "\t%1 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ( [6 x i8]* @false , i32 0, i32 0))\n" +
                 "\tret %classe.IO* %this\n" +
                 "labelTrue:\n"+
-                "%2 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @true , i32 0, i32 0))\n" +
+                "%2 = call i32 (i8*, ...)* @printf(i8* getelementptr inbounds ( [5 x i8]* @true , i32 0, i32 0))\n" +
                 "\tret %classe.IO* %this\n" +
                 "}\n";
 
@@ -147,7 +147,7 @@ public class Generator {
         //print method
         String methodPrint = "define %classe.IO* @IOprint(%classe.IO* %this, i8* %myString){\n" +
                 "entry:\n" +
-                "\t%0 = call i32(i8*,...) @printf(i8* %myString)\n" +
+                "\t%0 = call i32(i8*,...)* @printf(i8* %myString)\n" +
                 "\tret %classe.IO* %this\n" +
                 "}\n";
 
@@ -158,10 +158,10 @@ public class Generator {
                 "\t%0 = alloca %classe.IO*\n" +
                 "\t%n = alloca i32\n" +
                 "\tstore %classe.IO* %this, %classe.IO** %0\n" +
-                "\t%1 = load %classe.IO*, %classe.IO** %0\n" +
-                "\t%2 = call i32 (i8*, ...) @scanf(i8* getelementptr inbounds ([3 x i8],[3 x i8]* @formatInt, i32 0, i32 0), i32* %n)\n" +
+                "\t%1 = load  %classe.IO** %0\n" +
+                "\t%2 = call i32 (i8*, ...)* @scanf(i8* getelementptr inbounds ([3 x i8]* @formatInt, i32 0, i32 0), i32* %n)\n" +
                 "\t%unused= call i8* @llvmGetLine()\n" +
-                "\t%3= load i32, i32* %n\n" +
+                "\t%3= load  i32* %n\n" +
                 "\tret i32 %3\n" +
                 "}\n";
 
@@ -170,9 +170,9 @@ public class Generator {
                 "entry:\n" +
                 "\t%0=  alloca %classe.IO*\n" +
                 "\tstore %classe.IO* %this, %classe.IO** %0\n" +
-                "\t%1 = load %classe.IO*, %classe.IO** %0\n" +
+                "\t%1 = load  %classe.IO** %0\n" +
                 "\t%2 = call i8* @llvmGetLine()\n" +
-                "\t%3 = call i32 @strcmp(i8* %2, i8*getelementptr inbounds ([6 x i8],[6 x i8]* @truecmp, i32 0, i32 0))\n" +
+                "\t%3 = call i32 @strcmp(i8* %2, i8*getelementptr inbounds ([6 x i8]* @truecmp, i32 0, i32 0))\n" +
                 "\t%4 = icmp eq i32 %3, 0\n" +
                 "\tbr i1 %4, label %then, label %else\n" +
                 "then:\n" +
@@ -200,18 +200,18 @@ public class Generator {
                 "\tstore i8* null, i8** %line\n" +
                 "\tstore i64 0, i64* %len\n" +
                 "\tbr label %1\n" +
-                "\t%2 = load %file*,%file** @stdin\n" +
+                "\t%2 = load %file** @stdin\n" +
                 "\t%3 = call i64 @getline(i8** %line, i64* %len, %file* %2)\n" +
                 "\tstore i64 %3, i64* %nread\n" +
                 "\t%4 = icmp ne i64 %3, -1\n" +
                 "\tbr i1 %4, label %5, label %7\n" +
-                "\t%6 = load i8*,i8** %line\n" +
+                "\t%6 = load i8** %line\n" +
                 "\tstore i8* %6, i8** %0\n" +
                 "\tbr label %9\n" +
-                "\t%8 = load i8*,i8** %line\n" +
+                "\t%8 = load i8** %line\n" +
                 "\tstore i8* %8, i8** %0\n" +
                 "\tbr label %9\n" +
-                "\t%10 = load i8*, i8** %0\n" +
+                "\t%10 = load i8** %0\n" +
                 "\tret i8* %10\n" +
                 "}\n";
         toReturn.append(methodPrintf).append(methodPrintInt32)

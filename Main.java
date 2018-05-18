@@ -52,7 +52,7 @@ public class Main {
                     fileWriter.print(g.output);
                     fileWriter.close();
                     // Create an executable
-                    String[] cmd = new String[]{"clang", outFile, "-o", exec};
+                    /*String[] cmd = new String[]{"clang", outFile, "-o", exec};
                     Process proc = Runtime.getRuntime().exec(cmd);
                     //TODO: Remove (only for debug purposes)
                     BufferedReader streamError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
@@ -62,16 +62,16 @@ public class Main {
                         System.err.println(error);
                     }
 
-                    proc.waitFor();
+                    proc.waitFor();*/
                 } catch (FileNotFoundException e) {
                     System.err.println("Unable to write into file " + outFile);
                 } catch (UnsupportedEncodingException e) {
                     System.err.println("Unable to write into file " + outFile + "\nUnsupported encoding.");
-                } catch (IOException e) {
+                } /*catch (IOException e) {
                     System.err.println("Unable to create executable.");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
 			else
 				System.out.println(g.output);

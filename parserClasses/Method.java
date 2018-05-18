@@ -63,9 +63,10 @@ public class Method extends Node{
         /* Store all the fields in new variable and put it in the g.vars
           to know where it stores the value of the variable*/
         if (this.formals != null) {
-            builder.append(", ");
+
             ParserArray<Formals> array= this.getFormals();
             for (int i = 0; i <array.size(); i++) {
+                builder.append(", ");
                 String nameOfVar = array.get(i).getIdentifier();
                 String type = g.typeConversion(array.get(i).getType());
                 builder.append(type).append(" %").append(nameOfVar);

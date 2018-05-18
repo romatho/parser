@@ -39,7 +39,7 @@ public class Classe extends  Node{
         // Add the constructor to the methods of the class
         StringBuilder constructor = new StringBuilder();
         constructor.append("\ndefine %classe.").append(name).append("* @").append(name).append("-new() {\n");
-        constructor.append("    %size = getelementptr %classe.").append(name).append(", %classe.").append(name).append("* null, i32 1\n");
+        constructor.append("    %size = getelementptr  %classe.").append(name).append("* null, i32 1\n");
         constructor.append("    %sizeI = ptrtoint %classe.").append(name).append("* %size to i64\n");
         constructor.append("    %1 = call noalias i8* @malloc(i64 %sizeI)\n");
         constructor.append("    %self = bitcast i8* %1 to %classe.").append(name).append("*\n");
@@ -57,11 +57,13 @@ public class Classe extends  Node{
                     .append(g.counter++).append(")\n");
         }
 
-        constructor.append("    %").append(g.counter).append(" = getelementptr inbounds%classe.").append(name).append(", %classe.").append(name)
-                .append("* %this, i32 0, i32 0\n").append("    store %struct.").append(name).append("_vtable* @")
-                .append(name).append("_vtable_inst, %struct.").append(name).append("_vtable** %").append(g.counter++).append("\n");
+        constructor.append("    %").append(g.counter).append(" = getelementptr inbounds %classe.").append(name)
+                .append("* %this, i32 0, i32 0\n").append("    store %table.").append(name).append("VTable* @")
+                .append(name).append("VTableGlobal, %table.").append(name).append("VTable** %").append(g.counter++).append("\n");
+
         if(name.equals("Object"))
         {
+            constructor.append("    ret void\n}\n\n");
             g.methodsBuilder.add(constructor);
             g.output.append(g.methodsBuilder.getLast());
             return;
